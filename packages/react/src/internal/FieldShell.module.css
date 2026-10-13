@@ -1,0 +1,79 @@
+.field {
+  display: grid;
+  justify-items: start;
+  gap: var(--kerb-space-1);
+  min-inline-size: 0;
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+}
+
+.label {
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.optional {
+  color: var(--kerb-color-text-muted);
+  font-weight: var(--kerb-font-weight-regular);
+}
+
+.hint,
+.error {
+  margin: 0;
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+}
+
+.hint {
+  color: var(--kerb-color-text-muted);
+}
+
+/*
+ * Hit area: at least 44px tall even when the visible control is 40px (compact
+ * density). The padding is zero whenever the control is 44px or taller, and
+ * FieldShell passes a press on it through to the control.
+ */
+.control {
+  justify-self: stretch;
+  margin-block-start: var(--kerb-space-1);
+  padding-block: calc(
+    max(
+        0px,
+        var(--kerb-size-target-min) -
+          var(--kerb-pref-control-height, var(--kerb-size-target-default))
+      ) /
+      2
+  );
+}
+
+/* Colour is never alone: the error is an icon and text as well as a red border */
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--kerb-space-2);
+  margin-block-start: var(--kerb-space-1);
+  color: var(--kerb-color-danger);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.errorIcon {
+  /* Sits on the first line of the message when it wraps */
+  margin-block-start: calc(
+    (
+        1em * var(--kerb-pref-line-height, var(--kerb-font-line-height-body)) -
+          1.25em
+      ) /
+      2
+  );
+}
+
+.disabled .label {
+  color: var(--kerb-color-disabled-text);
+}

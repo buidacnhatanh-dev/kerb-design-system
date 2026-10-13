@@ -7,5 +7,10 @@
     "outDir": "../../.tsbuild/storybook",
     "types": ["vite/client"]
   },
-  "include": [".storybook/**/*", "stories/**/*"]
+  "include": [".storybook/**/*", "stories/**/*", "vitest.config.ts"],
+  "references": [
+    {
+      "path": "../../packages/react"
+    }
+  ]
 }

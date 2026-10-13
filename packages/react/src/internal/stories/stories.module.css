@@ -1,0 +1,104 @@
+/* Layout for stories only. Not part of the published package. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kerb-space-4);
+}
+
+.narrow {
+  max-inline-size: 20rem;
+}
+
+.themes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--kerb-space-4);
+}
+
+.theme {
+  display: grid;
+  align-content: start;
+  gap: var(--kerb-space-4);
+  padding: var(--kerb-space-5);
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-lg);
+  background: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  font-size: var(--kerb-font-size-body);
+  line-height: var(--kerb-font-line-height-body);
+  letter-spacing: var(--kerb-font-letter-spacing-body);
+}
+
+.themeName {
+  margin: 0;
+  font-family: var(--kerb-font-family-heading);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.caption {
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+  font-size: 0.75rem;
+  font-weight: var(--kerb-font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.card {
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-lg);
+  overflow-x: auto;
+}
+
+.matrix {
+  inline-size: 100%;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.matrix th,
+.matrix td {
+  padding: var(--kerb-space-4) var(--kerb-space-5);
+  text-align: start;
+}
+
+.matrix thead th {
+  padding-block: var(--kerb-space-3);
+  background: var(--kerb-color-surface);
+  color: var(--kerb-color-text-muted);
+  font-size: var(--kerb-font-size-small);
+}
+
+.matrix tbody tr {
+  border-block-start: 1px solid var(--kerb-color-line);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  align-items: start;
+  gap: var(--kerb-space-5);
+  padding: var(--kerb-space-5);
+}
+
+.fieldState {
+  display: grid;
+  gap: var(--kerb-space-1);
+}
+
+.log {
+  margin: var(--kerb-space-4) 0 0;
+  padding: var(--kerb-space-4);
+  border-radius: var(--kerb-radius-md);
+  background: var(--kerb-color-text);
+  color: var(--kerb-color-bg);
+  font-family: var(--kerb-font-family-code);
+  font-size: var(--kerb-font-size-code);
+  line-height: var(--kerb-font-line-height-code);
+  list-style: none;
+}
+
+.log:empty {
+  display: none;
+}

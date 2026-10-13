@@ -12,7 +12,8 @@
     "tsBuildInfoFile": "../../.tsbuild/docs/tsconfig.tsbuildinfo",
     "plugins": [],
     "paths": {
-      "@kerb/react": ["../../packages/react/src/index.ts"]
+      "@kerb/react": ["../../packages/react/src/index.ts"],
+      "@kerb/react/head-script": ["../../packages/react/src/head-script.ts"]
     }
   },
   "include": ["next-types.d.ts", "**/*.ts", "**/*.tsx"],

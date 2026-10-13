@@ -2,20 +2,20 @@
 
 Design: `design/07-CompOverlays.png` (Reading comfort demo).
 
-A compact inline reading control: text size, line spacing, letter spacing and background tint, with a live preview. Think of it as the reading section of Preferences that a content page can drop next to an article.
+A compact inline reading control: text size, line spacing, letter spacing and background, with a live preview. Think of it as the reading section of Preferences that a content page can drop next to an article.
 
 ## API
 
 ```tsx
 <ComfortControls
   preview={<p>Kerb cuts were made for wheelchairs…</p>}  // optional
-  controls={['textSize', 'lineHeight', 'letterSpacing', 'tint']}
+  controls={['textSize', 'lineHeight', 'letterSpacing', 'background']}
 />
 ```
 
 * Reads and writes the same preferences store as `Preferences`. Changing it here changes the whole app
 * Ranges: text size 16 to 24px step 1, line spacing 1.4 to 2.2 step 0.05, letter spacing 0 to 0.12em step 0.01
-* Tints: White `#FFFFFF`, Cream `#F5EFE1`, Blue `#E6EEF6`, Green `#EAF2E3` (radio group of swatches, each with a visible text name)
+* Background: White, Warm, Dark (radio group of swatches, each with a visible text name). There is no separate tint: the three choices set the `theme` preference to `light`, `comfort` and `dark`, the same as the Background control in Preferences. While the theme is `system`, the swatch for the theme currently shown is the selected one
 
 ## Accessibility
 
@@ -26,4 +26,5 @@ A compact inline reading control: text size, line spacing, letter spacing and ba
 
 * Arrow keys change ranges, value text correct
 * Updates `--kerb-pref-*` variables on `<html>`
+* Background sets `data-kerb-theme` on `<html>`
 * axe clean

@@ -6,5 +6,5 @@
     "rootDir": ".",
     "outDir": "../../.tsbuild/react"
   },
-  "include": ["src", "vitest.setup.ts"]
+  "include": ["src", "test", "vitest.setup.ts"]
 }

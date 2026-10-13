@@ -1,9 +1,4 @@
-/* Page level styles for the Storybook canvas only. Everything comes from tokens. */
+/* Canvas only: room around the story. The page styles come from global.css */
 body {
-  background: var(--kerb-color-bg);
-  color: var(--kerb-color-text);
-  font-family: var(--kerb-font-family-body);
-  font-size: var(--kerb-font-size-body);
-  line-height: var(--kerb-font-line-height-body);
-  letter-spacing: var(--kerb-font-letter-spacing-body);
+  padding: var(--kerb-space-4);
 }

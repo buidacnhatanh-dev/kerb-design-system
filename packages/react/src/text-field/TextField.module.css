@@ -1,0 +1,117 @@
+.wrapper {
+  position: relative;
+  display: flex;
+}
+
+.input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: var(
+    --kerb-pref-control-height,
+    var(--kerb-size-target-default)
+  );
+  margin: 0;
+  /* Little block padding: the height comes from min-block-size, so compact can reach 40px */
+  padding: var(--kerb-space-1) var(--kerb-space-4);
+  border: 2px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  transition: border-color var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+.input::placeholder {
+  color: var(--kerb-color-text-muted);
+  opacity: 1;
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--kerb-color-danger);
+}
+
+.input:focus {
+  border-color: var(--kerb-color-text);
+}
+
+.input:disabled {
+  border-color: var(--kerb-color-disabled-border);
+  background-color: var(--kerb-color-surface);
+  color: var(--kerb-color-disabled-text);
+  /* Safari dims disabled text on its own */
+  -webkit-text-fill-color: var(--kerb-color-disabled-text);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* Room for the show password button */
+.withToggle {
+  padding-inline-end: calc(var(--kerb-size-target-min) + var(--kerb-space-2));
+}
+
+.toggle {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: var(--kerb-space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--kerb-size-target-min);
+  block-size: min(100% - var(--kerb-space-2), var(--kerb-size-target-min));
+  margin: auto 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--kerb-radius-sm);
+  background-color: transparent;
+  color: var(--kerb-color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+/* Hit area: 44px tall even though the visible button is shorter than the field */
+.toggle::before {
+  content: "";
+  position: absolute;
+  inset-inline: -2px;
+  inset-block-start: 50%;
+  block-size: var(--kerb-size-target-min);
+  translate: 0 -50%;
+}
+
+.toggle:hover:not([aria-disabled="true"]) {
+  background-color: var(--kerb-color-action-ghost-hover);
+  color: var(--kerb-color-text);
+}
+
+.toggle[aria-pressed="true"] {
+  color: var(--kerb-color-action-primary);
+}
+
+.toggle[aria-disabled="true"] {
+  color: var(--kerb-color-disabled-text);
+  cursor: not-allowed;
+}
+
+@media (prefers-contrast: more) {
+  .input:not(:disabled, [aria-invalid="true"]) {
+    border-color: var(--kerb-color-text);
+  }
+
+  .toggle {
+    border-color: currentColor;
+  }
+}
+
+@media (forced-colors: active) {
+  .input:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

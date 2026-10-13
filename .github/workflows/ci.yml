@@ -45,19 +45,15 @@ jobs:
       - name: Unit tests (includes token contrast)
         run: pnpm test
 
-      # M2: Storybook test runner with axe in light, dark and comfort
-      - name: Story accessibility tests
-        if: false
-        run: pnpm test:a11y
-
-      # M2: first Playwright keyboard specs
       - name: Install Playwright browsers
-        if: false
         run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      # Every story with axe in light, dark and comfort (Storybook Vitest addon)
+      - name: Story accessibility tests
+        run: pnpm test:a11y
 
       - name: End to end tests
         id: e2e
-        if: false
         run: pnpm test:e2e
 
       # M8: budget is set from the first real build

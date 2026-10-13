@@ -28,7 +28,7 @@ Work one milestone at a time. Each has a brief and an acceptance check. Review t
 
 **Brief**
 
-> Read docs/03-themes-and-preferences.md, docs/05-components.md and the specs for announcer, button and text-field in docs/components. Build KerbProvider with the preferences store (useSyncExternalStore, localStorage with try catch, CSS variables on html, getKerbHeadScript), the Announcer, the shared internals listed in 05-components.md, then Button and TextField. For each: stories for every state, the Themes story, unit tests covering every bullet in the spec's Tests section, and a Playwright keyboard test. Set up the Storybook test runner with axe for all three themes. Compare visually against design/06-CompInputs.png.
+> Read docs/03-themes-and-preferences.md, docs/05-components.md and the specs for announcer, button and text-field in docs/components. Build KerbProvider with the preferences store (useSyncExternalStore, localStorage with try catch, CSS variables on html, getKerbHeadScript), the Announcer, the shared internals listed in 05-components.md, then Button and TextField. For each: stories for every state, the Themes story, unit tests covering every bullet in the spec's Tests section, and a Playwright keyboard test. Set up the Storybook Vitest addon with axe for all three themes. Compare visually against design/06-CompInputs.png.
 
 **Done when** the Definition of done in CONTRIBUTING.md holds for Button and TextField.
 

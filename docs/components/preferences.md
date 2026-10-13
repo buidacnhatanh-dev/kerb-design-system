@@ -19,7 +19,7 @@ The full panel where people set how the product looks and behaves for them. Data
 
 1. Header: "Your preferences" + "Reset" text button
 2. **Start from a preset:** radio group of cards in a 2 column grid (Standard, Low vision, Dyslexia friendly, Tired eyes, Keyboard first). Each card: bold name + one line hint. Selected: `action-primary-soft` fill, 2px `action-primary` border
-3. **Reading:** Text size, Line spacing, Word spacing (ranges with values); Font (Atkinson, Lexend, System), Line length (Narrow, Medium, Wide), Background (White, Warm, Dark) as segmented radio groups
+3. **Reading:** Text size, Line spacing, Word spacing (ranges with values); Font (Atkinson, Lexend, System), Line length (Narrow, Medium, Wide), Background (White, Warm, Dark) as segmented radio groups. Background sets the `theme` preference: White is `light`, Warm is `comfort`, Dark is `dark`. There is no separate tint. While the theme is `system`, the option for the theme currently shown is the selected one, and Reset goes back to following the system
 4. **Focus, layout and motion:** Focus colour (Yellow, Blue, Magenta with swatches), Focus thickness (Standard, Thick), Spacing and target size (Compact, Default, Spacious), Motion (Follow system, Reduced, Off)
 5. **Switches:** "Always underline links", "Show focus on click too", each with a one line hint
 6. Footer: "Saved on this device" + export code + "Copy code" button (copies, then announces "Code copied")

@@ -1,0 +1,201 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kerb-space-2);
+  box-sizing: border-box;
+  /* A minimum, not a fixed height, so larger text and wrapped labels are never clipped */
+  min-block-size: var(
+    --kerb-pref-control-height,
+    var(--kerb-size-target-default)
+  );
+  min-inline-size: var(--kerb-size-target-min);
+  margin: 0;
+  padding: var(--kerb-space-1) var(--kerb-space-5);
+  border: 2px solid transparent;
+  border-radius: var(--kerb-radius-md);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  font-weight: var(--kerb-font-weight-bold);
+  line-height: 1.25;
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+  text-align: center;
+  cursor: pointer;
+  /* The focus ring is a box-shadow and is deliberately not in this list: it never animates */
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+/* Hit area: at least 44px tall even when the visible button is 40px (small size, compact density) */
+.button::before {
+  content: "";
+  position: absolute;
+  inset-inline: -2px;
+  inset-block-start: 50%;
+  block-size: max(100% + 4px, var(--kerb-size-target-min));
+  translate: 0 -50%;
+}
+
+.small {
+  min-block-size: var(--kerb-size-target-compact);
+  padding-inline: var(--kerb-space-4);
+}
+
+.iconOnly {
+  min-inline-size: var(
+    --kerb-pref-control-height,
+    var(--kerb-size-target-default)
+  );
+  padding-inline: var(--kerb-space-1);
+}
+
+.iconOnly.small {
+  min-inline-size: var(--kerb-size-target-min);
+}
+
+/* Variants */
+.primary {
+  background-color: var(--kerb-color-action-primary);
+  color: var(--kerb-color-on-primary);
+}
+
+.secondary {
+  border-color: var(--kerb-color-border-input);
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--kerb-color-action-primary);
+}
+
+.danger {
+  background-color: var(--kerb-color-danger);
+  color: var(--kerb-color-on-danger);
+}
+
+/* Hover and active only while the button can be used */
+.primary:hover:not([aria-disabled="true"], [aria-busy="true"]) {
+  background-color: var(--kerb-color-action-primary-hover);
+}
+
+.secondary:hover:not([aria-disabled="true"], [aria-busy="true"]) {
+  background-color: var(--kerb-color-action-secondary-hover);
+}
+
+.ghost:hover:not([aria-disabled="true"], [aria-busy="true"]) {
+  background-color: var(--kerb-color-action-ghost-hover);
+}
+
+.danger:hover:not([aria-disabled="true"], [aria-busy="true"]) {
+  background-color: var(--kerb-color-danger-hover);
+}
+
+.button:active:not([aria-disabled="true"], [aria-busy="true"]) {
+  transform: translateY(calc(1px * var(--kerb-motion-move)));
+}
+
+.button[aria-busy="true"] {
+  cursor: progress;
+}
+
+/* Disabled stays focusable (aria-disabled), so it keeps the focus ring */
+.button[aria-disabled="true"] {
+  border-color: transparent;
+  background-color: var(--kerb-color-disabled-bg);
+  color: var(--kerb-color-disabled-text);
+  cursor: not-allowed;
+}
+
+.label {
+  min-inline-size: 0;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.spinner {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  /* Turns only at the full motion level. Reduced and off leave a still arc */
+  animation: spin calc(var(--kerb-motion-duration-slow) * 3) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(calc(360deg * var(--kerb-motion-move)));
+  }
+}
+
+/* Why the button is disabled, shown on hover and focus */
+.reasonAnchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.reason {
+  position: absolute;
+  inset-block-end: calc(100% + var(--kerb-space-2));
+  /* Lined up with the button's start edge, so it cannot run off that side of the page */
+  inset-inline-start: 0;
+  z-index: 1;
+  inline-size: max-content;
+  max-inline-size: 15rem;
+  padding: var(--kerb-space-1) var(--kerb-space-2);
+  border-radius: var(--kerb-radius-sm);
+  background-color: var(--kerb-color-text);
+  color: var(--kerb-color-bg);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+  line-height: var(--kerb-font-line-height-small);
+  text-align: start;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--kerb-motion-duration-fast) var(--kerb-motion-easing-standard),
+    visibility var(--kerb-motion-duration-fast);
+}
+
+.reasonAnchor:hover > .reason:not(.reasonDismissed),
+.reasonOpen:not(.reasonDismissed) {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* A solid edge on every control for people who ask for more contrast */
+@media (prefers-contrast: more) {
+  .button:not([aria-disabled="true"]) {
+    border-color: var(--kerb-color-text);
+  }
+
+  .button[aria-disabled="true"] {
+    border-color: var(--kerb-color-disabled-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .button[aria-disabled="true"] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  .reason {
+    border: 1px solid CanvasText;
+  }
+}

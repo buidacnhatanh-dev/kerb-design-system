@@ -19,11 +19,13 @@ type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
 ## Styling
 
 * `appearance: none`, custom chevron icon (inline SVG, `aria-hidden`) positioned right, padding right 44px
-* Same states and tokens as TextField
+* Same states and tokens as TextField, built on the same `FieldShell`
+* Hit area: 44 px tall at every density, as for TextField. `FieldShell` provides the padding at compact density; a press there must reach the select (focus it and open the picker)
 * In `forced-colors` mode, restore `appearance: auto`
 
 ## Tests
 
 * Label associated, options rendered, value changes with keyboard
 * Error state matches TextField behaviour
+* Playwright: at compact density, a click 1 px above and below the 40 px select still reaches it
 * axe clean

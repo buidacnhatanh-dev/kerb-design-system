@@ -31,6 +31,32 @@ export default defineConfig(
     settings: { react: { version: "detect" } },
   },
   {
+    // Hooks also live in plain .ts files
+    files: ["packages/react/src/**/*.ts"],
+    extends: [reactHooks.configs.flat.recommended],
+  },
+  {
+    // The placeholder is never the label: a field in a story always has one
+    files: ["**/*.stories.tsx"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "JSXOpeningElement[name.name=/^(TextField|Select|DatePicker)$/]:not(:has(JSXAttribute[name.name='label'], JSXSpreadAttribute))",
+          message:
+            "Give the field a visible label. A placeholder is never the label.",
+        },
+        {
+          selector:
+            "JSXOpeningElement[name.name=/^(input|textarea)$/]:has(JSXAttribute[name.name='placeholder'])",
+          message:
+            "Use TextField, which always has a visible label. A placeholder is never the label.",
+        },
+      ],
+    },
+  },
+  {
     // Config files and scripts run in Node
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {

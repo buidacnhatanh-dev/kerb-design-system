@@ -1,0 +1,49 @@
+/*
+ * Optional page level styles, published as @kerb/react/global.css.
+ *
+ * kerb.css only styles Kerb's own components. This file carries the theme and
+ * the person's reading preferences (the --kerb-pref-* variables KerbProvider
+ * writes on <html>) to the rest of the page. Each one falls back to the theme
+ * tokens, so it is safe to load before anything has been chosen.
+ *
+ * Needs kerb.css (or @kerb/tokens) for the variables.
+ */
+
+html {
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+  /* Stop phones from inflating text on their own: the person's text size is the one that counts */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  /* On body, not html: the preference is in rem, and changing the root size
+     would scale it (and every rem based token) a second time */
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+}
+
+/* Long form text: add the class to an article or any block of prose */
+.kerb-prose {
+  max-inline-size: var(--kerb-pref-measure, 66ch);
+}
+
+/* Links are underlined inside prose by default, and everywhere when the person asks */
+.kerb-prose :any-link,
+[data-kerb-underline-links] :any-link {
+  text-decoration-line: underline;
+  text-decoration-thickness: max(1px, 0.0625em);
+  text-underline-offset: 0.15em;
+}
+
+:where(:any-link) {
+  color: var(--kerb-color-link);
+}

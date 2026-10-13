@@ -17,6 +17,7 @@ const paths = {
       <path d="M12 7.5v5.5M12 16.5h.01" />
     </>
   ),
+  minus: <path d="M6 12h12" />,
   chevron: <path d="M6 9l6 6 6-6" />,
   calendar: (
     <>

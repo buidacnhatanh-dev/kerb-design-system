@@ -29,3 +29,14 @@ export async function tab(page: Page, { back = false } = {}) {
     `${back ? "Shift+" : ""}${webkit ? "Alt+" : ""}Tab`,
   );
 }
+
+/** Saves a preference the way KerbProvider stores it for Storybook, before the page loads. */
+export async function savePreferences(
+  page: Page,
+  prefs: Record<string, string | number | boolean>,
+) {
+  const saved = JSON.stringify({ v: 1, prefs });
+  await page.addInitScript({
+    content: `localStorage.setItem("kerb-storybook", ${JSON.stringify(saved)})`,
+  });
+}

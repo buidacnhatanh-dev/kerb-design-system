@@ -1,0 +1,90 @@
+/* Shared by Checkbox and RadioGroup: a native input hidden under a styled mark, inside its label */
+.root {
+  display: grid;
+  justify-items: start;
+  min-inline-size: 0;
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+}
+
+/* The label is the whole row, so the hit area is at least 44px high */
+.row {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kerb-space-3);
+  min-block-size: var(--kerb-size-target-min);
+  cursor: pointer;
+}
+
+/* The native input sits on top of the mark, invisible but still where
+   touch exploration and screen magnifiers expect to find it */
+.input {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  margin: 0;
+  opacity: 0;
+  translate: 0 -50%;
+  cursor: inherit;
+}
+
+.mark {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  border: 2px solid var(--kerb-color-border-input);
+  background-color: var(--kerb-color-bg);
+  transition-property: background-color, border-color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+.input:disabled + .mark {
+  border-color: var(--kerb-color-disabled-border);
+  background-color: var(--kerb-color-surface);
+}
+
+.rowDisabled {
+  color: var(--kerb-color-disabled-text);
+  cursor: not-allowed;
+}
+
+/* Lined up with the label text, pulled up into the space the 44px row leaves */
+.hint {
+  margin: calc(var(--kerb-space-2) * -1) 0 var(--kerb-space-1);
+  padding-inline-start: calc(1.375rem + var(--kerb-space-3));
+  color: var(--kerb-color-text-muted);
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+}
+
+@media (prefers-contrast: more) {
+  .input:not(:disabled) + .mark {
+    border-color: var(--kerb-color-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .input:disabled + .mark {
+    border-color: GrayText;
+  }
+
+  .rowDisabled {
+    color: GrayText;
+  }
+}

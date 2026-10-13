@@ -7,6 +7,8 @@ export { useAnnouncer } from "./announcer";
 export type { Announce, AnnounceOptions, AnnounceUrgency } from "./announcer";
 export { Button } from "./button";
 export type { ButtonProps } from "./button";
+export { Checkbox } from "./checkbox";
+export type { CheckboxProps } from "./checkbox";
 export {
   KerbProvider,
   defaultPreferences,
@@ -20,5 +22,9 @@ export type {
   KerbPresetName,
   KerbProviderProps,
 } from "./provider";
+export { RadioGroup } from "./radio-group";
+export type { RadioGroupProps, RadioOption } from "./radio-group";
+export { Select } from "./select";
+export type { SelectOption, SelectProps } from "./select";
 export { TextField } from "./text-field";
 export type { TextFieldProps } from "./text-field";

@@ -90,6 +90,7 @@ describe("Icon", () => {
       "info",
       "cross",
       "alert",
+      "minus",
       "chevron",
       "calendar",
       "link",

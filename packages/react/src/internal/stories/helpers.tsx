@@ -9,8 +9,15 @@ const themes = [
   { value: "comfort", name: "Comfort" },
 ];
 
-/** Renders the same content in light, dark and comfort side by side. */
-export function ThemeColumns({ children }: { children: ReactNode }) {
+/**
+ * Renders the same content in light, dark and comfort side by side. Pass a
+ * function when each copy needs something of its own, such as a radio group name.
+ */
+export function ThemeColumns({
+  children,
+}: {
+  children: ReactNode | ((theme: string) => ReactNode);
+}) {
   return (
     <div className={styles.themes}>
       {themes.map((theme) => (
@@ -20,7 +27,7 @@ export function ThemeColumns({ children }: { children: ReactNode }) {
           data-kerb-theme={theme.value}
         >
           <p className={styles.themeName}>{theme.name}</p>
-          {children}
+          {typeof children === "function" ? children(theme.value) : children}
         </div>
       ))}
     </div>

@@ -1,0 +1,57 @@
+/* The bordered box shared by the native controls inside a FieldShell: input and select */
+.nativeControl {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: var(
+    --kerb-pref-control-height,
+    var(--kerb-size-target-default)
+  );
+  margin: 0;
+  /* Little block padding: the height comes from min-block-size, so compact can reach 40px */
+  padding: var(--kerb-space-1) var(--kerb-space-4);
+  border: 2px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  transition: border-color var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+.nativeControl::placeholder {
+  color: var(--kerb-color-text-muted);
+  opacity: 1;
+}
+
+.nativeControl[aria-invalid="true"] {
+  border-color: var(--kerb-color-danger);
+}
+
+.nativeControl:focus {
+  border-color: var(--kerb-color-text);
+}
+
+.nativeControl:disabled {
+  border-color: var(--kerb-color-disabled-border);
+  background-color: var(--kerb-color-surface);
+  color: var(--kerb-color-disabled-text);
+  /* Safari dims disabled text on its own */
+  -webkit-text-fill-color: var(--kerb-color-disabled-text);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+@media (prefers-contrast: more) {
+  .nativeControl:not(:disabled, [aria-invalid="true"]) {
+    border-color: var(--kerb-color-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .nativeControl:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

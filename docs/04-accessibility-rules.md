@@ -24,6 +24,7 @@ A dark ink ring inside a thick yellow ring. Ink carries the contrast on light ba
 ```
 
 * Components opt in by adding the `kerb-focusable` class to the focusable element. The ring is defined only here
+* Checkbox and radio hide the native input under a styled mark. There the input gets `kerb-focus-proxy` and the mark is the next element: the same rule in `base.css` also matches `.kerb-focus-proxy:focus-visible + *` (and the focus on click and forced colours variants), so the ring is drawn on the mark
 
 * Never hide the ring. Never animate it
 * Meets WCAG 2.4.7 Focus visible, 2.4.11 Focus not obscured, 2.4.13 Focus appearance (AAA)

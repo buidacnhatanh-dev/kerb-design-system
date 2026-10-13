@@ -1,0 +1,99 @@
+.group {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  margin-block-end: var(--kerb-space-1);
+  padding: 0;
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+/* Colour is never alone: the error is an icon and text */
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--kerb-space-2);
+  margin: 0 0 var(--kerb-space-1);
+  color: var(--kerb-color-danger);
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.errorIcon {
+  margin-block-start: calc(
+    (
+        1em * var(--kerb-pref-line-height, var(--kerb-font-line-height-body)) -
+          1.25em
+      ) /
+      2
+  );
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.horizontal {
+  flex-flow: row wrap;
+  column-gap: var(--kerb-space-5);
+}
+
+.optionLabel {
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.circle {
+  border-radius: var(--kerb-radius-full);
+}
+
+/* The dot */
+.circle::after {
+  content: "";
+  inline-size: 0.625rem;
+  block-size: 0.625rem;
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-action-primary);
+  opacity: 0;
+  transition: opacity var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+input:checked + .circle {
+  border-color: var(--kerb-color-action-primary);
+}
+
+input:checked + .circle::after {
+  opacity: 1;
+}
+
+input:disabled:checked + .circle {
+  border-color: var(--kerb-color-disabled-border);
+}
+
+input:disabled:checked + .circle::after {
+  background-color: var(--kerb-color-disabled-text);
+}
+
+@media (forced-colors: active) {
+  input:checked + .circle {
+    border-color: Highlight;
+  }
+
+  input:checked + .circle::after {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+
+  input:disabled:checked + .circle,
+  input:disabled:checked + .circle::after {
+    border-color: GrayText;
+    background-color: GrayText;
+  }
+}

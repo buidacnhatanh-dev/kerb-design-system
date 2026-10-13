@@ -38,6 +38,8 @@ It reads source, not the built Storybook, so it only needs `packages/tokens/dist
 * Specs live in `tests/e2e/`, one file per component, and open one story at a time through `iframe.html` (`openStory` in `helpers.ts`)
 * They run against the built Storybook, which is the only place a production build problem shows up (for example a stylesheet dropped by tree shaking), so `expectFocusRing` checks the real ring colour
 * Locally Playwright reuses whatever is already on port 6006. Stop `pnpm storybook` first, or the specs run against the dev server
+* `savePreferences(page, { density: "compact" })` from `helpers.ts` stores a preference before the page loads, the way `KerbProvider` saves it for Storybook
+* A story used to test "Tab leaves the component" needs a focusable element after it. With nothing after, Firefox wraps focus back into the component
 * Use `tab(page)` from `helpers.ts` instead of pressing Tab directly. Safari only stops at text fields with a plain Tab, so in WebKit it presses Option+Tab
 
 ## Counting for the passport

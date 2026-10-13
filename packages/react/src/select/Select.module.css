@@ -1,0 +1,41 @@
+.wrapper {
+  position: relative;
+  display: flex;
+}
+
+.select {
+  appearance: none;
+  /* Room for the chevron */
+  padding-inline-end: var(--kerb-size-target-min);
+  cursor: pointer;
+}
+
+.select:disabled {
+  cursor: not-allowed;
+}
+
+.chevron {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: var(--kerb-space-3);
+  margin: auto 0;
+  color: var(--kerb-color-text);
+  /* Presses go through to the select underneath */
+  pointer-events: none;
+}
+
+.select:disabled + .chevron {
+  color: var(--kerb-color-disabled-text);
+}
+
+/* The system draws its own control and arrow */
+@media (forced-colors: active) {
+  .select {
+    appearance: auto;
+    padding-inline-end: var(--kerb-space-4);
+  }
+
+  .chevron {
+    display: none;
+  }
+}

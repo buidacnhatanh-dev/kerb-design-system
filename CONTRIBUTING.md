@@ -31,14 +31,17 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * `dist/index.js` carries a `"use client"` banner. Anything that must run in a server component needs its own entry in `tsup.config.ts`
 * Optional stylesheets are separate entries: `@kerb/react/fonts.css` and `@kerb/react/global.css` (page level styles that apply the theme and the `--kerb-pref-*` variables to `html` and `body`). `kerb.css` itself never styles `html`, `body` or bare elements
 * Read preference variables with a token fallback (`var(--kerb-pref-text-size, var(--kerb-font-size-body))`). The provider only writes a variable when someone chose a value, so the fallback is what most people see
-* Fields (TextField, Select, DatePicker) are built on `internal/FieldShell`. `ref` and remaining props go to the native control, `className` goes to the outer wrapper
+* Fields (TextField, Select, DatePicker) are built on `internal/FieldShell` and share the bordered box in `internal/NativeControl.module.css`. `ref` and remaining props go to the native control, `className` goes to the outer wrapper
+* Checkbox and RadioGroup share `internal/Choice.module.css`: a native input, invisible, on top of a styled mark, inside its label. Checkbox follows the field rule for `ref`, props and `className`; RadioGroup's root is the `<fieldset>`, which gets all three
+* Hints are never inside a `<label>`: they are linked with `aria-describedby`, so they are the description and not part of the name
+* Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
 * Stories show hover, focus and active states with `forced("hover")` from `internal/stories/helpers`, never with test only selectors in component CSS
 * Sizes in `rem` so browser text size settings work
 * No `outline: none` without the Kerb focus ring replacing it
 
 ## Accessibility rules (hard requirements)
 
-* Focus ring on every focusable element: add the `kerb-focusable` class. The ring is defined once in `packages/react/src/styles/base.css` (ink ring `--kerb-color-focus-ink` inside a `--kerb-color-focus` ring, with a transparent outline that keeps focus visible in forced colours mode). Do not redefine it per component
+* Focus ring on every focusable element: add the `kerb-focusable` class. When the focusable element is a native input hidden under a styled mark (checkbox, radio), give the input `kerb-focus-proxy` instead and put the mark right after it: the ring is drawn on that next element. The ring is defined once in `packages/react/src/styles/base.css` (ink ring `--kerb-color-focus-ink` inside a `--kerb-color-focus` ring, with a transparent outline that keeps focus visible in forced colours mode). Do not redefine it per component
 * Text contrast at least 4.5 : 1, control borders and focus at least 3 : 1, in all three themes
 * Targets at least 44 by 44 CSS px (24 px minimum for inline controls like calendar days, with spacing). This holds at compact density too, where the visible control is 40 px: Button uses a `::before` hit area, fields get it from `FieldShell`
 * Never use colour alone: errors and statuses always have an icon and text

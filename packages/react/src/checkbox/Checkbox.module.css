@@ -1,0 +1,46 @@
+.box {
+  border-radius: 0.3125rem;
+  color: var(--kerb-color-on-primary);
+}
+
+.icon {
+  display: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+  stroke-width: 3;
+}
+
+input:checked + .box,
+input:indeterminate + .box {
+  border-color: var(--kerb-color-action-primary);
+  background-color: var(--kerb-color-action-primary);
+}
+
+input:checked:not(:indeterminate) + .box > .check,
+input:indeterminate + .box > .dash {
+  display: block;
+}
+
+input:disabled:checked + .box,
+input:disabled:indeterminate + .box {
+  border-color: var(--kerb-color-disabled-border);
+  background-color: var(--kerb-color-disabled-bg);
+  color: var(--kerb-color-disabled-text);
+}
+
+@media (forced-colors: active) {
+  input:checked + .box,
+  input:indeterminate + .box {
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  input:disabled:checked + .box,
+  input:disabled:indeterminate + .box {
+    border-color: GrayText;
+    background-color: GrayText;
+    color: Canvas;
+  }
+}

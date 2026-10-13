@@ -6,9 +6,13 @@
 @import "@kerb/tokens/kerb.css";
 
 /* Focus ring (GOV.UK style): dark ink ring inside a thick yellow ring.
-   Never hidden, never animated. */
+   Never hidden, never animated.
+   .kerb-focus-proxy is for a native input hidden under a styled mark (checkbox,
+   radio): the ring is drawn on the element right after it. */
 :where(.kerb-focusable):focus-visible,
-[data-kerb-focus-on-click] :where(.kerb-focusable):focus {
+[data-kerb-focus-on-click] :where(.kerb-focusable):focus,
+:where(.kerb-focus-proxy):focus-visible + *,
+[data-kerb-focus-on-click] :where(.kerb-focus-proxy):focus + * {
   outline: 2px solid transparent; /* becomes visible in forced colours */
   outline-offset: 2px;
   box-shadow:
@@ -56,7 +60,9 @@
 /* Forced colours: hand colours to the system and draw focus as a real outline */
 @media (forced-colors: active) {
   :where(.kerb-focusable):focus-visible,
-  [data-kerb-focus-on-click] :where(.kerb-focusable):focus {
+  [data-kerb-focus-on-click] :where(.kerb-focusable):focus,
+  :where(.kerb-focus-proxy):focus-visible + *,
+  [data-kerb-focus-on-click] :where(.kerb-focus-proxy):focus + * {
     outline: 3px solid Highlight;
     box-shadow: none;
   }

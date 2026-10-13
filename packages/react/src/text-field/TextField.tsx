@@ -3,6 +3,7 @@ import type { InputHTMLAttributes } from "react";
 import { cx } from "../internal/cx";
 import { FieldShell } from "../internal/FieldShell";
 import { Icon } from "../internal/Icon";
+import controlStyles from "../internal/NativeControl.module.css";
 import styles from "./TextField.module.css";
 
 export type TextFieldProps = Omit<
@@ -66,7 +67,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               disabled={disabled}
               className={cx(
                 "kerb-focusable",
-                styles.input,
+                controlStyles.nativeControl,
                 isPassword && styles.withToggle,
               )}
             />

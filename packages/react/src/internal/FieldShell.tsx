@@ -67,7 +67,15 @@ export function FieldShell({
           if (event.target !== event.currentTarget || disabled) return;
           // Keep the press from moving focus to the page instead
           event.preventDefault();
-          document.getElementById(controlId)?.focus();
+          const control = document.getElementById(controlId);
+          control?.focus();
+          if (control instanceof HTMLSelectElement) {
+            try {
+              control.showPicker();
+            } catch {
+              // No picker to open here (older browsers, or no user activation)
+            }
+          }
         }}
       >
         {children({

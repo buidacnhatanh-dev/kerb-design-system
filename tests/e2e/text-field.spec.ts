@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { expectFocusRing, openStory, tab } from "./helpers";
+import { expectFocusRing, openStory, savePreferences, tab } from "./helpers";
 
 test.describe("TextField keyboard", () => {
   test("Tab reaches the input, shows the focus ring and typing fills it", async ({
@@ -69,11 +69,7 @@ test.describe("TextField keyboard", () => {
   });
 
   test("keeps a 44px hit area at compact density", async ({ page }) => {
-    // The person's saved choice, as KerbProvider stores it for Storybook
-    const saved = JSON.stringify({ v: 1, prefs: { density: "compact" } });
-    await page.addInitScript({
-      content: `localStorage.setItem("kerb-storybook", ${JSON.stringify(saved)})`,
-    });
+    await savePreferences(page, { density: "compact" });
     await openStory(page, "components-textfield--empty");
     const input = page.getByRole("textbox", { name: "Email" });
     await expect(page.locator("html")).toHaveAttribute(

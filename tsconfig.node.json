@@ -11,6 +11,7 @@
   "include": [
     "*.config.ts",
     "packages/*/*.config.ts",
+    "packages/*/test/**/*.ts",
     "apps/*/*.config.ts",
     "tests/**/*.ts"
   ]

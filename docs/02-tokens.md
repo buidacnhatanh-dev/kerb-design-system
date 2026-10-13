@@ -17,6 +17,9 @@ Style Dictionary outputs kebab case with a `kerb` prefix:
 * `color.action-primary` becomes `--kerb-color-action-primary`
 * `font.size.body` becomes `--kerb-font-size-body`
 * `space.4` becomes `--kerb-space-4`
+* `font.lineHeight.body` becomes `--kerb-font-line-height-body`
+
+The palette is the exception: `palette.*` is never written to CSS, so there is no `--kerb-palette-blue-700`. Components physically cannot reach a primitive colour. Code that needs a raw palette value (for example the focus colour choices in the preferences store) reads it from `tokens.json`.
 
 ## Colour (semantic)
 
@@ -73,17 +76,20 @@ Compact density keeps a 44 px hit area with padding even when the visible contro
 ## Style Dictionary config
 
 * Source: `src/primitives.json` plus one semantic file per build
-* Three builds, one per theme, each outputting CSS with the right selector:
+* `style-dictionary.config.mjs` exports three configs, one per theme. `build.mjs` runs them (`pnpm --filter @kerb/tokens build`) and writes `dist/`
+* Each theme block uses the right selector:
   * light → `:root, [data-kerb-theme="light"]`
   * dark → `[data-kerb-theme="dark"]`
   * comfort → `[data-kerb-theme="comfort"]`
-* Concatenate into `dist/kerb.css`
-* Also output `dist/tokens.json` (resolved values per theme) and `dist/tokens.d.ts`
-* Add a custom format that writes `color-scheme: light` or `color-scheme: dark` into each theme block
+* A theme block contains only the tokens from that theme's semantic file (colour and type scale), with resolved values, no references
+* Tokens from `primitives.json` other than the palette go once into a plain `:root` block, shared by all themes. Do not repeat them inside theme blocks: a nested `data-kerb-theme` element would then reset overrides made on `<html>`
+* `dist/kerb.css` is the shared block followed by the three theme blocks. `light.css`, `dark.css` and `comfort.css` are the shared block plus one theme
+* Also output `dist/tokens.json` (resolved values per theme, keyed `light`, `dark`, `comfort`, palette included) and `dist/tokens.d.ts`. The build fails if the themes do not define the same set of tokens
+* A custom format writes `color-scheme: light` or `color-scheme: dark` into each theme block (comfort is `light`)
 
 ## Contrast test
 
-Add `packages/tokens/test/contrast.test.ts` that loads the resolved tokens and asserts:
+`packages/tokens/test/contrast.test.ts` loads the built `dist/tokens.json` (so `pnpm build` must run first) and asserts, for each theme:
 
 * `text`, `text-muted`, `danger`, `success`, `link` on `bg` and on `surface` ≥ 4.5
 * `on-primary` on `action-primary` and on `action-primary-hover` ≥ 4.5

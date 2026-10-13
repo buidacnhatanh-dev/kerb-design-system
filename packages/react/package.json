@@ -33,6 +33,10 @@
     "@kerb/tokens": "workspace:*"
   },
   "devDependencies": {
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/lexend": "^5.3.0",
+    "@fontsource/overpass": "^5.3.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",

@@ -34,7 +34,7 @@ export default defineConfig(
     // Config files and scripts run in Node
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
-      globals: { process: "readonly", console: "readonly" },
+      globals: { process: "readonly", console: "readonly", URL: "readonly" },
     },
   },
 );

@@ -25,7 +25,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "style-dictionary build --config style-dictionary.config.mjs"
+    "build": "node build.mjs"
   },
   "devDependencies": {
     "style-dictionary": "^5.6.1"

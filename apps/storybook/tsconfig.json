@@ -4,7 +4,8 @@
     "composite": true,
     "emitDeclarationOnly": true,
     "rootDir": ".",
-    "outDir": "../../.tsbuild/storybook"
+    "outDir": "../../.tsbuild/storybook",
+    "types": ["vite/client"]
   },
-  "include": [".storybook/**/*"]
+  "include": [".storybook/**/*", "stories/**/*"]
 }

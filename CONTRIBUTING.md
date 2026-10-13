@@ -17,11 +17,13 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Vitest, Testing Library, vitest-axe, Playwright, Storybook test runner
 * Changesets for versioning, size-limit for bundle budget
 * Fontsource for Atkinson Hyperlegible, Overpass, Lexend, JetBrains Mono. Never load fonts from Google servers (GDPR, the author is based in Germany)
+* Font faces live only in `packages/react/src/styles/fonts.css`, published as `@kerb/react/fonts.css`. Never import Fontsource from `base.css` or a component: fonts must stay optional for consumers
 
 ## Conventions
 
 * One folder per component: `packages/react/src/<component>/` with `Component.tsx`, `Component.module.css`, `Component.test.tsx`, `Component.stories.tsx`, `index.ts`
-* Components read semantic tokens only (`var(--kerb-color-action-primary)`), never primitives or hex values
+* Components read semantic tokens only (`var(--kerb-color-action-primary)`), never primitives or hex values. The raw palette is deliberately not emitted as CSS variables (there is no `--kerb-palette-*`); it exists only in `tokens.json`. The shared scale tokens (`--kerb-space-*`, `--kerb-radius-*`, `--kerb-size-*`, `--kerb-motion-*`, `--kerb-font-family-*`, `--kerb-font-weight-*`) are fine to use
+* Motion: take every duration from `var(--kerb-motion-duration-fast | base | slow)` and multiply any movement or scale by `var(--kerb-motion-move)`, for example `translateY(calc(0.5rem * var(--kerb-motion-move)))`. `base.css` turns these down for the reduced and off levels. Never write your own `prefers-reduced-motion` query in a component, and never use `!important` for motion
 * Native elements first: `<button>`, `<input>`, `<select>`, `<dialog>`. Add ARIA only when no native element fits
 * Every interactive component forwards refs and spreads remaining props onto the root native element
 * Controlled and uncontrolled modes where it makes sense (`value` and `defaultValue`, `open` and `defaultOpen`)
@@ -31,7 +33,7 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 
 ## Accessibility rules (hard requirements)
 
-* Focus ring on every focusable element, via `:focus-visible`: `box-shadow: 0 0 0 2px var(--kerb-focus-ink), 0 0 0 var(--kerb-focus-width) var(--kerb-focus-color); outline: 2px solid transparent;` (the transparent outline keeps focus visible in forced colours mode)
+* Focus ring on every focusable element: add the `kerb-focusable` class. The ring is defined once in `packages/react/src/styles/base.css` (ink ring `--kerb-color-focus-ink` inside a `--kerb-color-focus` ring, with a transparent outline that keeps focus visible in forced colours mode). Do not redefine it per component
 * Text contrast at least 4.5 : 1, control borders and focus at least 3 : 1, in all three themes
 * Targets at least 44 by 44 CSS px (24 px minimum for inline controls like calendar days, with spacing)
 * Never use colour alone: errors and statuses always have an icon and text
@@ -50,6 +52,8 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 7. `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm build` all pass
 
 ## Commands
+
+Run `pnpm build` once after a fresh clone or any token change, before `pnpm storybook`, `pnpm dev` or `pnpm test`: Storybook and the contrast test read `packages/tokens/dist`.
 
 ```
 pnpm install

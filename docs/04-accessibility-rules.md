@@ -14,12 +14,16 @@ A dark ink ring inside a thick yellow ring. Ink carries the contrast on light ba
   outline-offset: 2px;
   box-shadow:
     0 0 0 2px var(--kerb-color-focus-ink),
-    0 0 0 var(--kerb-focus-width, 6px) var(--kerb-focus-color, var(--kerb-color-focus));
+    0 0 0 var(--kerb-focus-width, var(--kerb-focus-width-standard))
+      var(--kerb-focus-color, var(--kerb-color-focus));
 }
 @media (forced-colors: active) {
-  :where(.kerb-focusable):focus-visible { outline: 3px solid Highlight; box-shadow: none; }
+  :where(.kerb-focusable):focus-visible,
+  [data-kerb-focus-on-click] :where(.kerb-focusable):focus { outline: 3px solid Highlight; box-shadow: none; }
 }
 ```
+
+* Components opt in by adding the `kerb-focusable` class to the focusable element. The ring is defined only here
 
 * Never hide the ring. Never animate it
 * Meets WCAG 2.4.7 Focus visible, 2.4.11 Focus not obscured, 2.4.13 Focus appearance (AAA)
@@ -46,7 +50,21 @@ A dark ink ring inside a thick yellow ring. Ink carries the contrast on light ba
 * `data-kerb-motion="full"`: transitions up to `motion.duration.slow`
 * `reduced`: fades only, max 120 ms, no movement or scale
 * `off`: no transitions or animations at all
-* Default follows `prefers-reduced-motion`
+* Default (no `data-kerb-motion` attribute) follows `prefers-reduced-motion`
+
+The levels are implemented once, in `base.css`, by changing variables. There is no blanket `transition: none !important` rule:
+
+| Level | `--kerb-motion-duration-fast / base / slow` | `--kerb-motion-move` |
+| --- | --- | --- |
+| full | 120, 200, 320 ms (the tokens) | `1` |
+| reduced | all capped at 120 ms | `0` |
+| off | all `0ms` | `0` |
+
+So every component must:
+
+* take transition and animation durations from `var(--kerb-motion-duration-*)`, never a literal time
+* multiply any movement or scale by `var(--kerb-motion-move)`, for example `transform: translateY(calc(0.5rem * var(--kerb-motion-move)))`, so only the fade remains when it is `0`
+* not write its own `prefers-reduced-motion` media query
 
 ## Announcements
 

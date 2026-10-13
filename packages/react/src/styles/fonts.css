@@ -1,0 +1,21 @@
+/*
+ * Kerb's typefaces, self hosted through Fontsource (nothing loads from Google servers).
+ * Shipped as @kerb/react/fonts.css, separate from kerb.css, so teams can bring their own fonts.
+ */
+
+/* Body: Atkinson Hyperlegible */
+@import "@fontsource/atkinson-hyperlegible/400.css";
+@import "@fontsource/atkinson-hyperlegible/400-italic.css";
+@import "@fontsource/atkinson-hyperlegible/700.css";
+
+/* Headings: Overpass */
+@import "@fontsource/overpass/700.css";
+@import "@fontsource/overpass/800.css";
+
+/* Dyslexia friendly preset: Lexend */
+@import "@fontsource/lexend/400.css";
+@import "@fontsource/lexend/600.css";
+
+/* Code: JetBrains Mono */
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";

@@ -42,9 +42,7 @@ jobs:
       - name: Build (tokens, react, storybook, docs)
         run: pnpm build
 
-      # M1: first tests arrive with the token contrast test
-      - name: Unit tests
-        if: false
+      - name: Unit tests (includes token contrast)
         run: pnpm test
 
       # M2: Storybook test runner with axe in light, dark and comfort

@@ -1,0 +1,63 @@
+/*
+ * Kerb base styles: tokens, focus ring, motion levels and forced colours fixes.
+ * Font faces live in fonts.css so they stay optional.
+ */
+
+@import "@kerb/tokens/kerb.css";
+
+/* Focus ring (GOV.UK style): dark ink ring inside a thick yellow ring.
+   Never hidden, never animated. */
+:where(.kerb-focusable):focus-visible,
+[data-kerb-focus-on-click] :where(.kerb-focusable):focus {
+  outline: 2px solid transparent; /* becomes visible in forced colours */
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--kerb-color-focus-ink),
+    0 0 0 var(--kerb-focus-width, var(--kerb-focus-width-standard))
+      var(--kerb-focus-color, var(--kerb-color-focus));
+}
+
+/*
+ * Motion levels. Component CSS takes every duration from the motion tokens and
+ * multiplies any movement or scale by --kerb-motion-move, so these rules are
+ * the only place motion is turned down.
+ *
+ *   full     transitions up to motion.duration.slow
+ *   reduced  fades only, at most 120ms, no movement or scale
+ *   off      no transitions or animations at all
+ *
+ * Without a data-kerb-motion attribute the level follows prefers-reduced-motion.
+ */
+:root {
+  --kerb-motion-move: 1;
+}
+
+[data-kerb-motion="reduced"] {
+  --kerb-motion-duration-base: var(--kerb-motion-duration-fast);
+  --kerb-motion-duration-slow: var(--kerb-motion-duration-fast);
+  --kerb-motion-move: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-kerb-motion]) {
+    --kerb-motion-duration-base: var(--kerb-motion-duration-fast);
+    --kerb-motion-duration-slow: var(--kerb-motion-duration-fast);
+    --kerb-motion-move: 0;
+  }
+}
+
+[data-kerb-motion="off"] {
+  --kerb-motion-duration-fast: 0ms;
+  --kerb-motion-duration-base: 0ms;
+  --kerb-motion-duration-slow: 0ms;
+  --kerb-motion-move: 0;
+}
+
+/* Forced colours: hand colours to the system and draw focus as a real outline */
+@media (forced-colors: active) {
+  :where(.kerb-focusable):focus-visible,
+  [data-kerb-focus-on-click] :where(.kerb-focusable):focus {
+    outline: 3px solid Highlight;
+    box-shadow: none;
+  }
+}

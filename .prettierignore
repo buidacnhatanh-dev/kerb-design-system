@@ -1,0 +1,17 @@
+node_modules
+dist
+.next
+out
+next-env.d.ts
+storybook-static
+.tsbuild
+coverage
+test-results
+playwright-report
+pnpm-lock.yaml
+design
+# Spec files and token sources are copied in as is
+docs
+tokens
+CONTRIBUTING.md
+README.md

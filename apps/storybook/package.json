@@ -1,0 +1,27 @@
+{
+  "name": "storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev --port 6006 --no-open",
+    "build": "storybook build --output-dir storybook-static",
+    "preview": "vite preview --outDir storybook-static --port 6006 --strictPort",
+    "test:a11y": "echo \"The Storybook test runner is set up in milestone M2\" && exit 1"
+  },
+  "dependencies": {
+    "@kerb/react": "workspace:*",
+    "@kerb/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "storybook": "^10.6.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4"
+  }
+}

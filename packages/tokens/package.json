@@ -1,0 +1,33 @@
+{
+  "name": "@kerb/tokens",
+  "version": "0.0.0",
+  "description": "Kerb design tokens as CSS variables and JSON for the light, dark and comfort themes",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.json"
+    },
+    "./kerb.css": "./dist/kerb.css",
+    "./light.css": "./dist/light.css",
+    "./dark.css": "./dist/dark.css",
+    "./comfort.css": "./dist/comfort.css",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "style-dictionary build --config style-dictionary.config.mjs"
+  },
+  "devDependencies": {
+    "style-dictionary": "^5.6.1"
+  }
+}

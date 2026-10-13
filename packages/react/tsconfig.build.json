@@ -1,0 +1,12 @@
+{
+  // Used by tsup only. `pnpm typecheck` uses tsconfig.json.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": false,
+    "rootDir": "src",
+    // tsup's type build sets `baseUrl`, which TypeScript 6 reports as deprecated
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.stories.tsx"]
+}

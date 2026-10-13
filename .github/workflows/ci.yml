@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
+# Steps marked `if: false` are waiting on a later milestone (docs/09-milestones.md).
+# Remove the condition when the milestone lands.
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build (tokens, react, storybook, docs)
+        run: pnpm build
+
+      # M1: first tests arrive with the token contrast test
+      - name: Unit tests
+        if: false
+        run: pnpm test
+
+      # M2: Storybook test runner with axe in light, dark and comfort
+      - name: Story accessibility tests
+        if: false
+        run: pnpm test:a11y
+
+      # M2: first Playwright keyboard specs
+      - name: Install Playwright browsers
+        if: false
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - name: End to end tests
+        id: e2e
+        if: false
+        run: pnpm test:e2e
+
+      # M8: budget is set from the first real build
+      - name: Bundle size
+        if: false
+        run: pnpm size
+
+      - name: Upload Playwright report
+        if: failure() && steps.e2e.conclusion == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+  # M8: publish to npm through Changesets and deploy Storybook
+  release:
+    if: false && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - name: Create release pull request or publish to npm
+        uses: changesets/action@v1
+        with:
+          publish: pnpm changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Storybook deployment (GitHub Pages or Chromatic) is added in M8

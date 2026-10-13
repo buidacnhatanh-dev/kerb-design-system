@@ -1,0 +1,21 @@
+{
+  // Used by the root `tsc -b`. Next.js itself reads tsconfig.json.
+  // Here `@kerb/react` resolves to its source through the project reference,
+  // so typecheck does not need packages/react/dist to exist.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "rootDir": ".",
+    "outDir": "../../.tsbuild/docs",
+    "tsBuildInfoFile": "../../.tsbuild/docs/tsconfig.tsbuildinfo",
+    "plugins": [],
+    "paths": {
+      "@kerb/react": ["../../packages/react/src/index.ts"]
+    }
+  },
+  "include": ["next-types.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", ".next", "next-env.d.ts"],
+  "references": [{ "path": "../../packages/react" }]
+}

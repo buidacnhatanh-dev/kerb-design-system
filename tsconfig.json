@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./packages/react" },
+    { "path": "./apps/storybook" },
+    { "path": "./apps/docs/tsconfig.typecheck.json" }
+  ]
+}

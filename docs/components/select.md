@@ -1,0 +1,29 @@
+# Select
+
+Design: `design/06-CompInputs.png` (Select).
+
+Native `<select>` styled to match. No custom listbox in 1.0: native selects work with every screen reader, on mobile they open the system picker, and they cost nothing.
+
+## API
+
+```ts
+type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  label: string;
+  hint?: string;
+  error?: string;
+  options?: Array<{ value: string; label: string; disabled?: boolean }>;  // or pass <option> children
+  placeholder?: string;     // rendered as a disabled first option, only when no value
+};
+```
+
+## Styling
+
+* `appearance: none`, custom chevron icon (inline SVG, `aria-hidden`) positioned right, padding right 44px
+* Same states and tokens as TextField
+* In `forced-colors` mode, restore `appearance: auto`
+
+## Tests
+
+* Label associated, options rendered, value changes with keyboard
+* Error state matches TextField behaviour
+* axe clean

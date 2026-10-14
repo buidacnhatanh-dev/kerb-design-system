@@ -33,6 +33,11 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # @kerb/tokens publishes its types from dist (tokens.d.ts), and code that
+      # imports it cannot be typechecked until that exists
+      - name: Build tokens
+        run: pnpm --filter @kerb/tokens build
+
       - name: Lint
         run: pnpm lint
 

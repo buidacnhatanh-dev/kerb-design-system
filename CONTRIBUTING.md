@@ -25,21 +25,27 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Components read semantic tokens only (`var(--kerb-color-action-primary)`), never primitives or hex values. The raw palette is deliberately not emitted as CSS variables (there is no `--kerb-palette-*`); it exists only in `tokens.json`. The shared scale tokens (`--kerb-space-*`, `--kerb-radius-*`, `--kerb-size-*`, `--kerb-motion-*`, `--kerb-font-family-*`, `--kerb-font-weight-*`) are fine to use
 * Motion: take every duration from `var(--kerb-motion-duration-fast | base | slow)` and multiply any movement or scale by `var(--kerb-motion-move)`, for example `translateY(calc(0.5rem * var(--kerb-motion-move)))`. `base.css` turns these down for the reduced and off levels. Never write your own `prefers-reduced-motion` query in a component, and never use `!important` for motion
 * Native elements first: `<button>`, `<input>`, `<select>`, `<dialog>`. Add ARIA only when no native element fits
-* Every interactive component forwards refs and spreads remaining props onto the root native element
+* Every interactive component forwards refs and spreads remaining props onto the root native element. Exceptions: `Preferences` is a composite with a `variant` and takes only `className`; `ComfortControls` forwards to its `<section>`
 * Controlled and uncontrolled modes where it makes sense (`value` and `defaultValue`, `open` and `defaultOpen`)
 * Public API is exported from `packages/react/src/index.ts` only, with one exception: `getKerbHeadScript` lives in `src/head-script.ts` and is published as `@kerb/react/head-script`, with no `"use client"`, so server components can call it. Never re-export it from `index.ts`
 * `dist/index.js` carries a `"use client"` banner. Anything that must run in a server component needs its own entry in `tsup.config.ts`
 * Optional stylesheets are separate entries: `@kerb/react/fonts.css` and `@kerb/react/global.css` (page level styles that apply the theme and the `--kerb-pref-*` variables to `html` and `body`). `kerb.css` itself never styles `html`, `body` or bare elements
 * Read preference variables with a token fallback (`var(--kerb-pref-text-size, var(--kerb-font-size-body))`). The provider only writes a variable when someone chose a value, so the fallback is what most people see
 * Fields (TextField, Select, DatePicker) are built on `internal/FieldShell` and share the bordered box in `internal/NativeControl.module.css`. `ref` and remaining props go to the native control, `className` goes to the outer wrapper
+* Preferences and ComfortControls share `internal/PreferenceControls.tsx` (range, segmented radio group, preset cards, switch, the debounced announcer and `useShownTheme`) and `internal/preferenceLabels.ts` (names and value formats). Their controls use fixed sizes from the default scale and reset `--kerb-pref-*` in their own scope, so a setting never moves under the pointer. They change preferences only through `useKerbPreferences()`
+* Never put a `box-shadow` on an element that draws the focus ring (including a focus proxy's face) in a more specific rule than the ring's: it replaces the ring. Mark chosen states with border, fill and weight
+* Stories that need preferences applied wrap the component in `WithPreferences` from `internal/stories/helpers`: it applies them on mount and goes back to Standard on unmount and on `pagehide`, because the store saves to localStorage and would carry them into the next story
 * Checkbox and RadioGroup share `internal/Choice.module.css`: a native input, invisible, on top of a styled mark, inside its label. Checkbox follows the field rule for `ref`, props and `className`; RadioGroup's root is the `<fieldset>`, which gets all three
 * Hints are never inside a `<label>`: they are linked with `aria-describedby`, so they are the description and not part of the name
 * `KerbProvider` wraps the app in `<div data-kerb-app-root style="display: contents">`. Modal dialogs portal to `document.body`, outside it, and make it `inert` while open. The live regions and the toast region are siblings of it, not inside it
+* A modal Dialog makes toasts inert. An action inside a modal that shows a toast with an action (Reset in the Preferences sheet) closes the modal first
+* Dialog has `placement="bottom"` for sheets and `initialFocus="close"`. Use them rather than building another sheet
 * Overlays go in the top layer: Dialog with `showModal()`, Tooltip and the DatePicker calendar with `popover="manual"`. Never rely on `z-index` against the app. jsdom hides every `[popover]` and has no `showPopover()`: unit tests that need one visible add `[popover]:not(#none) { display: block }` in the test file (see `DatePicker.test.tsx`)
 * Esc closes only the innermost thing. A component that handles Esc while open (Tooltip, DatePicker) listens on `window` in the capture phase and stops the event, so a dialog around it stays open
 * Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
 * Stories show hover, focus and active states with `forced("hover")` from `internal/stories/helpers`, never with test only selectors in component CSS
 * Sizes in `rem` so browser text size settings work
+* The e2e tsconfig has no DOM types: in `tests/e2e`, read the page through locators (`toHaveAttribute`, `getAttribute`) or pass `page.evaluate` a string, never `document` in a function
 * No `outline: none` without the Kerb focus ring replacing it
 
 ## Accessibility rules (hard requirements)

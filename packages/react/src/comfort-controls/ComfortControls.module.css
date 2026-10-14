@@ -1,0 +1,64 @@
+/* A card: the controls, then the preview beside them (below on narrow screens) */
+.root {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  overflow: hidden;
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-surface-raised);
+  color: var(--kerb-color-text);
+}
+
+/*
+ * Fixed sizes from the default scale: the controls must not move under the
+ * pointer while someone drags a range. Only the preview follows the settings.
+ */
+.controls {
+  display: grid;
+  align-content: start;
+  gap: var(--kerb-space-4);
+  padding: var(--kerb-space-5);
+  font-family: var(--kerb-font-family-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: normal;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--kerb-font-family-heading);
+  font-size: 1.125rem;
+  font-weight: var(--kerb-font-weight-bold);
+  line-height: 1.3;
+}
+
+.preview {
+  display: grid;
+  align-content: start;
+  gap: var(--kerb-space-3);
+  padding: var(--kerb-space-5);
+  border-inline-start: 1px solid var(--kerb-color-line);
+  background-color: var(--kerb-color-bg);
+}
+
+/* The reader's settings, the same way global.css applies them to a page */
+.previewContent {
+  max-inline-size: var(--kerb-pref-measure, 66ch);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+}
+
+.previewContent > :first-child {
+  margin-block-start: 0;
+}
+
+.previewContent > :last-child {
+  margin-block-end: 0;
+}

@@ -81,6 +81,20 @@ export const presets: Readonly<
 
 export const presetNames = Object.keys(presets) as KerbPresetName[];
 
+/**
+ * The colour behind each focus colour choice, for swatches. Palette values
+ * from tokens.json: `light` is used on the light and comfort themes, `dark`
+ * on dark. applyPreferences keeps its own copy (it must stay self contained);
+ * a test checks the two against the palette.
+ */
+export const focusColorValues: Readonly<
+  Record<KerbPreferences["focusColor"], { light: string; dark: string }>
+> = {
+  yellow: { light: "#FFC21A", dark: "#FFC21A" },
+  blue: { light: "#2563EB", dark: "#8EB1FF" },
+  magenta: { light: "#C026D3", dark: "#F0ABFC" },
+};
+
 type NumberKey = "textSize" | "lineHeight" | "wordSpacing" | "letterSpacing";
 type BooleanKey = "underlineLinks" | "focusOnClick";
 type ChoiceKey = Exclude<keyof KerbPreferences, NumberKey | BooleanKey>;

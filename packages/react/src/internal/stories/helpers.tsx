@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import type { ReactNode } from "react";
+import { useKerbPreferences } from "../../provider";
+import type { KerbPreferences, KerbPresetName } from "../../provider";
 import styles from "./stories.module.css";
 
 export { styles as storyStyles };
@@ -43,4 +46,35 @@ type PseudoState = "hover" | "focus" | "focus-visible" | "active";
  */
 export function forced(...states: PseudoState[]) {
   return { "data-sb-pseudo": states.join(" ") };
+}
+
+/**
+ * Applies a preset (and any extra values) while the story is shown, and goes
+ * back to Standard when it unmounts, so nothing carries over to the next story.
+ */
+export function WithPreferences({
+  preset = "standard",
+  values,
+  children,
+}: {
+  preset?: KerbPresetName;
+  values?: Partial<KerbPreferences>;
+  children: ReactNode;
+}) {
+  const { applyPreset, setMany } = useKerbPreferences();
+  const key = JSON.stringify({ preset, values });
+  useEffect(() => {
+    applyPreset(preset);
+    if (values) setMany(values);
+    // Also when the page goes away, which skips the unmount: the store saves
+    const restore = () => applyPreset("standard");
+    window.addEventListener("pagehide", restore);
+    return () => {
+      window.removeEventListener("pagehide", restore);
+      restore();
+    };
+    // Once per preset and values, not on every new function from the hook
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return <>{children}</>;
 }

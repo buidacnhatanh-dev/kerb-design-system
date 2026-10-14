@@ -37,7 +37,9 @@ export type DialogProps = {
   /** Element that opens the dialog. Focus returns here */
   trigger?: ReactElement;
   /** Where focus goes on open. Default "cancel" for danger dialogs, "first" otherwise */
-  initialFocus?: "first" | "cancel" | RefObject<HTMLElement | null>;
+  initialFocus?: "first" | "cancel" | "close" | RefObject<HTMLElement | null>;
+  /** `bottom` is a sheet along the bottom edge, for small screens: a drag handle (decorative) on top and the actions kept in view. Default `center` */
+  placement?: "center" | "bottom";
   /** Controlled open state */
   open?: boolean;
   defaultOpen?: boolean;
@@ -161,6 +163,7 @@ export function Dialog({
   description,
   trigger,
   initialFocus,
+  placement = "center",
   open: openProp,
   defaultOpen = false,
   onOpenChange,
@@ -231,6 +234,8 @@ export function Dialog({
     let target: HTMLElement | null | undefined;
     if (mode === "cancel") {
       target = cancel;
+    } else if (mode === "close") {
+      target = close;
     } else if (mode === "first") {
       // The first thing to act on, not the close button in the corner
       target = focusables(panel).find((element) => element !== close);
@@ -354,6 +359,7 @@ export function Dialog({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         data-tone={tone}
+        data-placement={placement}
         onKeyDown={onKeyDown}
         onCancel={(event) => {
           // Escape: React decides, so the open state never disagrees with the element
@@ -369,6 +375,9 @@ export function Dialog({
         }}
       >
         <div className={styles.panel}>
+          {placement === "bottom" && (
+            <div className={styles.handle} aria-hidden="true" />
+          )}
           <div className={styles.header}>
             <h2 id={titleId} className={styles.title}>
               {title}

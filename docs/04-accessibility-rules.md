@@ -27,6 +27,8 @@ A dark ink ring inside a thick yellow ring. Ink carries the contrast on light ba
 * Checkbox and radio hide the native input under a styled mark. There the input gets `kerb-focus-proxy` and the mark is the next element: the same rule in `base.css` also matches `.kerb-focus-proxy:focus-visible + *` (and the focus on click and forced colours variants), so the ring is drawn on the mark
 
 * Never hide the ring. Never animate it
+* Never put a `box-shadow` on the element that draws the ring (a focus proxy's face included) in a rule more specific than the ring's: the ring is a `box-shadow` and would be replaced. Mark a chosen state with border, fill and weight instead
+* Known gap: WebKit stops matching `:focus-visible` on a radio reached with an arrow key (seen in Playwright's WebKit, also with plain HTML radios), so Kerb radios have no ring there after an arrow key. A shared fix belongs in `base.css`, not in components
 * Meets WCAG 2.4.7 Focus visible, 2.4.11 Focus not obscured, 2.4.13 Focus appearance (AAA)
 * Sticky headers must use `scroll-padding-top` so focused elements are never covered
 

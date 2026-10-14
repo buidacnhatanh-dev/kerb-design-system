@@ -6,6 +6,7 @@ import {
   decodePreferences,
   defaultPreferences,
   encodePreferences,
+  focusColorValues,
   presets,
   sanitizePreferences,
 } from "./preferences";
@@ -163,6 +164,11 @@ describe("applyPreferences", () => {
       expect(root.style.getPropertyValue("--kerb-focus-color")).toBe(
         expected[focusColor][1],
       );
+      // The swatches in Preferences show the same colours
+      expect(focusColorValues[focusColor]).toEqual({
+        light: expected[focusColor][0],
+        dark: expected[focusColor][1],
+      });
     }
   });
 

@@ -36,6 +36,16 @@ Props table for the docs page:
 | `dismissable` | `boolean` | Close on a backdrop click. Default true, false for danger |
 | `closeLabel` | `string` | Name of the close button. Default "Close" |
 | `closedMessage` | `string` | Announced when focus cannot go back. Default "Dialog closed" |
+| `placement` | `"center" \| "bottom"` | `bottom` is a sheet along the bottom edge for small screens. Default `center` |
+
+`initialFocus` also takes `"close"`: the close button in the corner, as the Preferences sheet does.
+
+### Sheet (`placement="bottom"`)
+
+* Full width up to 40rem, at the bottom edge, top corners rounded, at most the viewport height minus `space.6`, rising in by `2rem × --kerb-motion-move`
+* A decorative drag handle on top (`aria-hidden`, it does not drag: Close, Esc, a backdrop click and the actions close it)
+* The actions row is sticky at the bottom with a line above it, and its buttons share the width, so the main action stays in view while the content scrolls. Padding respects `env(safe-area-inset-bottom)`
+* Everything else (focus, inert page, Esc, focus return) is the same as the centred dialog
 
 ## Implementation
 

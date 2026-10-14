@@ -1,0 +1,388 @@
+/*
+ * Controls for Preferences and ComfortControls. Sizes come from the default
+ * scale, never from --kerb-pref-*: a setting must not move under the pointer
+ * while someone is changing it. Colours follow the theme.
+ */
+
+.label {
+  margin: 0;
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.hint {
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+  font-size: 0.875rem;
+}
+
+.sectionLabel {
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--kerb-font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* A native input, invisible, on top of the whole option so any press on it chooses */
+.coveringInput {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Range */
+.range {
+  display: grid;
+}
+
+.rangeHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--kerb-space-3);
+}
+
+.rangeValue {
+  color: var(--kerb-color-text-muted);
+  font-family: var(--kerb-font-family-code);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 44px tall, the track drawn in the middle */
+.rangeInput {
+  --kerb-range-track: 0.375rem;
+  --kerb-range-thumb: 1.25rem;
+
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--kerb-size-target-min);
+  margin: 0;
+  background: transparent;
+  border-radius: var(--kerb-radius-md);
+  cursor: pointer;
+  appearance: none;
+}
+
+.rangeInput::-webkit-slider-runnable-track {
+  block-size: var(--kerb-range-track);
+  border-radius: var(--kerb-radius-full);
+  background: linear-gradient(
+    to right,
+    var(--kerb-color-action-primary) var(--kerb-range-fill, 0%),
+    var(--kerb-color-border-input) var(--kerb-range-fill, 0%)
+  );
+}
+
+.rangeInput::-moz-range-track {
+  block-size: var(--kerb-range-track);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-border-input);
+}
+
+.rangeInput::-moz-range-progress {
+  block-size: var(--kerb-range-track);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-action-primary);
+}
+
+.rangeInput::-webkit-slider-thumb {
+  box-sizing: border-box;
+  inline-size: var(--kerb-range-thumb);
+  block-size: var(--kerb-range-thumb);
+  margin-block-start: calc(
+    (var(--kerb-range-track) - var(--kerb-range-thumb)) / 2
+  );
+  border: 2px solid var(--kerb-color-bg);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-action-primary);
+  box-shadow: 0 0 0 1px var(--kerb-color-action-primary);
+  appearance: none;
+}
+
+.rangeInput::-moz-range-thumb {
+  box-sizing: border-box;
+  inline-size: var(--kerb-range-thumb);
+  block-size: var(--kerb-range-thumb);
+  border: 2px solid var(--kerb-color-bg);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-action-primary);
+  box-shadow: 0 0 0 1px var(--kerb-color-action-primary);
+}
+
+/* Segmented radio group */
+.segmented {
+  display: grid;
+  gap: var(--kerb-space-2);
+}
+
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kerb-space-1);
+  padding: var(--kerb-space-1);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-surface);
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-inline-size: max-content;
+}
+
+.segmentFace {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kerb-space-2);
+  box-sizing: border-box;
+  min-block-size: var(--kerb-size-target-min);
+  padding: var(--kerb-space-1) var(--kerb-space-3);
+  border: 2px solid transparent;
+  border-radius: calc(var(--kerb-radius-md) - 2px);
+  font-size: 0.875rem;
+  text-align: center;
+  transition-property: background-color, border-color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+.segment:hover .coveringInput:not(:checked) + .segmentFace {
+  background-color: var(--kerb-color-action-ghost-hover);
+}
+
+/* Chosen: framed in the text colour and bold, not colour alone */
+.coveringInput:checked + .segmentFace {
+  border-color: var(--kerb-color-text);
+  background-color: var(--kerb-color-bg);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+/* ComfortControls' background swatches: separate rounded options */
+.pills {
+  padding: 0;
+  gap: var(--kerb-space-2);
+  background-color: transparent;
+}
+
+.pills .segment {
+  flex: 0 1 auto;
+}
+
+.pills .segmentFace {
+  justify-content: flex-start;
+  padding-inline: var(--kerb-space-2) var(--kerb-space-4);
+  border-color: var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-bg);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+/* No box-shadow here: that is where the focus ring is drawn */
+.pills .coveringInput:checked + .segmentFace {
+  border-color: var(--kerb-color-action-primary);
+  background-color: var(--kerb-color-action-primary-soft);
+}
+
+/* Swatches: a small circle of a colour, decorative */
+.dot {
+  flex: none;
+  inline-size: 0.75rem;
+  block-size: 0.75rem;
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-swatch);
+}
+
+/* A circle in another theme's background: the theme attribute gives it that theme's tokens */
+.themeSwatch {
+  flex: none;
+  box-sizing: border-box;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border: 1px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-bg);
+}
+
+/* Preset cards */
+.presets {
+  display: grid;
+  gap: var(--kerb-space-3);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(8.5rem, 100%), 1fr));
+  gap: var(--kerb-space-2);
+}
+
+.card {
+  position: relative;
+  display: flex;
+}
+
+.cardFace {
+  display: grid;
+  flex: 1;
+  align-content: center;
+  gap: 0.125rem;
+  box-sizing: border-box;
+  min-block-size: var(--kerb-size-target-min);
+  padding: var(--kerb-space-2) var(--kerb-space-3);
+  border: 2px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-bg);
+  transition-property: background-color, border-color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+.card:hover .coveringInput:not(:checked) + .cardFace {
+  background-color: var(--kerb-color-action-ghost-hover);
+}
+
+.coveringInput:checked + .cardFace {
+  border-color: var(--kerb-color-action-primary);
+  background-color: var(--kerb-color-action-primary-soft);
+}
+
+.cardName {
+  font-size: 0.9375rem;
+  font-weight: var(--kerb-font-weight-bold);
+  cursor: pointer;
+}
+
+.cardHint {
+  color: var(--kerb-color-text-muted);
+  font-size: 0.8125rem;
+}
+
+/* Switch */
+.switchRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--kerb-space-4);
+}
+
+.switchText {
+  display: grid;
+  gap: var(--kerb-space-1);
+  padding-block-start: var(--kerb-space-2);
+}
+
+.switchText .label {
+  cursor: pointer;
+}
+
+/* The track. A 44px hit area around it */
+.switch {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  inline-size: 3rem;
+  block-size: 1.75rem;
+  margin: calc((var(--kerb-size-target-min) - 1.75rem) / 2) 0;
+  padding: 0;
+  border: 2px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-bg);
+  cursor: pointer;
+  transition-property: background-color, border-color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+.switch::before {
+  content: "";
+  position: absolute;
+  inset: calc((var(--kerb-size-target-min) - 1.75rem) / -2) -2px;
+}
+
+/* Off: a hollow thumb at the start. On: a filled track and the thumb at the end */
+.thumb {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0.1875rem;
+  box-sizing: border-box;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-text-muted);
+  translate: 0 -50%;
+  /* Movement: none at the reduced and off motion levels, where move is 0 */
+  transition: inset-inline-start
+    calc(var(--kerb-motion-duration-fast) * var(--kerb-motion-move))
+    var(--kerb-motion-easing-standard);
+}
+
+.switch[aria-checked="true"] {
+  border-color: var(--kerb-color-action-primary);
+  background-color: var(--kerb-color-action-primary);
+}
+
+.switch[aria-checked="true"] .thumb {
+  inset-inline-start: calc(100% - 1.125rem - 0.1875rem);
+  background-color: var(--kerb-color-on-primary);
+}
+
+@media (prefers-contrast: more) {
+  .segments:not(.pills) {
+    outline: 1px solid var(--kerb-color-border-input);
+  }
+}
+
+@media (forced-colors: active) {
+  /* The browser's own slider, which forced colours already handles */
+  .rangeInput {
+    appearance: auto;
+    background: none;
+  }
+
+  .segments:not(.pills) {
+    outline: 1px solid CanvasText;
+  }
+
+  .coveringInput:checked + .segmentFace,
+  .coveringInput:checked + .cardFace {
+    border-color: Highlight;
+  }
+
+  .cardFace,
+  .pills .segmentFace {
+    border-color: CanvasText;
+  }
+
+  .switch {
+    border-color: CanvasText;
+  }
+
+  .thumb {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
+
+  .switch[aria-checked="true"] {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background-color: Highlight;
+  }
+
+  .switch[aria-checked="true"] .thumb {
+    background-color: HighlightText;
+  }
+
+  .dot,
+  .themeSwatch {
+    forced-color-adjust: none;
+  }
+}

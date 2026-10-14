@@ -9,10 +9,14 @@ export { Button } from "./button";
 export type { ButtonProps } from "./button";
 export { Checkbox } from "./checkbox";
 export type { CheckboxProps } from "./checkbox";
+export { ComfortControls } from "./comfort-controls";
+export type { ComfortControl, ComfortControlsProps } from "./comfort-controls";
 export { DatePicker } from "./date-picker";
 export type { DatePickerMessages, DatePickerProps } from "./date-picker";
 export { Dialog } from "./dialog";
 export type { DialogProps } from "./dialog";
+export { Preferences } from "./preferences";
+export type { PreferencesProps, PreferencesSection } from "./preferences";
 export {
   KerbProvider,
   defaultPreferences,

@@ -1,0 +1,138 @@
+/*
+ * Fixed sizes from the default scale. The rest of the app follows the
+ * preferences; the panel does not, so nothing moves under the pointer while
+ * someone changes a setting. The --kerb-pref-* variables are reset here so
+ * the Kerb components inside (buttons, the code field) keep the same sizes too.
+ * Colours still follow the theme.
+ */
+.fixed {
+  --kerb-pref-text-size: 1rem;
+  --kerb-pref-line-height: 1.5;
+  --kerb-pref-letter-spacing: 0em;
+  --kerb-pref-word-spacing: normal;
+  --kerb-pref-font: var(--kerb-font-family-body);
+  --kerb-pref-control-height: var(--kerb-size-target-default);
+
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-font-family-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: normal;
+}
+
+.panel {
+  display: grid;
+  gap: var(--kerb-space-4);
+  box-sizing: border-box;
+  max-inline-size: 26rem;
+  padding: var(--kerb-space-5);
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-surface-raised);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kerb-space-3);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--kerb-font-family-heading);
+  font-size: 1.25rem;
+  font-weight: var(--kerb-font-weight-bold);
+  line-height: 1.3;
+}
+
+/* A text button, underlined like a link */
+.reset {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.content {
+  display: grid;
+  gap: var(--kerb-space-5);
+}
+
+.sheetTools {
+  display: flex;
+  justify-content: flex-end;
+  margin-block: calc(var(--kerb-space-3) * -1) calc(var(--kerb-space-2) * -1);
+}
+
+/* Groups are divided by a line, as on the design board */
+.group {
+  display: grid;
+  gap: var(--kerb-space-4);
+}
+
+.group + .group,
+.group + .footer {
+  padding-block-start: var(--kerb-space-5);
+  border-block-start: 1px solid var(--kerb-color-line);
+}
+
+.footer {
+  display: grid;
+  gap: var(--kerb-space-2);
+}
+
+.saved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kerb-space-3);
+  padding: var(--kerb-space-3) var(--kerb-space-4);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-surface);
+}
+
+.savedText {
+  display: grid;
+  gap: var(--kerb-space-1);
+  min-inline-size: 0;
+}
+
+.code {
+  color: var(--kerb-color-text-muted);
+  font-family: var(--kerb-font-family-code);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.importDetails {
+  display: grid;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--kerb-size-target-min);
+  border-radius: var(--kerb-radius-sm);
+  color: var(--kerb-color-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.importForm {
+  display: grid;
+  justify-items: start;
+  gap: var(--kerb-space-3);
+  padding-block: var(--kerb-space-2) var(--kerb-space-1);
+}
+
+.importForm > :first-child {
+  justify-self: stretch;
+}
+
+/* In the sheet the dialog has the padding; the content scrolls under the sticky Done */
+.sheetContent {
+  padding-block-end: var(--kerb-space-4);
+}

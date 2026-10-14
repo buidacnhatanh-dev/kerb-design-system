@@ -148,3 +148,19 @@ export const Themes: Story = {
     </ThemeColumns>
   ),
 };
+
+/** A sheet along the bottom edge, for small screens. The actions stay in view. */
+export const BottomSheet: Story = {
+  render: () => (
+    <Dialog
+      title="Filter results"
+      placement="bottom"
+      initialFocus="close"
+      trigger={<Button variant="secondary">Filters</Button>}
+      defaultOpen
+    >
+      <TextField label="Keyword" />
+      <Dialog.Confirm>Show results</Dialog.Confirm>
+    </Dialog>
+  ),
+};

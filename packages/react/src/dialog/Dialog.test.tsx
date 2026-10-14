@@ -458,6 +458,41 @@ describe("Dialog", () => {
     vi.restoreAllMocks();
   });
 
+  describe("sheet", () => {
+    it("sits along the bottom edge with a decorative handle", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename placement="bottom" />);
+      await openWithKeyboard(user, "Rename project");
+
+      expect(dialog()).toHaveAttribute("data-placement", "bottom");
+      const handle = dialog().querySelector('[aria-hidden="true"]');
+      expect(handle).toBeInTheDocument();
+      expect(handle).toBeEmptyDOMElement();
+      pressEscape();
+    });
+
+    it("has no handle when centred", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename />);
+      await openWithKeyboard(user, "Rename project");
+
+      expect(dialog()).toHaveAttribute("data-placement", "center");
+      pressEscape();
+    });
+
+    it('starts on the close button with initialFocus="close"', async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename placement="bottom" initialFocus="close" />);
+      await openWithKeyboard(user, "Rename project");
+
+      expect(screen.getByRole("button", { name: "Close" })).toHaveFocus();
+      pressEscape();
+      expect(
+        screen.getByRole("button", { name: "Rename project" }),
+      ).toHaveFocus();
+    });
+  });
+
   describe("accessibility", () => {
     forEachTheme(() => {
       it("has no axe violations while open", async () => {

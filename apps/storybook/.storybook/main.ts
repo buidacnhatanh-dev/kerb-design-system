@@ -21,6 +21,12 @@ const config: StorybookConfig = {
           `kerb-${(filename.split("/").pop() ?? "").replace(/\.module\.css.*$/, "")}-${name}`,
       },
     };
+    // Found up front rather than mid run: a dependency discovered while the
+    // story tests run makes Vite reload, and the tests in flight fail
+    viteConfig.optimizeDeps = {
+      ...viteConfig.optimizeDeps,
+      include: [...(viteConfig.optimizeDeps?.include ?? []), "react-dom"],
+    };
     return viteConfig;
   },
 };

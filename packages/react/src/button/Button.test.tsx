@@ -143,7 +143,7 @@ describe("Button", () => {
       );
     });
 
-    it("shows the reason on focus and hides it with Esc without moving focus", async () => {
+    it("shows the reason in a Tooltip on focus, and Esc hides it without moving focus", async () => {
       const user = userEvent.setup();
       renderWithKerb(
         <Button disabled disabledReason="Fill in your email address first">
@@ -153,19 +153,14 @@ describe("Button", () => {
       const button = screen.getByRole("button");
       const reason = screen.getByRole("tooltip", { hidden: true });
 
-      expect(reason).not.toHaveClass("reasonOpen");
+      expect(reason).not.toHaveClass("open");
 
       await user.tab();
-      expect(reason).toHaveClass("reasonOpen");
-      expect(reason).not.toHaveClass("reasonDismissed");
+      expect(reason).toHaveClass("open");
 
       await user.keyboard("{Escape}");
-      expect(reason).toHaveClass("reasonDismissed");
+      expect(reason).not.toHaveClass("open");
       expect(button).toHaveFocus();
-
-      await user.tab();
-      expect(reason).not.toHaveClass("reasonOpen");
-      expect(reason).not.toHaveClass("reasonDismissed");
     });
 
     it("ignores the reason while the button is enabled", () => {

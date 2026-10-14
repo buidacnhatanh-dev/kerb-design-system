@@ -26,6 +26,10 @@
 
 `apps/storybook/vitest.config.ts` defines three Vitest projects, `stories-light`, `stories-dark` and `stories-comfort`. Each one runs every story as a test in headless Chromium (Vitest browser mode with the Playwright provider) and sets the Storybook `theme` global, so the story renders through `KerbProvider` in that theme. The a11y addon runs axe after each story and fails the test on any violation (`parameters.a11y.test: "error"` in `preview.ts`).
 
+axe runs on the whole `<body>` (`parameters.a11y.context` in `preview.ts`), not only the story root, because dialogs render in a portal on `<body>`. The page level rules `region`, `landmark-one-main` and `page-has-heading-one` are off: stories are fragments, not pages.
+
+`react-dom` is listed in Storybook's `optimizeDeps.include`. A dependency that Vite discovers in the middle of the run makes it reload, and the story tests in flight fail; with a cold cache in CI that would be flaky.
+
 `apps/storybook/.storybook/vitest.setup.ts` adds two checks of its own:
 
 * **Tokens guard:** the run fails at once if `--kerb-color-bg` is not defined. A canvas without tokens has no colours to fail on, so every story would pass by mistake
@@ -38,6 +42,8 @@ It reads source, not the built Storybook, so it only needs `packages/tokens/dist
 * Specs live in `tests/e2e/`, one file per component, and open one story at a time through `iframe.html` (`openStory` in `helpers.ts`)
 * They run against the built Storybook, which is the only place a production build problem shows up (for example a stylesheet dropped by tree shaking), so `expectFocusRing` checks the real ring colour
 * Locally Playwright reuses whatever is already on port 6006. Stop `pnpm storybook` first, or the specs run against the dev server
+* `openStory(page, id, { theme })` opens a story in a theme through the Storybook `globals` URL parameter. It waits for the story root to have content attached, not visible: some stories render nothing of their own (toasts)
+* Positions that browsers settle a frame late (anchor positioning in Firefox) are checked with `expect.poll`
 * `savePreferences(page, { density: "compact" })` from `helpers.ts` stores a preference before the page loads, the way `KerbProvider` saves it for Storybook
 * A story used to test "Tab leaves the component" needs a focusable element after it. With nothing after, Firefox wraps focus back into the component
 * Use `tab(page)` from `helpers.ts` instead of pressing Tab directly. Safari only stops at text fields with a plain Tab, so in WebKit it presses Option+Tab

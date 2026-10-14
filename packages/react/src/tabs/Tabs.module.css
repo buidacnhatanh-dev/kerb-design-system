@@ -1,0 +1,95 @@
+.tabs {
+  display: grid;
+  gap: var(--kerb-space-4);
+  min-inline-size: 0;
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+}
+
+/* Wraps on narrow screens. Not a scroll box: Firefox would make that a Tab stop of its own */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kerb-space-1);
+  border-block-end: 2px solid var(--kerb-color-line);
+}
+
+.tab {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  align-items: center;
+  min-block-size: var(--kerb-size-target-min);
+  margin: 0 0 -2px;
+  padding: var(--kerb-space-1) var(--kerb-space-4);
+  border: 0;
+  border-radius: var(--kerb-radius-sm) var(--kerb-radius-sm) 0 0;
+  background: transparent;
+  color: var(--kerb-color-text-muted);
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  cursor: pointer;
+  transition: color var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+/* Reserves the bold width, so selecting a tab does not shift its neighbours */
+.tab::before {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.label {
+  grid-area: 1 / 1;
+}
+
+.tab:hover {
+  color: var(--kerb-color-text);
+}
+
+.tab[aria-selected="true"] {
+  color: var(--kerb-color-text);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+/* The 3px underline */
+.tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 3px;
+  background-color: var(--kerb-color-action-primary);
+}
+
+.tab:disabled {
+  color: var(--kerb-color-disabled-text);
+  cursor: not-allowed;
+}
+
+.panel {
+  min-inline-size: 0;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .tab[aria-selected="true"]::after {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+}

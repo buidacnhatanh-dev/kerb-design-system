@@ -1,13 +1,8 @@
-import { forwardRef, useEffect, useId, useState } from "react";
-import type {
-  ButtonHTMLAttributes,
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode,
-} from "react";
+import { forwardRef, useEffect } from "react";
+import type { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { useAnnouncer } from "../announcer";
-import { composeEventHandlers } from "../internal/composeEventHandlers";
 import { cx } from "../internal/cx";
+import { Tooltip } from "../tooltip";
 import styles from "./Button.module.css";
 
 type ButtonOwnProps = {
@@ -59,18 +54,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       children,
       onClick,
-      onFocus,
-      onBlur,
-      onKeyDown,
-      onMouseEnter,
       ...rest
     },
     ref,
   ) {
     const { announce } = useAnnouncer();
-    const reasonId = useId();
-    const [focused, setFocused] = useState(false);
-    const [dismissed, setDismissed] = useState(false);
 
     const isDisabled =
       disabled === true || ariaDisabled === true || ariaDisabled === "true";
@@ -105,26 +93,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         aria-disabled={isDisabled || undefined}
         aria-busy={loading || undefined}
-        aria-describedby={
-          [describedBy, reason && reasonId].filter(Boolean).join(" ") ||
-          undefined
-        }
+        aria-describedby={describedBy}
         onClick={handleClick}
-        onFocus={composeEventHandlers(onFocus, () => setFocused(true))}
-        onBlur={composeEventHandlers(onBlur, () => {
-          setFocused(false);
-          setDismissed(false);
-        })}
-        onMouseEnter={composeEventHandlers(onMouseEnter, () =>
-          setDismissed(false),
-        )}
-        onKeyDown={composeEventHandlers(
-          onKeyDown,
-          (event: KeyboardEvent<HTMLButtonElement>) => {
-            // Esc hides the reason without moving focus (WCAG 1.4.13)
-            if (event.key === "Escape") setDismissed(true);
-          },
-        )}
       >
         {loading ? (
           <svg
@@ -143,24 +113,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </button>
     );
 
-    if (!reason) return button;
-
-    // Hovering the button or the reason itself shows it (CSS), and so does focus
-    return (
-      <span className={styles.reasonAnchor}>
-        {button}
-        <span
-          role="tooltip"
-          id={reasonId}
-          className={cx(
-            styles.reason,
-            focused && styles.reasonOpen,
-            dismissed && styles.reasonDismissed,
-          )}
-        >
-          {reason}
-        </span>
-      </span>
-    );
+    // Shown on hover and focus, and linked as the description
+    return reason ? <Tooltip content={reason}>{button}</Tooltip> : button;
   },
 );

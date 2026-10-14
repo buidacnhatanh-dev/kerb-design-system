@@ -52,7 +52,7 @@ describe("TextField", () => {
     expect(ref.current).toHaveAttribute("autocomplete", "email");
     expect(ref.current).toBeRequired();
     expect(ref.current).not.toHaveClass("grid-cell");
-    expect(container.firstElementChild).toHaveClass("grid-cell");
+    expect(container.querySelector(".grid-cell")).toContainElement(ref.current);
   });
 
   it("works controlled and uncontrolled", async () => {

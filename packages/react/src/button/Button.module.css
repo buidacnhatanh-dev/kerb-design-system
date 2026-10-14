@@ -141,43 +141,6 @@
   }
 }
 
-/* Why the button is disabled, shown on hover and focus */
-.reasonAnchor {
-  position: relative;
-  display: inline-flex;
-}
-
-.reason {
-  position: absolute;
-  inset-block-end: calc(100% + var(--kerb-space-2));
-  /* Lined up with the button's start edge, so it cannot run off that side of the page */
-  inset-inline-start: 0;
-  z-index: 1;
-  inline-size: max-content;
-  max-inline-size: 15rem;
-  padding: var(--kerb-space-1) var(--kerb-space-2);
-  border-radius: var(--kerb-radius-sm);
-  background-color: var(--kerb-color-text);
-  color: var(--kerb-color-bg);
-  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
-  font-size: calc(
-    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
-  );
-  line-height: var(--kerb-font-line-height-small);
-  text-align: start;
-  visibility: hidden;
-  opacity: 0;
-  transition:
-    opacity var(--kerb-motion-duration-fast) var(--kerb-motion-easing-standard),
-    visibility var(--kerb-motion-duration-fast);
-}
-
-.reasonAnchor:hover > .reason:not(.reasonDismissed),
-.reasonOpen:not(.reasonDismissed) {
-  visibility: visible;
-  opacity: 1;
-}
-
 /* A solid edge on every control for people who ask for more contrast */
 @media (prefers-contrast: more) {
   .button:not([aria-disabled="true"]) {
@@ -193,9 +156,5 @@
   .button[aria-disabled="true"] {
     border-color: GrayText;
     color: GrayText;
-  }
-
-  .reason {
-    border: 1px solid CanvasText;
   }
 }

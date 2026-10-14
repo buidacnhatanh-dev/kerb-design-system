@@ -1,0 +1,102 @@
+/* The native <dialog>: top layer and ::backdrop come from showModal() */
+.dialog {
+  box-sizing: border-box;
+  inline-size: min(30rem, 100% - 2 * var(--kerb-space-4));
+  max-inline-size: none;
+  max-block-size: calc(100% - 2 * var(--kerb-space-4));
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-surface-raised);
+  box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.3);
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+}
+
+/* full: fade and an 8px rise. reduced: the fade only (move is 0). off: nothing (0ms) */
+.dialog[open] {
+  animation: enter var(--kerb-motion-duration-base)
+    var(--kerb-motion-easing-standard);
+}
+
+.dialog::backdrop {
+  background-color: rgb(16 19 24 / 0.55);
+  animation: fade var(--kerb-motion-duration-base)
+    var(--kerb-motion-easing-standard);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(0.5rem * var(--kerb-motion-move)));
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Padding lives here, so a click on the <dialog> element itself is a click on the backdrop */
+.panel {
+  display: grid;
+  gap: var(--kerb-space-4);
+  padding: var(--kerb-space-5);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--kerb-space-3);
+}
+
+.title {
+  margin: 0;
+  padding-block-start: var(--kerb-space-2);
+  font-family: var(--kerb-font-family-heading);
+  font-size: var(--kerb-font-size-heading-3);
+  font-weight: var(--kerb-font-weight-bold);
+  line-height: var(--kerb-font-line-height-heading-3);
+  overflow-wrap: anywhere;
+}
+
+.close {
+  flex: none;
+  margin-inline-end: calc(var(--kerb-space-2) * -1);
+}
+
+.description {
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+}
+
+.body {
+  display: grid;
+  gap: var(--kerb-space-4);
+  min-inline-size: 0;
+}
+
+/* Right aligned, wrapping on narrow screens. The primary action is last in DOM order */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--kerb-space-3);
+}
+
+@media (forced-colors: active) {
+  .dialog {
+    border: 2px solid CanvasText;
+  }
+}

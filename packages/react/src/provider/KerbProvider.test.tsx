@@ -219,6 +219,58 @@ describe("KerbProvider", () => {
     vi.useRealTimers();
   });
 
+  it("reset offers an Undo toast that brings the previous preferences back", async () => {
+    const user = userEvent.setup();
+    function Panel() {
+      const { prefs, applyPreset, reset } = useKerbPreferences();
+      return (
+        <>
+          <p>Text size {prefs.textSize}</p>
+          <button type="button" onClick={() => applyPreset("lowVision")}>
+            Low vision
+          </button>
+          <button type="button" onClick={reset}>
+            Reset
+          </button>
+        </>
+      );
+    }
+    render(
+      <KerbProvider>
+        <Panel />
+      </KerbProvider>,
+    );
+    await user.click(screen.getByRole("button", { name: "Low vision" }));
+    expect(screen.getByText("Text size 22")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Reset" }));
+    expect(screen.getByText("Text size 16")).toBeInTheDocument();
+    const notifications = screen.getByRole("region", { name: "Notifications" });
+    expect(notifications).toHaveTextContent("Preferences reset");
+
+    await user.click(screen.getByRole("button", { name: "Undo" }));
+    expect(screen.getByText("Text size 22")).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Notifications" })).toBeNull();
+  });
+
+  it("offers the Undo for 10 seconds", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+    const { result } = setup();
+    act(() => result.current.applyPreset("tiredEyes"));
+    act(() => result.current.reset());
+    expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(9_999);
+    });
+    expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(screen.queryByRole("button", { name: "Undo" })).toBeNull();
+    vi.useRealTimers();
+  });
+
   it("re-renders components that read the preferences", async () => {
     const user = userEvent.setup();
     function Panel() {

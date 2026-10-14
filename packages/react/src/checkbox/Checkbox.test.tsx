@@ -255,7 +255,7 @@ describe("Checkbox", () => {
     expect(ref.current).toHaveAttribute("value", "yes");
     expect(ref.current).toHaveAttribute("id", "updates");
     expect(ref.current).toBeRequired();
-    expect(container.firstElementChild).toHaveClass("grid-cell");
+    expect(container.querySelector(".grid-cell")).toContainElement(ref.current);
   });
 
   describe("accessibility", () => {

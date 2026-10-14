@@ -1,0 +1,88 @@
+/*
+ * Shown in the top layer (popover="manual") so no ancestor can clip it.
+ * Placed with CSS anchor positioning where supported, otherwise Tooltip.tsx
+ * measures and writes top and left.
+ */
+.tooltip {
+  position: fixed;
+  inset: auto;
+  z-index: 2147483647;
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: min(15rem, 100vw - 2 * var(--kerb-space-2));
+  margin: 0;
+  padding: var(--kerb-space-1) var(--kerb-space-2);
+  overflow: visible;
+  border: 0;
+  border-radius: var(--kerb-radius-sm);
+  background-color: var(--kerb-color-text);
+  color: var(--kerb-color-bg);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+  font-weight: var(--kerb-font-weight-regular);
+  line-height: var(--kerb-font-line-height-small);
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+  text-align: center;
+  pointer-events: auto;
+  animation: fade-in var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+.tooltip:not(.open) {
+  display: none;
+}
+
+@supports (anchor-name: --a) {
+  .anchored {
+    position-anchor: var(--kerb-tooltip-anchor);
+    /* Centred on the trigger, shifted to stay inside the page near an edge */
+    position-area: block-start span-all;
+    justify-self: anchor-center;
+    position-try-fallbacks: flip-block;
+    /* The gap to the trigger, and the closest it gets to the edge */
+    margin: var(--kerb-space-2);
+  }
+}
+
+/* The pointer at the trigger */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  /* Set by Tooltip.tsx so it points at the trigger even when the tooltip is shifted */
+  inset-inline-start: calc(var(--kerb-tooltip-arrow, 50%) - 0.3125rem);
+  inline-size: 0.625rem;
+  block-size: 0.3125rem;
+  background-color: inherit;
+}
+
+.tooltip[data-placement="top"]::after {
+  inset-block-start: 100%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.tooltip[data-placement="bottom"]::after {
+  inset-block-end: 100%;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .tooltip {
+    border: 1px solid CanvasText;
+  }
+
+  .tooltip::after {
+    display: none;
+  }
+}

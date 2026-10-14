@@ -34,6 +34,9 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Fields (TextField, Select, DatePicker) are built on `internal/FieldShell` and share the bordered box in `internal/NativeControl.module.css`. `ref` and remaining props go to the native control, `className` goes to the outer wrapper
 * Checkbox and RadioGroup share `internal/Choice.module.css`: a native input, invisible, on top of a styled mark, inside its label. Checkbox follows the field rule for `ref`, props and `className`; RadioGroup's root is the `<fieldset>`, which gets all three
 * Hints are never inside a `<label>`: they are linked with `aria-describedby`, so they are the description and not part of the name
+* `KerbProvider` wraps the app in `<div data-kerb-app-root style="display: contents">`. Modal dialogs portal to `document.body`, outside it, and make it `inert` while open. The live regions and the toast region are siblings of it, not inside it
+* Overlays go in the top layer: Dialog with `showModal()`, Tooltip with `popover="manual"`. Never rely on `z-index` against the app
+* Esc closes only the innermost thing. A component that handles Esc while open (Tooltip) listens on `window` in the capture phase and stops the event, so a dialog around it stays open
 * Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
 * Stories show hover, focus and active states with `forced("hover")` from `internal/stories/helpers`, never with test only selectors in component CSS
 * Sizes in `rem` so browser text size settings work

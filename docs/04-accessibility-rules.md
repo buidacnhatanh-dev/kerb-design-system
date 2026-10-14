@@ -67,6 +67,11 @@ So every component must:
 * multiply any movement or scale by `var(--kerb-motion-move)`, for example `transform: translateY(calc(0.5rem * var(--kerb-motion-move)))`, so only the fade remains when it is `0`
 * not write its own `prefers-reduced-motion` media query
 
+## Escape
+
+* Esc closes only the innermost open thing. A tooltip open inside a dialog takes the Esc and the dialog stays open; the next Esc closes the dialog
+* Components that handle Esc while open listen on `window` in the capture phase and stop the event once they have used it
+
 ## Announcements
 
 * One `Announcer` with two hidden live regions: `aria-live="polite"` and `aria-live="assertive"`

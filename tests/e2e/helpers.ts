@@ -1,10 +1,22 @@
 import { expect } from "@playwright/test";
 import type { Locator, Page } from "@playwright/test";
 
-/** Opens one story on its own, without the Storybook UI around it. */
-export async function openStory(page: Page, id: string) {
-  await page.goto(`/iframe.html?id=${id}&viewMode=story`);
-  await expect(page.locator("#storybook-root > *").first()).toBeVisible();
+/** Opens one story on its own, without the Storybook UI around it, optionally in a theme. */
+export async function openStory(
+  page: Page,
+  id: string,
+  { theme }: { theme?: "light" | "dark" | "comfort" } = {},
+) {
+  const globals = theme ? `&globals=theme:${theme}` : "";
+  await page.goto(`/iframe.html?id=${id}&viewMode=story${globals}`);
+  if (theme) {
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-kerb-theme",
+      theme,
+    );
+  }
+  // Attached rather than visible: some stories render nothing of their own (toasts)
+  await expect(page.locator("#storybook-root > *").first()).toBeAttached();
 }
 
 /** The Kerb ring: a yellow outer ring drawn as a box-shadow. */

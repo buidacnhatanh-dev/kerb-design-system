@@ -7,6 +7,7 @@ import {
 } from "react";
 import type { ReactNode } from "react";
 import { AnnouncerProvider, useAnnouncer } from "../announcer";
+import { ToastProvider, useToast } from "../toast";
 import { useIsomorphicLayoutEffect } from "../internal/useIsomorphicLayoutEffect";
 import { applyPreferences, systemQueries } from "./applyPreferences";
 import type { KerbPreferences, KerbPresetName } from "./preferences";
@@ -22,6 +23,9 @@ export type KerbProviderProps = {
   theme?: KerbPreferences["theme"];
   children?: ReactNode;
 };
+
+/** How long the Undo action after a reset stays offered */
+const RESET_UNDO_MS = 10_000;
 
 const PreferencesContext = createContext<PreferencesStore | null>(null);
 
@@ -84,7 +88,14 @@ export function KerbProvider({
 
   return (
     <PreferencesContext.Provider value={store}>
-      <AnnouncerProvider>{children}</AnnouncerProvider>
+      <AnnouncerProvider>
+        <ToastProvider>
+          {/* What a modal dialog makes inert. display: contents keeps it out of layout */}
+          <div data-kerb-app-root="" style={{ display: "contents" }}>
+            {children}
+          </div>
+        </ToastProvider>
+      </AnnouncerProvider>
     </PreferencesContext.Provider>
   );
 }
@@ -110,6 +121,7 @@ export function useKerbPreferences(): KerbPreferencesApi {
     throw new Error("useKerbPreferences must be used inside <KerbProvider>.");
   }
   const { announce } = useAnnouncer();
+  const toast = useToast();
   const { prefs, activePreset } = useSyncExternalStore(
     store.subscribe,
     store.getSnapshot,
@@ -125,12 +137,21 @@ export function useKerbPreferences(): KerbPreferencesApi {
       applyPreset: store.applyPreset,
       reset: () => {
         store.reset();
-        // TODO(M4): replace with the "Preferences reset" toast and its Undo action (store.undoReset)
-        announce("Preferences reset");
+        toast.show({
+          tone: "info",
+          title: "Preferences reset",
+          action: {
+            label: "Undo",
+            onAction: () => {
+              if (store.undoReset()) announce("Preferences restored");
+            },
+          },
+          duration: RESET_UNDO_MS,
+        });
       },
       exportCode: store.exportCode,
       importCode: store.importCode,
     }),
-    [store, prefs, activePreset, announce],
+    [store, prefs, activePreset, announce, toast],
   );
 }

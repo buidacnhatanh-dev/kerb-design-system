@@ -49,6 +49,16 @@ const preview: Preview = {
     a11y: {
       // Fail the story test (`pnpm test:a11y`) on any axe violation
       test: "error",
+      // The whole page, not just the story root: dialogs render in a portal on <body>
+      context: "body",
+      config: {
+        // Stories are fragments, not pages
+        rules: [
+          { id: "region", enabled: false },
+          { id: "landmark-one-main", enabled: false },
+          { id: "page-has-heading-one", enabled: false },
+        ],
+      },
     },
   },
 };

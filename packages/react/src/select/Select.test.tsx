@@ -115,7 +115,7 @@ describe("Select", () => {
     expect(ref.current).toHaveAttribute("name", "country");
     expect(ref.current).toBeRequired();
     expect(ref.current).not.toHaveClass("grid-cell");
-    expect(container.firstElementChild).toHaveClass("grid-cell");
+    expect(container.querySelector(".grid-cell")).toContainElement(ref.current);
   });
 
   describe("placeholder", () => {

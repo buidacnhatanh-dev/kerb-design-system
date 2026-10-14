@@ -1,0 +1,125 @@
+/* Bottom left, above the page. Sizes are read here, outside the dark island
+   below, so comfort's larger type still reaches the toasts */
+.region {
+  --kerb-toast-text-size: var(
+    --kerb-pref-text-size,
+    var(--kerb-font-size-body)
+  );
+  --kerb-toast-line-height: var(
+    --kerb-pref-line-height,
+    var(--kerb-font-line-height-body)
+  );
+
+  position: fixed;
+  inset-block-end: var(--kerb-space-4);
+  inset-inline-start: var(--kerb-space-4);
+  z-index: 2147483646;
+  inline-size: min(36rem, 100vw - 2 * var(--kerb-space-4));
+  max-block-size: calc(100vh - 2 * var(--kerb-space-4));
+  overflow-y: auto;
+  outline: none;
+}
+
+/* Every theme shows toasts as a dark surface, so the dark tokens apply inside */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kerb-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--kerb-space-3);
+  padding: var(--kerb-space-3) var(--kerb-space-3) var(--kerb-space-3)
+    var(--kerb-space-4);
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-surface-raised);
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.25);
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-toast-text-size);
+  line-height: var(--kerb-toast-line-height);
+  animation: enter var(--kerb-motion-duration-base)
+    var(--kerb-motion-easing-standard);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(0.5rem * var(--kerb-motion-move)));
+  }
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  /* On the first line of the title */
+  margin-block-start: calc((1lh - 1.5rem) / 2);
+  border-radius: var(--kerb-radius-full);
+  color: var(--kerb-color-on-primary);
+}
+
+.icon > svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  stroke-width: 3;
+}
+
+.success .icon {
+  background-color: var(--kerb-color-success);
+}
+
+.info .icon {
+  background-color: var(--kerb-color-action-primary);
+}
+
+.error .icon {
+  background-color: var(--kerb-color-danger);
+}
+
+.text {
+  flex: 1;
+  min-inline-size: 0;
+  align-self: center;
+}
+
+.title {
+  margin: 0;
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.body {
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+  font-size: calc(var(--kerb-toast-text-size) * 0.875);
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--kerb-space-1);
+}
+
+.toast .dismiss {
+  color: var(--kerb-color-text);
+}
+
+@media (forced-colors: active) {
+  .toast {
+    border-color: CanvasText;
+  }
+
+  .icon {
+    border: 1px solid CanvasText;
+  }
+}

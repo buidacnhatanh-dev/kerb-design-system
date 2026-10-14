@@ -169,4 +169,4 @@ A missing or out of range value in positions 1 to 11 makes the code invalid. Any
 
 `reset()` keeps the previous preferences in memory and shows a toast "Preferences reset" with an Undo action for 10 seconds.
 
-Until Toast exists (M4), `reset()` announces "Preferences reset" through the Announcer. The store already has `undoReset()` for the toast's Undo action; it is not part of the hook's return value.
+The toast is an info toast with an explicit 10 second `duration` (an action toast would otherwise stay until dismissed); it pauses on hover and focus and does not close on its own at reduced or off motion. Undo calls the store's `undoReset()` and announces "Preferences restored". `undoReset()` is not part of the hook's return value.

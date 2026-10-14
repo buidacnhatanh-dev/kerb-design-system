@@ -38,5 +38,7 @@ For every component: one story per state in its spec, plus a "Themes" story that
 * Hover, focus and active stories spread `forced("hover")`, `forced("focus-visible")` and so on onto the element. `apps/storybook/.storybook/pseudo-states.ts` copies every `:hover`, `:focus`, `:focus-visible` and `:active` rule to match that attribute, so the states render without interaction, sit side by side and are checked by axe. Component CSS gets no test only selectors
 * An "AllStates" story lays the states out like the design board, for visual comparison
 * Themes stories use `ThemeColumns`. Pass it a function when each copy needs something of its own: radios with one `name` are one group, so each column needs its own name
+* Stories that show something opened (a tooltip, a dialog) use the component's own `defaultOpen`, not a play function that focuses: programmatic focus does not count as keyboard focus
+* Modal dialogs cannot sit side by side, so the Dialog Themes story has one trigger per theme column
 * Every story runs inside `KerbProvider` (a decorator in `preview.ts`). The toolbar theme is passed as the provider's `theme` prop
 * Stories are typed `const meta: Meta<typeof X>` and `StoryObj<typeof X>` (an annotation, not `satisfies`, because the project emits declarations)

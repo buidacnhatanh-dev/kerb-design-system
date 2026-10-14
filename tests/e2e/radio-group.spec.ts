@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { openStory, tab } from "./helpers";
+import { expectProxyRing, openStory, tab } from "./helpers";
 
 test.describe("RadioGroup keyboard", () => {
   test("Tab enters on the selected option, with the ring on its circle", async ({
@@ -36,7 +36,8 @@ test.describe("RadioGroup keyboard", () => {
 
     await tab(page);
     await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("radio", { name: "Pick up" })).toBeFocused();
+    // The ring follows the arrow keys, in WebKit too
+    await expectProxyRing(page.getByRole("radio", { name: "Pick up" }));
     await expect(page.getByRole("radio", { name: "Pick up" })).toBeChecked();
     await expect(page.getByText("Selected: pickup")).toBeVisible();
 

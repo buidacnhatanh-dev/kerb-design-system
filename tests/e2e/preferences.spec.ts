@@ -1,17 +1,14 @@
 import { expect, test } from "@playwright/test";
-import type { Locator, Page } from "@playwright/test";
-import { expectFocusRing, liveRegion, openStory, tab } from "./helpers";
+import type { Page } from "@playwright/test";
+import {
+  expectFocusRing,
+  expectProxyRing,
+  liveRegion,
+  openStory,
+  tab,
+} from "./helpers";
 
 const html = (page: Page) => page.locator("html");
-
-/** A radio drawn by its face: the ring is on the element right after the hidden input */
-async function expectProxyRing(radio: Locator) {
-  await expect(radio).toBeFocused();
-  await expect(radio.locator("xpath=following-sibling::*[1]")).toHaveCSS(
-    "box-shadow",
-    /rgb\(255, 194, 26\)/,
-  );
-}
 
 test.describe("Preferences panel keyboard", () => {
   test("a full keyboard pass through every group", async ({ page }) => {
@@ -29,6 +26,7 @@ test.describe("Preferences panel keyboard", () => {
     await expectProxyRing(radio("Start from a preset", "Standard"));
     await page.keyboard.press("ArrowRight");
     await expect(radio("Start from a preset", "Low vision")).toBeChecked();
+    await expectProxyRing(radio("Start from a preset", "Low vision"));
     await expect(html(page)).toHaveAttribute("data-kerb-density", "spacious");
     await page.keyboard.press("ArrowLeft");
     await expect(radio("Start from a preset", "Standard")).toBeChecked();
@@ -80,7 +78,8 @@ test.describe("Preferences panel keyboard", () => {
       await expectProxyRing(radio(group, from));
       await page.keyboard.press("ArrowRight");
       await expect(radio(group, to)).toBeChecked();
-      await expect(radio(group, to)).toBeFocused();
+      // The ring follows the arrow keys, in WebKit too
+      await expectProxyRing(radio(group, to));
     }
     await expect(html(page)).toHaveAttribute("data-kerb-theme", "comfort");
     await expect(html(page)).toHaveAttribute("data-kerb-motion", "reduced");
@@ -115,21 +114,11 @@ test.describe("Preferences panel keyboard", () => {
     ).toBeFocused();
   });
 
-  test("the focus colour group changes the ring itself", async ({
-    page,
-    browserName,
-  }) => {
-    // WebKit stops matching :focus-visible on a radio reached with an arrow
-    // key, even plain HTML radios, so there is no ring to read the colour from.
-    // Known gap for every Kerb radio, see docs/04-accessibility-rules.md
-    test.skip(
-      browserName === "webkit",
-      "WebKit drops :focus-visible after arrow keys in a radio group",
-    );
+  test("the focus colour group changes the ring itself", async ({ page }) => {
     await openStory(page, "kerb-originals-preferences--panel");
     const magenta = page.getByRole("radio", { name: "Magenta" });
 
-    // Reached with Tab: WebKit does not count script focus as keyboard focus
+    // Reached with Tab, as a keyboard user does
     await page
       .getByRole("radiogroup", { name: "Background" })
       .getByRole("radio", { name: "White" })
@@ -140,10 +129,7 @@ test.describe("Preferences panel keyboard", () => {
     await page.keyboard.press("ArrowRight");
 
     await expect(magenta).toBeChecked();
-    await expect(magenta.locator("xpath=following-sibling::*[1]")).toHaveCSS(
-      "box-shadow",
-      /rgb\(192, 38, 211\)/,
-    );
+    await expectProxyRing(magenta, /rgb\(192, 38, 211\)/);
   });
 
   test("the panel does not move under the pointer when the text size changes", async ({

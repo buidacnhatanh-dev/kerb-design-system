@@ -72,6 +72,4 @@ What each section holds: `reading` is Text size, Line spacing, Word spacing, Fon
 * Export then import round trips; bad codes return an error without throwing
 * System `prefers-color-scheme` change updates theme only when theme is `system`
 * Playwright: full keyboard pass through every group (Chromium, Firefox, WebKit), the focus colour changing the ring itself, the panel not moving when the text size changes, Reset then Undo with F6, a reload, and the sheet (focus on Close, Tab wraps, Esc and Done return focus)
-* axe clean in panel and sheet variants (unit, every theme; every story in `pnpm test:a11y`)
-
-Known gap: in WebKit a radio reached with an arrow key stops matching `:focus-visible`, plain HTML radios included, so it has no ring. See `04-accessibility-rules.md`. The focus colour e2e test is skipped in WebKit for this reason.
+* axe clean in panel and sheet variants (unit, every theme; every story in `pnpm test:a11y`) The ring is checked after every arrow key in all three browsers (radios use `:focus`, see `04-accessibility-rules.md`).

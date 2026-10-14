@@ -8,10 +8,14 @@
 /* Focus ring (GOV.UK style): dark ink ring inside a thick yellow ring.
    Never hidden, never animated.
    .kerb-focus-proxy is for a native input hidden under a styled mark (checkbox,
-   radio): the ring is drawn on the element right after it. */
+   radio): the ring is drawn on the element right after it.
+   Radios use :focus, not :focus-visible: WebKit stops matching :focus-visible
+   on a radio reached with an arrow key, and Safari only focuses radios from
+   the keyboard. In Chromium and Firefox a click on a radio shows the ring too. */
 :where(.kerb-focusable):focus-visible,
 [data-kerb-focus-on-click] :where(.kerb-focusable):focus,
 :where(.kerb-focus-proxy):focus-visible + *,
+:where(.kerb-focus-proxy[type="radio"]):focus + *,
 [data-kerb-focus-on-click] :where(.kerb-focus-proxy):focus + * {
   outline: 2px solid transparent; /* becomes visible in forced colours */
   outline-offset: 2px;
@@ -62,6 +66,7 @@
   :where(.kerb-focusable):focus-visible,
   [data-kerb-focus-on-click] :where(.kerb-focusable):focus,
   :where(.kerb-focus-proxy):focus-visible + *,
+  :where(.kerb-focus-proxy[type="radio"]):focus + *,
   [data-kerb-focus-on-click] :where(.kerb-focus-proxy):focus + * {
     outline: 3px solid Highlight;
     box-shadow: none;

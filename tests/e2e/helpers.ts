@@ -25,6 +25,21 @@ export async function expectFocusRing(locator: Locator) {
   await expect(locator).toHaveCSS("box-shadow", /rgb\(255, 194, 26\)/);
 }
 
+/**
+ * The ring for a native input hidden under a styled mark (radio, checkbox):
+ * drawn on the element right after it.
+ */
+export async function expectProxyRing(
+  input: Locator,
+  color = /rgb\(255, 194, 26\)/,
+) {
+  await expect(input).toBeFocused();
+  await expect(input.locator("xpath=following-sibling::*[1]")).toHaveCSS(
+    "box-shadow",
+    color,
+  );
+}
+
 export function liveRegion(page: Page, urgency: "polite" | "assertive") {
   return page.locator(`[aria-live="${urgency}"]`);
 }

@@ -50,7 +50,7 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 
 ## Accessibility rules (hard requirements)
 
-* Focus ring on every focusable element: add the `kerb-focusable` class. When the focusable element is a native input hidden under a styled mark (checkbox, radio), give the input `kerb-focus-proxy` instead and put the mark right after it: the ring is drawn on that next element. The ring is defined once in `packages/react/src/styles/base.css` (ink ring `--kerb-color-focus-ink` inside a `--kerb-color-focus` ring, with a transparent outline that keeps focus visible in forced colours mode). Do not redefine it per component
+* Focus ring on every focusable element: add the `kerb-focusable` class. When the focusable element is a native input hidden under a styled mark (checkbox, radio), give the input `kerb-focus-proxy` instead and put the mark right after it: the ring is drawn on that next element. For radios that ring shows on `:focus` (WebKit drops `:focus-visible` after arrow keys), so in Chromium and Firefox a click on a radio shows it too. The ring is defined once in `packages/react/src/styles/base.css` (ink ring `--kerb-color-focus-ink` inside a `--kerb-color-focus` ring, with a transparent outline that keeps focus visible in forced colours mode). Do not redefine it per component
 * Text contrast at least 4.5 : 1, control borders and focus at least 3 : 1, in all three themes
 * Targets at least 44 by 44 CSS px (24 px minimum for inline controls like calendar days, with spacing). This holds at compact density too, where the visible control is 40 px: Button uses a `::before` hit area, fields get it from `FieldShell`
 * Never use colour alone: errors and statuses always have an icon and text

@@ -14,7 +14,7 @@ Every component has its own spec in `docs/components/`. Build them in this order
 | 8 | Toast | `components/toast.md` | Announcer, Button |
 | 9 | Dialog | `components/dialog.md` | Button |
 | 10 | Tabs | `components/tabs.md` | |
-| 11 | DatePicker | `components/date-picker.md` | TextField, Button, React Aria |
+| 11 | DatePicker | `components/date-picker.md` | FieldShell, Button, Announcer, React Aria |
 | 12 | ComfortControls | `components/comfort-controls.md` | preferences store, RadioGroup |
 | 13 | Preferences | `components/preferences.md` | everything above |
 

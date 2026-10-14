@@ -9,6 +9,8 @@ export { Button } from "./button";
 export type { ButtonProps } from "./button";
 export { Checkbox } from "./checkbox";
 export type { CheckboxProps } from "./checkbox";
+export { DatePicker } from "./date-picker";
+export type { DatePickerMessages, DatePickerProps } from "./date-picker";
 export { Dialog } from "./dialog";
 export type { DialogProps } from "./dialog";
 export {

@@ -60,7 +60,7 @@ kerb/
 * `dist/global.css`, built from `src/styles/global.css`, published as `@kerb/react/global.css` (see below)
 * tsup runs two builds into `dist` (the main entry with the banner, then the head script and the optional stylesheets), so the build script empties `dist` first instead of using tsup's `clean`
 * `peerDependencies`: `react >=18`, `react-dom >=18`
-* `dependencies`: `@kerb/tokens`, `react-aria` (date picker only), `@internationalized/date`
+* `dependencies`: `@kerb/tokens`, and for the date picker only `react-aria`, `react-stately` (both pinned exactly) and `@internationalized/date`. They stay external in `dist/index.js`, so `pnpm size` does not count them
 * `"sideEffects": ["*.css"]`
 * Consumers import once: `import '@kerb/react/kerb.css'`, and optionally `import '@kerb/react/fonts.css'` and `import '@kerb/react/global.css'`
 

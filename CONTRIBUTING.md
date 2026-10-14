@@ -11,7 +11,7 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * CSS Modules plus CSS custom properties. No Tailwind, no CSS in JS, no runtime styling library in the published packages
 * Style Dictionary for tokens
 * tsup for building `@kerb/react` and `@kerb/tokens`
-* React Aria is allowed ONLY inside `DatePicker` (calendar grid and date parsing). Every other component is hand built
+* React Aria is allowed ONLY inside `DatePicker` (calendar grid and date parsing). Every other component is hand built. That covers `react-aria`, `react-stately` (its state hooks: `useCalendarState`) and `@internationalized/date`. ESLint blocks importing them outside `packages/react/src/date-picker/`. `react-aria` and `react-stately` are pinned to exact versions because DatePicker relies on how `useCalendar` announces (see `docs/components/date-picker.md`): check that before bumping them
 * Storybook (React + Vite) with the a11y addon and the Vitest addon (`@storybook/addon-vitest`, Vitest browser mode on Playwright). The old Storybook test runner is not used: its support has ended
 * Next.js (App Router) for `apps/docs`
 * Vitest, Testing Library (including `@testing-library/jest-dom`), vitest-axe, Playwright
@@ -35,8 +35,8 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Checkbox and RadioGroup share `internal/Choice.module.css`: a native input, invisible, on top of a styled mark, inside its label. Checkbox follows the field rule for `ref`, props and `className`; RadioGroup's root is the `<fieldset>`, which gets all three
 * Hints are never inside a `<label>`: they are linked with `aria-describedby`, so they are the description and not part of the name
 * `KerbProvider` wraps the app in `<div data-kerb-app-root style="display: contents">`. Modal dialogs portal to `document.body`, outside it, and make it `inert` while open. The live regions and the toast region are siblings of it, not inside it
-* Overlays go in the top layer: Dialog with `showModal()`, Tooltip with `popover="manual"`. Never rely on `z-index` against the app
-* Esc closes only the innermost thing. A component that handles Esc while open (Tooltip) listens on `window` in the capture phase and stops the event, so a dialog around it stays open
+* Overlays go in the top layer: Dialog with `showModal()`, Tooltip and the DatePicker calendar with `popover="manual"`. Never rely on `z-index` against the app. jsdom hides every `[popover]` and has no `showPopover()`: unit tests that need one visible add `[popover]:not(#none) { display: block }` in the test file (see `DatePicker.test.tsx`)
+* Esc closes only the innermost thing. A component that handles Esc while open (Tooltip, DatePicker) listens on `window` in the capture phase and stops the event, so a dialog around it stays open
 * Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
 * Stories show hover, focus and active states with `forced("hover")` from `internal/stories/helpers`, never with test only selectors in component CSS
 * Sizes in `rem` so browser text size settings work
@@ -49,7 +49,7 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Targets at least 44 by 44 CSS px (24 px minimum for inline controls like calendar days, with spacing). This holds at compact density too, where the visible control is 40 px: Button uses a `::before` hit area, fields get it from `FieldShell`
 * Never use colour alone: errors and statuses always have an icon and text
 * Respect `prefers-reduced-motion` and the Kerb motion preference
-* Live updates go through the shared `Announcer`, never ad hoc `aria-live` regions
+* Live updates go through the shared `Announcer`, never ad hoc `aria-live` regions. That includes third party code: React Aria's own announcer must never run (DatePicker keeps it quiet, and a test checks no extra live region appears)
 * Disabled buttons use `aria-disabled="true"` and stay focusable, so people can discover why
 
 ## Definition of done for any component

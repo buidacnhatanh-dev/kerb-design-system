@@ -36,6 +36,25 @@ export default defineConfig(
     extends: [reactHooks.configs.flat.recommended],
   },
   {
+    // React Aria and @internationalized/date belong to DatePicker alone. Every
+    // other component is hand built
+    files: ["packages/react/src/**/*.{ts,tsx}"],
+    ignores: ["packages/react/src/date-picker/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["react-aria", "react-aria/*", "react-stately", "react-stately/*", "@internationalized/*"],
+              message: "React Aria is only used inside date-picker/.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // The placeholder is never the label: a field in a story always has one
     files: ["**/*.stories.tsx"],
     rules: {

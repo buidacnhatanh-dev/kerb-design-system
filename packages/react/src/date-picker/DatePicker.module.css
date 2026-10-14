@@ -1,0 +1,199 @@
+/* The field and the calendar button side by side */
+.group {
+  display: flex;
+  align-items: stretch;
+  gap: var(--kerb-space-2);
+}
+
+.input {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.button {
+  flex: none;
+}
+
+/*
+ * A non modal dialog in the top layer (popover="manual"), so no ancestor can
+ * clip it. DatePicker.tsx writes top, left and the width of the field.
+ */
+.popover {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  min-inline-size: min(20rem, 100vw - 2 * var(--kerb-space-2));
+  max-inline-size: calc(100vw - 2 * var(--kerb-space-2));
+  margin: 0;
+  padding: var(--kerb-space-3) var(--kerb-space-4) var(--kerb-space-4);
+  overflow: visible;
+  border: 1px solid var(--kerb-color-line);
+  border-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-surface-raised);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.16);
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-pref-font, var(--kerb-font-family-body));
+  font-size: var(--kerb-pref-text-size, var(--kerb-font-size-body));
+  line-height: var(--kerb-pref-line-height, var(--kerb-font-line-height-body));
+  letter-spacing: var(
+    --kerb-pref-letter-spacing,
+    var(--kerb-font-letter-spacing-body)
+  );
+  word-spacing: var(--kerb-pref-word-spacing, normal);
+  /* full: fade and a 4px drop. reduced: the fade only. off: nothing */
+  animation: enter var(--kerb-motion-duration-fast)
+    var(--kerb-motion-easing-standard);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-0.25rem * var(--kerb-motion-move)));
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kerb-space-2);
+  margin-block-end: var(--kerb-space-2);
+}
+
+/* The chevrons are in the text colour, like the heading, not the link blue */
+.header .nav:not([aria-disabled="true"]) {
+  color: var(--kerb-color-text);
+}
+
+/* The chevron points down; turned to point back and forward */
+.previousIcon {
+  rotate: 90deg;
+}
+
+.nextIcon {
+  rotate: -90deg;
+}
+
+.previousIcon:dir(rtl) {
+  rotate: -90deg;
+}
+
+.nextIcon:dir(rtl) {
+  rotate: 90deg;
+}
+
+.title {
+  flex: 1;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--kerb-font-weight-bold);
+  line-height: inherit;
+  text-align: center;
+}
+
+/*
+ * Days are at least 40px tall with 4px between them, so their 44px pitch
+ * keeps neighbouring targets apart. Columns share the width of the calendar.
+ */
+.grid {
+  /* Page styles for tables (fonts, colours) stop here */
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  border-collapse: separate;
+  border-spacing: var(--kerb-space-1);
+  margin: calc(var(--kerb-space-1) * -1);
+  inline-size: calc(100% + 2 * var(--kerb-space-1));
+  table-layout: fixed;
+}
+
+.weekday {
+  padding: 0 0 var(--kerb-space-1);
+  color: var(--kerb-color-text-muted);
+  font-size: calc(
+    var(--kerb-pref-text-size, var(--kerb-font-size-body)) * 0.875
+  );
+  font-weight: var(--kerb-font-weight-bold);
+  text-align: center;
+}
+
+.cell {
+  padding: 0;
+  text-align: center;
+}
+
+.day {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--kerb-radius-md);
+  background-color: transparent;
+  color: var(--kerb-color-text);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--kerb-motion-duration-fast);
+  transition-timing-function: var(--kerb-motion-easing-standard);
+}
+
+.day:hover:not([aria-disabled="true"], .selected) {
+  background-color: var(--kerb-color-action-ghost-hover);
+}
+
+/* Today: a 2px ring and bold, not colour alone */
+.today {
+  border-color: var(--kerb-color-border-input);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.selected {
+  border-color: var(--kerb-color-action-primary);
+  background-color: var(--kerb-color-action-primary);
+  color: var(--kerb-color-on-primary);
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.selected:hover {
+  border-color: var(--kerb-color-action-primary-hover);
+  background-color: var(--kerb-color-action-primary-hover);
+}
+
+/* Before the minimum, after the maximum, or unavailable: struck through as well as muted */
+.day[aria-disabled="true"] {
+  color: var(--kerb-color-disabled-text);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+@media (prefers-contrast: more) {
+  .today:not(.selected) {
+    border-color: var(--kerb-color-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .popover {
+    border-color: CanvasText;
+  }
+
+  .today:not(.selected) {
+    border-color: CanvasText;
+  }
+
+  .selected {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .day[aria-disabled="true"] {
+    color: GrayText;
+  }
+}

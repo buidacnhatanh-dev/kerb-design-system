@@ -73,8 +73,23 @@
   );
 }
 
+/* Lined up with the label text, like the hint */
+.error {
+  margin: 0 0 var(--kerb-space-1);
+  padding-inline-start: calc(1.375rem + var(--kerb-space-3));
+}
+
+.hint + .error {
+  margin-block-start: var(--kerb-space-1);
+}
+
+/* Colour is never alone: the red edge comes with an icon and text */
+.input[aria-invalid="true"]:not(:disabled) + .mark {
+  border-color: var(--kerb-color-danger);
+}
+
 @media (prefers-contrast: more) {
-  .input:not(:disabled) + .mark {
+  .input:not(:disabled, [aria-invalid="true"]) + .mark {
     border-color: var(--kerb-color-text);
   }
 }

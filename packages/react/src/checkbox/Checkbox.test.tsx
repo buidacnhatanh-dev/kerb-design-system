@@ -142,6 +142,78 @@ describe("Checkbox", () => {
     );
   });
 
+  describe("error", () => {
+    it("sets aria-invalid only when there is an error", () => {
+      const { rerender } = renderWithKerb(
+        <Checkbox label="I accept the terms" />,
+      );
+      expect(screen.getByRole("checkbox")).not.toHaveAttribute("aria-invalid");
+
+      rerender(
+        <Checkbox
+          label="I accept the terms"
+          error="Accept the terms to continue"
+        />,
+      );
+      expect(screen.getByRole("checkbox")).toHaveAttribute(
+        "aria-invalid",
+        "true",
+      );
+
+      rerender(<Checkbox label="I accept the terms" error="" />);
+      expect(screen.getByRole("checkbox")).not.toHaveAttribute("aria-invalid");
+    });
+
+    it("is the description, after the hint, and not part of the name", () => {
+      renderWithKerb(
+        <Checkbox
+          label="I accept the terms"
+          hint="You can read them before you order"
+          error="Accept the terms to continue"
+        />,
+      );
+      const checkbox = screen.getByRole("checkbox", {
+        name: "I accept the terms",
+      });
+
+      expect(checkbox).toHaveAccessibleDescription(
+        "You can read them before you order Accept the terms to continue",
+      );
+    });
+
+    it("shows an icon and text, not only colour, and is not a live region", () => {
+      renderWithKerb(
+        <Checkbox
+          label="I accept the terms"
+          error="Accept the terms to continue"
+        />,
+      );
+      const message = screen.getByText("Accept the terms to continue");
+      const row = message.parentElement;
+
+      expect(message).toBeVisible();
+      expect(row?.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+      expect(row).not.toHaveAttribute("aria-live");
+      expect(row).not.toHaveAttribute("role");
+      expect(row?.closest("label")).toBeNull();
+    });
+
+    it("still toggles, so the person can fix it", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(
+        <Checkbox
+          label="I accept the terms"
+          required
+          error="Accept the terms to continue"
+        />,
+      );
+
+      await user.click(screen.getByText("I accept the terms"));
+
+      expect(screen.getByRole("checkbox")).toBeChecked();
+    });
+  });
+
   it("draws the focus ring on the box after the input", () => {
     renderWithKerb(<Checkbox label="Email me updates" />);
     const checkbox = screen.getByRole("checkbox");
@@ -196,6 +268,11 @@ describe("Checkbox", () => {
             <Checkbox label="Mixed" indeterminate />
             <Checkbox label="Disabled" disabled />
             <Checkbox label="With hint" hint="About one email a week" />
+            <Checkbox
+              label="With error"
+              hint="You can read them before you order"
+              error="Accept the terms to continue"
+            />
           </>,
         );
 

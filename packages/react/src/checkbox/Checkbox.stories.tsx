@@ -36,6 +36,24 @@ export const DisabledChecked: Story = {
   args: { disabled: true, defaultChecked: true },
 };
 
+/** A required checkbox the person has not ticked: red box, icon and text. */
+export const Error: Story = {
+  args: {
+    label: "I accept the terms and conditions",
+    required: true,
+    error: "Accept the terms to continue",
+  },
+};
+
+export const ErrorWithHint: Story = {
+  args: {
+    label: "I accept the terms and conditions",
+    hint: "You can read them before you order",
+    required: true,
+    error: "Accept the terms to continue",
+  },
+};
+
 export const WithHint: Story = {
   args: { hint: "About one email a week. Unsubscribe at any time." },
 };
@@ -88,6 +106,7 @@ export const AllStates: Story = {
       <Checkbox label="Mixed (some selected)" indeterminate />
       <Checkbox label="Focused" {...forced("focus-visible")} />
       <Checkbox label="Disabled" disabled />
+      <Checkbox label="Error" error="Accept the terms to continue" />
     </div>
   ),
 };

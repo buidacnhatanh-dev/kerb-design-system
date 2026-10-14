@@ -85,4 +85,23 @@ test.describe("Checkbox keyboard", () => {
     await expect(checkbox).toBeDisabled();
     await expect(checkbox).not.toBeFocused();
   });
+
+  test("an error is read with the checkbox and stays until it is fixed", async ({
+    page,
+  }) => {
+    await openStory(page, "components-checkbox--error-with-hint");
+    const checkbox = page.getByRole("checkbox", {
+      name: "I accept the terms and conditions",
+    });
+
+    await tab(page);
+    await expect(checkbox).toBeFocused();
+    await expect(checkbox).toHaveAttribute("aria-invalid", "true");
+    await expect(checkbox).toHaveAccessibleDescription(
+      "You can read them before you order Accept the terms to continue",
+    );
+
+    await page.keyboard.press("Space");
+    await expect(checkbox).toBeChecked();
+  });
 });

@@ -9,11 +9,12 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
-    "storybook": "pnpm --filter storybook dev",
+    "storybook": "pnpm --filter kerb-storybook dev",
     "test": "vitest run",
-    "test:a11y": "pnpm --filter storybook test:a11y",
+    "test:a11y": "pnpm --filter kerb-storybook test:a11y",
     "test:e2e": "playwright test",
     "test:docs": "playwright test --config playwright.docs.config.ts",
+    "test:portfolio": "playwright test --config playwright.portfolio.config.ts",
     "passports": "node scripts/passport-stats.ts",
     "lint": "eslint .",
     "typecheck": "tsc -b",
@@ -24,8 +25,14 @@
   },
   "size-limit": [
     {
-      "name": "@kerb/react",
-      "path": "packages/react/dist/index.js"
+      "name": "@kerb/react JS",
+      "path": "packages/react/dist/index.js",
+      "limit": "24.2 kB"
+    },
+    {
+      "name": "@kerb/react CSS",
+      "path": "packages/react/dist/kerb.css",
+      "limit": "7.3 kB"
     }
   ],
   "devDependencies": {

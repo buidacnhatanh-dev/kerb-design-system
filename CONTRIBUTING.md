@@ -39,7 +39,8 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Hints are never inside a `<label>`: they are linked with `aria-describedby`, so they are the description and not part of the name
 * `KerbProvider` wraps the app in `<div data-kerb-app-root style="display: contents">`. Modal dialogs portal to `document.body`, outside it, and make it `inert` while open. The live regions and the toast region are siblings of it, not inside it
 * A modal Dialog makes toasts inert. An action inside a modal that shows a toast with an action (Reset in the Preferences sheet) closes the modal first
-* Dialog has `placement="bottom"` for sheets and `initialFocus="close"`. Use them rather than building another sheet
+* Dialog has `placement="bottom"` for sheets, `initialFocus="close"`, and `eyebrow` with `headerTheme` for a header band in another theme. Use them rather than overriding Dialog's class names
+* Releases: `pnpm changeset` with every change to a package. The packages are not published to npm for now: CI runs Changesets for version pull requests only. Never run `npm publish` by hand and never turn publishing on without the owner (`docs/10-release.md`). The Storybook workspace is named `kerb-storybook` (a workspace called `storybook` clashes with the npm package in Changesets)
 * Overlays go in the top layer: Dialog with `showModal()`, Tooltip and the DatePicker calendar with `popover="manual"`. Never rely on `z-index` against the app. jsdom hides every `[popover]` and has no `showPopover()`: unit tests that need one visible add `[popover]:not(#none) { display: block }` in the test file (see `DatePicker.test.tsx`)
 * Esc closes only the innermost thing. A component that handles Esc while open (Tooltip, DatePicker) listens on `window` in the capture phase and stops the event, so a dialog around it stays open
 * Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
@@ -83,6 +84,7 @@ pnpm test:a11y      # every story in a real browser with axe, once per theme (St
 pnpm test:e2e       # playwright, against the built Storybook (run pnpm build first)
 pnpm test:docs      # playwright on the built docs site: axe in all themes, 400% zoom, text spacing, site flows
 pnpm passports      # passport numbers from the reports of test:a11y, test:e2e and test:docs
+pnpm test:portfolio # the portfolio's project modal (apps/portfolio-demo), built
 pnpm lint
 pnpm typecheck
 pnpm build

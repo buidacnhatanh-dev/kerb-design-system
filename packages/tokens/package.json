@@ -1,8 +1,25 @@
 {
   "name": "@kerb/tokens",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Kerb design tokens as CSS variables and JSON for the light, dark and comfort themes",
   "license": "MIT",
+  "author": "Nhat Anh Bui",
+  "homepage": "https://github.com/buidacnhatanh-dev/kerb-design-system/tree/main/packages/tokens#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buidacnhatanh-dev/kerb-design-system.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/buidacnhatanh-dev/kerb-design-system/issues"
+  },
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "accessibility",
+    "themes",
+    "design-system"
+  ],
   "type": "module",
   "sideEffects": [
     "*.css"

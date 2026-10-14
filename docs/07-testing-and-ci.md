@@ -11,7 +11,7 @@
 | Visual | Playwright screenshots | Focus ring and themes do not regress (one screenshot per state per theme) |
 | Zoom and spacing | Playwright | Page at 400% zoom and with WCAG 1.4.12 text spacing CSS injected has no clipped text or horizontal scroll |
 | Screen reader | Guidepup (optional) + manual | Transcript for the docs page; manual passes recorded in passports |
-| Size | size-limit | `@kerb/react` stays under the budget (start at `[n] kB`, set after first build) |
+| Size | size-limit | `@kerb/react` stays under the budget: 24.2 kB JavaScript and 7.3 kB CSS, brotli (the 1.0.0 build plus 10%) |
 
 ## Rules
 
@@ -95,9 +95,10 @@ On every pull request and push to `main`:
 5. Install the Playwright browsers
 6. `pnpm test:a11y` (Storybook Vitest addon with axe, all themes) and `pnpm test:e2e` (Playwright, Chromium, Firefox, WebKit)
 7. `pnpm test:docs` (every docs page: axe in all themes, zoom, text spacing) and `node scripts/passport-stats.ts --check`
-8. `pnpm size`
-9. Upload Playwright report as an artifact on failure
-10. On `main` only: Changesets release action publishes to npm and deploys Storybook
+8. `pnpm test:portfolio` (the portfolio's project modal, three browsers)
+9. `pnpm size` (budget: the 1.0.0 build plus 10%)
+10. Upload Playwright report as an artifact on failure
+11. On `main` only: Changesets opens a version pull request when changesets are waiting (it does not publish to npm, see `10-release.md`), and Storybook is deployed to GitHub Pages
 
 ## Manual screen reader checklist (per component, before marking Stable)
 

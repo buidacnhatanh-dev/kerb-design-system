@@ -1,11 +1,12 @@
 import type { ComponentType } from "react";
 import { mdxHeadings } from "../lib/site";
 import { OnThisPage } from "./Blocks";
+import { NotOnNpm } from "./NotOnNpm";
 import { ColorTokens, ScaleTokens, TypeTokens } from "./TokenTables";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
 /** Components the foundation pages can use in their MDX */
-const pageComponents = { ColorTokens, TypeTokens, ScaleTokens, ThemeSwitcher };
+const pageComponents = { ColorTokens, TypeTokens, ScaleTokens, ThemeSwitcher, NotOnNpm };
 
 /** A foundation or getting started page: title, lead, MDX body, "On this page" */
 export function ContentPage({

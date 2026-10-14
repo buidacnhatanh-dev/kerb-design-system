@@ -9,10 +9,38 @@ import type { ReactNode } from "react";
 import { SiteHeader } from "../components/SiteHeader";
 import { getSearchIndex, getVersion } from "../lib/site";
 
+const description =
+  "Accessibility first React components with light, dark and comfort themes.";
+
+/** Vercel sets this on every build; social cards need an absolute image address */
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
+const socialImage = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: "Kerb: an accessible design system for React, built on the curb cut effect. A Save changes button with a yellow focus ring, and the light, dark and comfort themes.",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: { default: "Kerb", template: "%s · Kerb" },
-  description:
-    "Accessibility first React components with light, dark and comfort themes.",
+  description,
+  openGraph: {
+    type: "website",
+    siteName: "Kerb",
+    title: "Kerb: components that work for everyone, by default",
+    description,
+    images: [socialImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kerb: components that work for everyone, by default",
+    description,
+    images: [socialImage],
+  },
 };
 
 /** The same key in the head script and the provider, so saved choices apply before paint */

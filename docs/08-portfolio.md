@@ -36,3 +36,16 @@ The portfolio's project card opens a Kerb `Dialog` with:
 ## Optional build task
 
 If the portfolio is in this repo or a sibling, add `apps/portfolio-demo` that reproduces the modal with `@kerb/react` so it can be tested in CI.
+
+## apps/portfolio-demo (M8)
+
+A Vite app (no React plugin: the automatic JSX runtime is enough) with a portfolio page and the project card. The card is the Dialog's `trigger`, so focus returns to it on close. Tested in Chromium, Firefox and WebKit with `pnpm test:portfolio` (`playwright.portfolio.config.ts`): open from the card with focus on Close, arrow keys between the tabs with the chips changing, Esc and Close returning focus to the card, and axe on the open modal.
+
+* The dark header is Dialog's own `headerTheme="dark"` with `eyebrow`, not a style override of Kerb's class names
+* Focus starts on Close (`initialFocus="close"`), as on the board
+* The modal keeps Dialog's 480px maximum width (`components/dialog.md`); the board shows it wider
+* "Read the case study" is a link styled as a primary button, because it goes to a page. Its address is `CASE_STUDY_URL` in `src/ProjectModal.tsx` (`/work/kerb`): set it in the real portfolio
+* The Outcome numbers come from `apps/docs/content/stats.json` (the last CI run). `[project]` stays a placeholder until there is a second place Kerb is used
+* The cover image is `design/01-Cover.png` with the alt text above
+* `og:image` is on the docs site (`apps/docs/public/og-image.png`). The case study page is part of the portfolio, not this repository: use the same image and alt text there
+

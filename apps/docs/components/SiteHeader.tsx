@@ -3,7 +3,7 @@
 import { Button, Dialog } from "@kerb/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { repositoryUrl } from "../lib/registry";
+import { repositoryUrl, storybookUrl } from "../lib/registry";
 import type { SearchEntry } from "../lib/site";
 import { LogoMark, MenuIcon, SearchIcon } from "./Icons";
 import { PreferencesToggle } from "./PreferencesToggle";
@@ -67,6 +67,9 @@ export function SiteHeader({
       <span className="header-spacer" />
       <span className="version">v{version}</span>
       <PreferencesToggle />
+      <a href={storybookUrl} className="header-link header-github kerb-focusable">
+        Storybook
+      </a>
       <a href={repositoryUrl} className="header-link header-github kerb-focusable">
         GitHub
       </a>
@@ -99,6 +102,9 @@ export function SiteHeader({
         <nav aria-label="Docs">
           <SideNav onNavigate={() => setMenuOpen(false)} />
         </nav>
+        <a href={storybookUrl} className="nav-link kerb-focusable">
+          Storybook
+        </a>
         <a href={repositoryUrl} className="nav-link kerb-focusable">
           GitHub
         </a>

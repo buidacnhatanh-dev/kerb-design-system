@@ -4,6 +4,7 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./packages/react" },
     { "path": "./apps/storybook" },
-    { "path": "./apps/docs/tsconfig.typecheck.json" }
+    { "path": "./apps/docs/tsconfig.typecheck.json" },
+    { "path": "./apps/portfolio-demo" }
   ]
 }

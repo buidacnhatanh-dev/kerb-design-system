@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CodeBlock } from "../components/CodeBlock";
 import { KeyboardIcon, ThemeIcon, WaveIcon } from "../components/Icons";
+import { NotOnNpm } from "../components/NotOnNpm";
 import { getSiteStats } from "../lib/passport";
 import { components } from "../lib/registry";
 import { getVersion } from "../lib/site";
@@ -60,7 +61,12 @@ export default function HomePage() {
           </div>
         </div>
         <div>
-          <CodeBlock code="$ npm install @kerb/react" language="bash" label="Install command" />
+          <NotOnNpm />
+          <CodeBlock
+            code="$ npm install @kerb/react"
+            language="bash"
+            label="Install command, coming later"
+          />
           <CodeBlock code={sample} label="Dialog example" />
           <p className="caption">
             Focus is trapped, labelled and returned to the trigger. No extra props.

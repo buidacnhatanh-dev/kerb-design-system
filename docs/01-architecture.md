@@ -33,7 +33,8 @@ kerb/
 │     └─ package.json
 ├─ apps/
 │  ├─ docs/                  # Next.js App Router: app/, components/, content/ (MDX, passports), examples/, lib/
-│  └─ storybook/             # Storybook React Vite
+│  ├─ storybook/             # Storybook React Vite (package name kerb-storybook)
+│  └─ portfolio-demo/        # the portfolio's project modal, Vite (docs/08-portfolio.md)
 ├─ scripts/
 │  └─ passport-stats.ts      # passport numbers from the test reports (docs/07)
 └─ tests/
@@ -110,11 +111,12 @@ Fonts are optional for consumers: `fonts.css` is its own tsup entry and is publi
 {
   "dev": "pnpm -r --parallel dev",
   "build": "pnpm -r build",
-  "storybook": "pnpm --filter storybook dev",
+  "storybook": "pnpm --filter kerb-storybook dev",
   "test": "vitest run",
-  "test:a11y": "pnpm --filter storybook test:a11y",
+  "test:a11y": "pnpm --filter kerb-storybook test:a11y",
   "test:e2e": "playwright test",
   "test:docs": "playwright test --config playwright.docs.config.ts",
+  "test:portfolio": "playwright test --config playwright.portfolio.config.ts",
   "passports": "node scripts/passport-stats.ts",
   "lint": "eslint .",
   "typecheck": "tsc -b",
@@ -138,8 +140,13 @@ Run `pnpm build` once after a fresh clone or a token change before `pnpm storybo
 * In `*.stories.tsx`, a `TextField`, `Select` or `DatePicker` without a `label`, and a raw `<input>` or `<textarea>` with a `placeholder`, are lint errors: the placeholder is never the label
 * Prettier with default settings
 
+## Package names
+
+The Storybook app's package is `kerb-storybook`, not `storybook`: Changesets reads workspace names, and a workspace called `storybook` clashes with the `storybook` npm package `@kerb/react` uses. The apps are private and Changesets leaves them out (`privatePackages` in `.changeset/config.json`).
+
 ## Deployment
 
-* Docs site: Vercel, from `apps/docs`
-* Storybook: GitHub Pages or Chromatic, linked from the docs header
-* npm: published through Changesets on merge to `main`
+* Docs site: Vercel, Root Directory `apps/docs`, settings in `apps/docs/vercel.json`
+* Storybook: GitHub Pages from the `storybook` job in CI, linked from the docs header
+* npm: not published for now. The `release` job runs Changesets without publishing (version pull requests only); `docs/10-release.md` says how to turn publishing on
+* Setup and the owner's one time steps: `docs/10-release.md`

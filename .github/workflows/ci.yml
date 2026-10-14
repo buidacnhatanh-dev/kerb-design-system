@@ -71,9 +71,12 @@ jobs:
       - name: Passport numbers match this run
         run: node scripts/passport-stats.ts --check
 
-      # M8: budget is set from the first real build
+      # The portfolio's project modal, built with Dialog and Tabs
+      - name: Portfolio demo tests
+        run: pnpm test:portfolio
+
+      # Budget: the 1.0.0 build plus 10% (package.json "size-limit")
       - name: Bundle size
-        if: false
         run: pnpm size
 
       - name: Upload Playwright report
@@ -84,15 +87,21 @@ jobs:
           path: playwright-report/
           retention-days: 14
 
-  # M8: publish to npm through Changesets and deploy Storybook
+  # Changesets, without publishing. npm publishing is off for now (docs/10-release.md):
+  # with changesets waiting, this opens or updates a "Release: version packages"
+  # pull request, and merging it only bumps versions and changelogs.
+  # To publish later: add `publish: pnpm changeset publish` to the changesets
+  # step, the NPM_TOKEN secret, and the env lines noted below.
   release:
-    if: false && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: verify
     runs-on: ubuntu-latest
+    concurrency:
+      group: release
+      cancel-in-progress: false
     permissions:
       contents: write
       pull-requests: write
-      id-token: write
     steps:
       - uses: actions/checkout@v7
 
@@ -105,14 +114,54 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build
-
-      - name: Create release pull request or publish to npm
+      # No `publish` input: nothing is ever sent to npm from here
+      - name: Version pull request
         uses: changesets/action@v1
         with:
-          publish: pnpm changeset publish
+          title: "Release: version packages"
+          commit: "Release: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # When publishing is turned on, also add: NPM_TOKEN and NODE_AUTH_TOKEN
+          # (both secrets.NPM_TOKEN), NPM_CONFIG_PROVENANCE (true for a public
+          # repository), `registry-url` on setup-node, `id-token: write` above,
+          # and a build of the packages before this step
 
-      # Storybook deployment (GitHub Pages or Chromatic) is added in M8
+  # Storybook on GitHub Pages, from main
+  storybook:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Storybook and the packages it needs (tokens, react)
+      - run: pnpm --filter "kerb-storybook..." build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: apps/storybook/storybook-static
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

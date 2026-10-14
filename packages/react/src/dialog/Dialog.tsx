@@ -34,6 +34,14 @@ export type DialogProps = {
   title: string;
   /** Read after the title by screen readers */
   description?: string;
+  /** A short line above the title, such as "Design system · 2026". Not part of the name */
+  eyebrow?: string;
+  /**
+   * Shows the header (eyebrow, title and close button) as a band in this
+   * theme, edge to edge: `dark` for a dark header on any page. Default: none,
+   * the header follows the page
+   */
+  headerTheme?: "light" | "dark" | "comfort";
   /** Element that opens the dialog. Focus returns here */
   trigger?: ReactElement;
   /** Where focus goes on open. Default "cancel" for danger dialogs, "first" otherwise */
@@ -161,6 +169,8 @@ function unlockPage() {
 export function Dialog({
   title,
   description,
+  eyebrow,
+  headerTheme,
   trigger,
   initialFocus,
   placement = "center",
@@ -378,10 +388,16 @@ export function Dialog({
           {placement === "bottom" && (
             <div className={styles.handle} aria-hidden="true" />
           )}
-          <div className={styles.header}>
-            <h2 id={titleId} className={styles.title}>
-              {title}
-            </h2>
+          <div
+            className={cx(styles.header, headerTheme && styles.banner)}
+            data-kerb-theme={headerTheme}
+          >
+            <div className={styles.heading}>
+              {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+              <h2 id={titleId} className={styles.title}>
+                {title}
+              </h2>
+            </div>
             <Button
               variant="ghost"
               size="small"

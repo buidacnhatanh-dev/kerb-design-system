@@ -164,3 +164,23 @@ export const BottomSheet: Story = {
     </Dialog>
   ),
 };
+
+/** A dark header band with an eyebrow, as in the portfolio's project modal. */
+export const DarkHeader: Story = {
+  render: () => (
+    <Dialog
+      title="Kerb"
+      eyebrow="Design system · 2026"
+      headerTheme="dark"
+      initialFocus="close"
+      trigger={<Button variant="secondary">Open project</Button>}
+      defaultOpen
+    >
+      <p style={{ margin: 0 }}>
+        Thirteen accessibility first React components with a documentation site,
+        three themes and a Preferences panel.
+      </p>
+      <Dialog.Confirm>Read the case study</Dialog.Confirm>
+    </Dialog>
+  ),
+};

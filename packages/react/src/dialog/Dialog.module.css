@@ -61,6 +61,46 @@
   gap: var(--kerb-space-3);
 }
 
+.heading {
+  display: grid;
+  gap: var(--kerb-space-1);
+  min-inline-size: 0;
+}
+
+.eyebrow {
+  margin: 0;
+  padding-block-start: var(--kerb-space-2);
+  color: var(--kerb-color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: var(--kerb-font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* headerTheme: the header as an edge to edge band in its own theme (a theme island) */
+.banner {
+  margin: calc(var(--kerb-space-5) * -1) calc(var(--kerb-space-5) * -1) 0;
+  padding: var(--kerb-space-5);
+  border-start-start-radius: var(--kerb-radius-lg);
+  border-start-end-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-surface-raised);
+  color: var(--kerb-color-text);
+}
+
+/* On a dark band the eyebrow is the Kerb yellow: 11.5 : 1 there, too faint on light ones */
+.banner[data-kerb-theme="dark"] .eyebrow {
+  color: var(--kerb-color-focus);
+}
+
+.banner .title {
+  font-size: var(--kerb-font-size-heading-2);
+  line-height: var(--kerb-font-line-height-heading-2);
+}
+
+.eyebrow + .title {
+  padding-block-start: 0;
+}
+
 .title {
   margin: 0;
   padding-block-start: var(--kerb-space-2);

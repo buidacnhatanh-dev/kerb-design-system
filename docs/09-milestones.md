@@ -82,7 +82,7 @@ Work one milestone at a time. Each has a brief and an acceptance check. Review t
 
 > Prepare version 1.0.0: README for each package, size-limit budget set from the current build plus 10 percent, Changesets release workflow, Storybook deployment, Vercel config for apps/docs, og:image meta using design/02-Social.png. Then read docs/08-portfolio.md and build apps/portfolio-demo with the project modal using Dialog and Tabs from @kerb/react, with a Playwright test for open, tab switching and focus return.
 
-**Done when** `npm install @kerb/react` works in a fresh Vite app and the demo modal passes its tests.
+**Done when** `npm install @kerb/react` works in a fresh Vite app and the demo modal passes its tests. (M8: npm publishing was put off by the owner. The packed packages were installed into a fresh Vite app instead, see `10-release.md`.)
 
 ---
 

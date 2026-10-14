@@ -1,0 +1,177 @@
+/* The demo portfolio page. Colours and sizes from the Kerb tokens */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--kerb-space-2);
+  inset-inline-start: var(--kerb-space-2);
+  padding: var(--kerb-space-3) var(--kerb-space-4);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  font-weight: var(--kerb-font-weight-bold);
+  translate: 0 -200%;
+}
+
+.skip-link:focus {
+  translate: none;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kerb-space-4);
+  padding: var(--kerb-space-4) var(--kerb-space-6);
+  border-block-end: 1px solid var(--kerb-color-line);
+}
+
+.name {
+  color: var(--kerb-color-text);
+  font-family: var(--kerb-font-family-heading);
+  font-size: 1.25rem;
+  font-weight: var(--kerb-font-weight-bold);
+  text-decoration: none;
+}
+
+.site-header ul {
+  display: flex;
+  gap: var(--kerb-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-header nav a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--kerb-size-target-min);
+  color: var(--kerb-color-text);
+}
+
+.site-header nav a:not([aria-current]) {
+  text-decoration: none;
+}
+
+.site-header nav a[aria-current="page"] {
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+main {
+  max-inline-size: 75rem;
+  margin-inline: auto;
+  padding: var(--kerb-space-7) var(--kerb-space-6);
+}
+
+h1 {
+  margin: 0 0 var(--kerb-space-6);
+  font-family: var(--kerb-font-family-heading);
+  font-size: var(--kerb-font-size-heading-1);
+  line-height: var(--kerb-font-line-height-heading-1);
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr));
+  gap: var(--kerb-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The card is the dialog's trigger: one button, so it is one Tab stop */
+.project-card {
+  display: grid;
+  inline-size: 100%;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--kerb-color-border-input);
+  border-radius: var(--kerb-radius-lg);
+  background-color: var(--kerb-color-bg);
+  color: var(--kerb-color-text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.project-card img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.project-title {
+  padding: var(--kerb-space-4) var(--kerb-space-5) 0;
+  font-weight: var(--kerb-font-weight-bold);
+}
+
+.project-summary {
+  padding: var(--kerb-space-1) var(--kerb-space-5) var(--kerb-space-4);
+  color: var(--kerb-color-text-muted);
+}
+
+.panel-text {
+  margin: var(--kerb-space-4) 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kerb-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: var(--kerb-space-1) var(--kerb-space-3);
+  border-radius: var(--kerb-radius-full);
+  background-color: var(--kerb-color-surface);
+  font-size: 0.875rem;
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kerb-space-4);
+  padding-block-start: var(--kerb-space-4);
+  border-block-start: 1px solid var(--kerb-color-line);
+}
+
+.built-with {
+  display: flex;
+  align-items: center;
+  gap: var(--kerb-space-2);
+  margin: 0;
+  color: var(--kerb-color-text-muted);
+  font-size: 0.875rem;
+}
+
+.logo-mark {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+}
+
+/* "Read the case study" goes to a page, so it is a link that looks like a primary button */
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--kerb-size-target-default);
+  padding: var(--kerb-space-1) var(--kerb-space-5);
+  border-radius: var(--kerb-radius-md);
+  background-color: var(--kerb-color-action-primary);
+  font-weight: var(--kerb-font-weight-bold);
+  text-decoration: none;
+}
+
+:where(.primary-link):any-link {
+  color: var(--kerb-color-on-primary);
+}

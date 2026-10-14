@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": ".",
+    "outDir": "../../.tsbuild/portfolio-demo",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
+    // @kerb/react from source, so typecheck does not need packages/react/dist
+    "paths": { "@kerb/react": ["../../packages/react/src/index.ts"] }
+  },
+  "include": ["src/**/*", "vite.config.ts", "../docs/content/stats.json"],
+  "references": [{ "path": "../../packages/react" }]
+}

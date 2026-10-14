@@ -193,3 +193,7 @@ export function componentBySlug(slug: string): ComponentEntry | undefined {
 
 export const repositoryUrl =
   "https://github.com/buidacnhatanh-dev/kerb-design-system";
+
+/** Deployed by CI to GitHub Pages from main */
+export const storybookUrl =
+  "https://buidacnhatanh-dev.github.io/kerb-design-system/";

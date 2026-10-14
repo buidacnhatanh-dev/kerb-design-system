@@ -493,6 +493,50 @@ describe("Dialog", () => {
     });
   });
 
+  describe("header", () => {
+    it("shows an eyebrow above the title, outside the name", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename eyebrow="Design system · 2026" />);
+      await openWithKeyboard(user, "Rename project");
+
+      expect(dialog()).toHaveAccessibleName("Rename project");
+      const eyebrow = screen.getByText("Design system · 2026");
+      expect(eyebrow).toBeVisible();
+      expect(
+        eyebrow.compareDocumentPosition(
+          screen.getByRole("heading", { name: "Rename project" }),
+        ) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      pressEscape();
+    });
+
+    it("renders the header as a theme island with headerTheme", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename headerTheme="dark" />);
+      await openWithKeyboard(user, "Rename project");
+
+      const heading = screen.getByRole("heading", { name: "Rename project" });
+      const band = heading.closest("[data-kerb-theme]");
+      expect(band).toHaveAttribute("data-kerb-theme", "dark");
+      // The close button is in the band, the body is not
+      expect(band).toContainElement(
+        screen.getByRole("button", { name: "Close" }),
+      );
+      expect(band).not.toContainElement(screen.getByLabelText("Project name"));
+      pressEscape();
+    });
+
+    it("has no band without headerTheme", async () => {
+      const user = userEvent.setup();
+      renderWithKerb(<Rename />);
+      await openWithKeyboard(user, "Rename project");
+
+      // <html> carries the page theme; nothing inside the dialog has its own
+      expect(dialog().querySelector("[data-kerb-theme]")).toBeNull();
+      pressEscape();
+    });
+  });
+
   describe("accessibility", () => {
     forEachTheme(() => {
       it("has no axe violations while open", async () => {

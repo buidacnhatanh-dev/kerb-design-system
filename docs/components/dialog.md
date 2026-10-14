@@ -37,6 +37,10 @@ Props table for the docs page:
 | `closeLabel` | `string` | Name of the close button. Default "Close" |
 | `closedMessage` | `string` | Announced when focus cannot go back. Default "Dialog closed" |
 | `placement` | `"center" \| "bottom"` | `bottom` is a sheet along the bottom edge for small screens. Default `center` |
+| `eyebrow` | `string` | A short line above the title, such as "Design system · 2026". Not part of the accessible name |
+| `headerTheme` | `"light" \| "dark" \| "comfort"` | The header (eyebrow, title, close button) as an edge to edge band in that theme: a theme island, like the toasts. Default: none |
+
+`headerTheme="dark"` is the portfolio's project modal (`design/11-PortfolioModal.png`). On a dark band the eyebrow is the Kerb yellow (`color.focus`, 11.5 : 1 there); elsewhere it is `text-muted`, because yellow is too faint on light backgrounds.
 
 `initialFocus` also takes `"close"`: the close button in the corner, as the Preferences sheet does.
 

@@ -25,7 +25,7 @@ export default defineConfig({
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
-    command: "pnpm --filter storybook preview",
+    command: "pnpm --filter kerb-storybook preview",
     url: `http://localhost:${port}`,
     reuseExistingServer: !process.env.CI,
   },

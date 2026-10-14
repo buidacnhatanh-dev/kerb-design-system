@@ -4,7 +4,7 @@
   "description": "Kerb design tokens as CSS variables and JSON for the light, dark and comfort themes",
   "license": "MIT",
   "author": "Nhat Anh Bui",
-  "homepage": "https://github.com/buidacnhatanh-dev/kerb-design-system/tree/main/packages/tokens#readme",
+  "homepage": "https://kerb-docs.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buidacnhatanh-dev/kerb-design-system.git",

@@ -4,7 +4,7 @@
   "description": "Accessibility first React components with light, dark and comfort themes",
   "license": "MIT",
   "author": "Nhat Anh Bui",
-  "homepage": "https://github.com/buidacnhatanh-dev/kerb-design-system/tree/main/packages/react#readme",
+  "homepage": "https://kerb-docs.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buidacnhatanh-dev/kerb-design-system.git",

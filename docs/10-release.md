@@ -2,6 +2,8 @@
 
 How Kerb is released, and the one time setup only the owner can do in GitHub and Vercel.
 
+**Live:** docs at [kerb-docs.vercel.app](https://kerb-docs.vercel.app) (Vercel, project `kerb-docs`) · Storybook at [buidacnhatanh-dev.github.io/kerb-design-system](https://buidacnhatanh-dev.github.io/kerb-design-system/) (GitHub Pages). Both deploy from `main`. The setup steps below are done.
+
 **npm publishing is off for now** (the owner's decision in M8). The packages are versioned `1.0.0` and ready to publish, but CI never sends them to npm. "Turning on npm publishing" below is the checklist for when that changes.
 
 ## What the repository does

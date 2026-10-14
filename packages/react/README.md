@@ -2,9 +2,11 @@
 
 Accessibility first React components with light, dark and comfort themes. Every button, field and dialog is keyboard ready, checked with axe in every theme, and follows the reader's own settings for text size, spacing, focus and motion.
 
+**Docs:** [kerb-docs.vercel.app](https://kerb-docs.vercel.app) · **Storybook:** [buidacnhatanh-dev.github.io/kerb-design-system](https://buidacnhatanh-dev.github.io/kerb-design-system/)
+
 ## Install
 
-> **Not on npm yet.** Version 1.0.0 is ready but not published. Until it is, build the packages from the [repository](https://github.com/buidacnhatanh-dev/kerb-design-system) and install the tarballs:
+> **Not on npm yet.** Version 1.0.0 is ready but not published. Try it today in the [Storybook](https://buidacnhatanh-dev.github.io/kerb-design-system/), or build the packages from the [repository](https://github.com/buidacnhatanh-dev/kerb-design-system) and install the tarballs:
 >
 > ```sh
 > pnpm install && pnpm --filter "@kerb/*" build

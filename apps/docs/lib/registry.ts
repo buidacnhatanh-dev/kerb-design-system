@@ -194,6 +194,9 @@ export function componentBySlug(slug: string): ComponentEntry | undefined {
 export const repositoryUrl =
   "https://github.com/buidacnhatanh-dev/kerb-design-system";
 
+/** The docs site, on Vercel */
+export const docsUrl = "https://kerb-docs.vercel.app";
+
 /** Deployed by CI to GitHub Pages from main */
 export const storybookUrl =
   "https://buidacnhatanh-dev.github.io/kerb-design-system/";

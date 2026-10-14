@@ -7,6 +7,7 @@ import { getKerbHeadScript } from "@kerb/react/head-script";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteHeader } from "../components/SiteHeader";
+import { docsUrl } from "../lib/registry";
 import { getSearchIndex, getVersion } from "../lib/site";
 
 const description =
@@ -15,7 +16,7 @@ const description =
 /** Vercel sets this on every build; social cards need an absolute image address */
 const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+  : docsUrl;
 
 const socialImage = {
   url: "/og-image.png",

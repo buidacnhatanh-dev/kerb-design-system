@@ -1,5 +1,7 @@
 # Kerb build spec
 
+**Live:** docs at [kerb-docs.vercel.app](https://kerb-docs.vercel.app) · Storybook at [buidacnhatanh-dev.github.io/kerb-design-system](https://buidacnhatanh-dev.github.io/kerb-design-system/)
+
 This folder is everything needed to build Kerb: an accessibility first React design system with three themes, a Preferences panel, a docs site and Storybook.
 
 ## How to use it

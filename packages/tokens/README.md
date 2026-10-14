@@ -2,6 +2,8 @@
 
 The design tokens behind Kerb: CSS variables for the light, dark and comfort themes, and the same values as JSON.
 
+**Docs:** [kerb-docs.vercel.app](https://kerb-docs.vercel.app/tokens) · **Storybook:** [buidacnhatanh-dev.github.io/kerb-design-system](https://buidacnhatanh-dev.github.io/kerb-design-system/)
+
 > **Not on npm yet.** Version 1.0.0 is ready but not published. Until it is, build it from the [repository](https://github.com/buidacnhatanh-dev/kerb-design-system) and install the tarball (`pnpm --filter @kerb/tokens build`, then `pnpm pack` in `packages/tokens`).
 
 Once it is published:

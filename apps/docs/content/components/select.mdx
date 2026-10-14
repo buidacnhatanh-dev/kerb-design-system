@@ -1,0 +1,29 @@
+---
+description: 'A native select styled to match the fields, so every screen reader and phone picker works without a custom listbox.'
+pattern: 'Native select'
+exampleCaption: 'Type a letter while the select has focus to jump to an option.'
+transcript:
+  - '“Language, German, popup button”'
+  - '“Used for dates and numbers”'
+use:
+  - 'Choosing one option from a longer list'
+  - 'Forms where space is tight'
+  - 'Values people know, such as a country'
+avoid:
+  - 'Two to five options people should compare (use radios)'
+  - 'Several choices at once'
+  - 'Actions (use buttons or a menu)'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves to the select'
+  - keys: ['Space']
+    action: 'Opens the browser’s list of options'
+  - keys: ['A to Z']
+    action: 'Jumps to the next option starting with that letter'
+---
+## Accessibility
+
+- A native `<select>`: it opens the system picker on phones and works with every screen reader.
+- Label, hint and error work the same as the text field.
+- The chevron is decorative and lets presses through to the select.
+- In forced colours the browser’s own arrow comes back.

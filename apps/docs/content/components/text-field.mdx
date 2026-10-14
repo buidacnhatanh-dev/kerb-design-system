@@ -1,0 +1,28 @@
+---
+description: 'A labelled native input, with a hint, an error pattern that never relies on colour, and a show password toggle.'
+pattern: 'Native input with label'
+exampleCaption: 'The email field in its error state: a red border, an icon and the message, all linked to the input.'
+transcript:
+  - '“Email, invalid data, edit text, nhatanh@”'
+  - '“For booking updates. Enter a full email address”'
+use:
+  - 'Short free text: names, emails, search terms'
+  - 'Passwords, with the show password button'
+  - 'Numbers people type rather than pick'
+avoid:
+  - 'Picking one of a fixed list (use a select or radios)'
+  - 'Dates (use the date picker)'
+  - 'Long text over several lines'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves to the field, then to the show password button if there is one'
+  - keys: ['Enter']
+    action: 'Submits the form the field is in'
+---
+## Accessibility
+
+- The `<label>` is always visible. A placeholder is never the label.
+- Hint and error are linked with `aria-describedby`, in that order. The hint is never inside the label.
+- An error sets `aria-invalid="true"` and shows a red border, an icon and text. It is not a live region: the form announces a summary on submit.
+- The show password button keeps its name and uses `aria-pressed` for its state.
+- 44 pixels tall to press at every density.

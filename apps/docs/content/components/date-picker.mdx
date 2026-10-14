@@ -1,0 +1,39 @@
+---
+description: 'A typeable date field with a calendar button. People can always type the date; the calendar is a shortcut.'
+pattern: 'Date field and WAI-ARIA grid'
+exampleCaption: 'Type 1.2.2027, or open the calendar and use the arrow keys. Page Up and Down move by month.'
+transcript:
+  - '“Workshop date, edit text, 18.11.2026, Format DD.MM.YYYY”'
+  - '“Choose date, button, has popup dialog”'
+  - '“Mittwoch, 18. November 2026 ausgewählt, button”'
+use:
+  - 'Dates people know, like a birthday, typed'
+  - 'Dates people pick near today, from the calendar'
+  - 'Forms in any language, with the locale’s format'
+avoid:
+  - 'Date ranges (not in 1.0)'
+  - 'Times of day'
+  - 'Choosing from a few fixed dates (use radios)'
+keyboard:
+  - keys: ['←', '→']
+    action: 'Previous or next day'
+  - keys: ['↑', '↓']
+    action: 'Same day previous or next week'
+  - keys: ['Page Up', 'Page Down']
+    action: 'Same day previous or next month'
+  - keys: ['Shift', 'Page Up']
+    action: 'Same day previous year (with Page Down, next year)'
+  - keys: ['Home', 'End']
+    action: 'Start or end of the week'
+  - keys: ['Enter']
+    action: 'Chooses the day, closes the calendar, focus goes to the field'
+  - keys: ['Esc']
+    action: 'Closes the calendar, focus goes to the button'
+---
+## Accessibility
+
+- One native text field in the locale’s format, so typing and pasting always work. The hint shows the format.
+- The calendar is a non modal dialog with a `role="grid"` built on React Aria’s calendar hooks.
+- The week starts on the locale’s first day: Monday in German.
+- Month changes are announced through the shared Announcer.
+- Errors appear on blur or Enter, never while typing.

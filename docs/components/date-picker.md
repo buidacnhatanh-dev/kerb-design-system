@@ -82,4 +82,4 @@ A typeable field plus a calendar button (44px, icon, `aria-label="Choose date"`,
 
 ## Screen reader transcript (used on the docs page)
 
-Not recorded yet: `[to be filled after the manual VoiceOver and NVDA passes]`.
+Not recorded yet: `[to be filled after the manual VoiceOver and NVDA passes]`. The docs page shows expected lines from `apps/docs/content/components/date-picker.mdx`, labelled as not recorded.

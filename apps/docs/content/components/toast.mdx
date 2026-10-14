@@ -1,0 +1,27 @@
+---
+description: 'Short messages after an action. Announced politely through the Announcer, and never take focus.'
+pattern: 'Status message (Announcer)'
+exampleCaption: 'Show a toast: focus stays on the button. With an action, F6 moves to the toast and back.'
+transcript:
+  - '“Project saved. Your changes are live.”'
+  - '“Item moved to trash. It will be deleted in 30 days. Press F6 to reach Undo.”'
+use:
+  - 'Confirming an action that succeeded'
+  - 'Offering a short undo'
+  - 'Errors that are not tied to a field'
+avoid:
+  - 'Errors in a form (show them at the field)'
+  - 'Anything people must act on (use a dialog)'
+  - 'Long messages'
+keyboard:
+  - keys: ['F6']
+    action: 'Moves focus to the newest toast, and back again'
+  - keys: ['Tab']
+    action: 'Moves between the action and Dismiss inside a toast'
+---
+## Accessibility
+
+- Announced through the shared Announcer: success and info politely, errors assertively. The toast itself is not a live region.
+- Never takes focus. An action is announced with how to reach it: F6.
+- Icon and text for every tone, not colour alone.
+- Pauses on hover and focus; never closes on its own at reduced or off motion.

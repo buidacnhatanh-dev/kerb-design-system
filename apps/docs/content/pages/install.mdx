@@ -1,0 +1,55 @@
+---
+title: Install
+description: Add Kerb to a React app in three steps. React 18 and 19 both work.
+---
+
+## Add the package
+
+```bash
+$ npm install @kerb/react
+```
+
+## Load the styles
+
+`kerb.css` holds the tokens, the focus ring and every component's styles. Load it once, at the root of your app.
+
+```tsx
+import "@kerb/react/kerb.css";
+// Optional: Atkinson Hyperlegible, Overpass, Lexend and JetBrains Mono, served from your own site
+import "@kerb/react/fonts.css";
+// Optional: applies the theme and the reader's settings to html and body
+import "@kerb/react/global.css";
+```
+
+The fonts are optional so your team can bring its own. They are never loaded from a third party server.
+
+## Wrap the app
+
+`KerbProvider` holds the person's preferences, writes them to the page and hosts the shared live regions and toasts. Wrap the app in it once.
+
+```tsx
+import { Button, KerbProvider } from "@kerb/react";
+
+export function App() {
+  return (
+    <KerbProvider storageKey="my-app">
+      <Button>Save changes</Button>
+    </KerbProvider>
+  );
+}
+```
+
+## No flash on load
+
+With server rendering, saved preferences can apply before the first paint. Put the head script in the root layout, with the same storage key as the provider.
+
+```tsx
+import { getKerbHeadScript } from "@kerb/react/head-script";
+
+<html lang="en" suppressHydrationWarning>
+  <head>
+    <script dangerouslySetInnerHTML={{ __html: getKerbHeadScript("my-app") }} />
+  </head>
+```
+
+`suppressHydrationWarning` is needed because the script changes attributes on `<html>` before React hydrates.

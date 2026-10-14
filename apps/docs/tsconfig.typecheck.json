@@ -16,7 +16,7 @@
       "@kerb/react/head-script": ["../../packages/react/src/head-script.ts"]
     }
   },
-  "include": ["next-types.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-types.d.ts", "mdx.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", ".next", "next-env.d.ts"],
   "references": [{ "path": "../../packages/react" }]
 }

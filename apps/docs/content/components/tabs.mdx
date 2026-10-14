@@ -1,0 +1,34 @@
+---
+description: 'Tabs switch between panels of related content in the same place. The arrow keys move between tabs.'
+pattern: 'WAI-ARIA tabs'
+exampleCaption: 'Arrow keys move between tabs, Tab moves into the panel.'
+transcript:
+  - '“Kerb at a glance, tab list”'
+  - '“Overview, selected, tab, 1 of 3”'
+  - '“Overview, tab panel”'
+use:
+  - 'Related content people switch between'
+  - 'Settings grouped by topic on one page'
+  - 'Views of the same thing, like code and preview'
+avoid:
+  - 'Steps people must do in order'
+  - 'Navigation between pages (use links)'
+  - 'Content people need to compare side by side'
+keyboard:
+  - keys: ['←', '→']
+    action: 'Previous or next tab, wrapping'
+  - keys: ['Home']
+    action: 'First tab'
+  - keys: ['End']
+    action: 'Last tab'
+  - keys: ['Enter', 'Space']
+    action: 'Selects the focused tab in manual mode'
+  - keys: ['Tab']
+    action: 'Moves from the tab list into the panel'
+---
+## Accessibility
+
+- `role="tablist"` named by `label`, `role="tab"` buttons with `aria-selected` and `aria-controls`, roving `tabindex`.
+- Panels have `role="tabpanel"`, are labelled by their tab, and take focus themselves only when they hold nothing focusable.
+- `activation="manual"` for panels that load data: arrows move, Enter or Space selects.
+- The selected tab is bold with an underline, not colour alone.

@@ -1,0 +1,35 @@
+---
+title: Focus
+description: One focus ring for every component, in the style of GOV.UK. A dark ink ring inside a thick yellow ring, so focus is clear on every background.
+---
+
+## Why this ring
+
+The ink ring carries the contrast on light backgrounds and the yellow on dark ones, so the ring is visible in all three themes and on any colour a team puts behind it. It is never hidden and never animated.
+
+Press Tab on this page to see it.
+
+## The CSS
+
+The ring is defined once, in `base.css`. Components only add a class.
+
+```css
+:where(.kerb-focusable):focus-visible {
+  outline: 2px solid transparent; /* becomes visible in forced colours */
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--kerb-color-focus-ink),
+    0 0 0 var(--kerb-focus-width, var(--kerb-focus-width-standard))
+      var(--kerb-focus-color, var(--kerb-color-focus));
+}
+```
+
+Checkboxes and radios hide the native input under a styled mark. There the input gets `kerb-focus-proxy` and the ring is drawn on the mark next to it. Radios show it on `:focus`, because Safari drops `:focus-visible` on a radio reached with an arrow key.
+
+## Forced colours
+
+In Windows high contrast and other forced colour modes, box shadows are removed. The transparent outline becomes a real one in the system's `Highlight` colour, so focus is never lost.
+
+## People choose their own ring
+
+The Preferences panel lets people pick a focus colour (yellow, blue or magenta), a thicker ring, and focus shown on mouse clicks too. Kerb writes these as `--kerb-focus-color`, `--kerb-focus-width` and `data-kerb-focus-on-click`, and the one rule above reads them.

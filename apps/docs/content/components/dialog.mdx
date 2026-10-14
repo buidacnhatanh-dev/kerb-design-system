@@ -1,0 +1,34 @@
+---
+description: 'A window on top of the page for a short, focused task. Everything behind it is inert until it closes.'
+pattern: 'WAI-ARIA dialog (modal)'
+exampleCaption: 'Open it with the keyboard: focus starts on “Keep project”, the safe choice.'
+transcript:
+  - '“Delete project, button, has popup dialog”'
+  - '“Delete “Portfolio 2026”?, dialog”'
+  - '“This removes the project and its 12 pages. You can’t undo this.”'
+  - '“Keep project, button”'
+use:
+  - 'Confirming a destructive action'
+  - 'A short form that blocks the next step'
+  - 'Content that needs full attention'
+avoid:
+  - 'Success messages (use a toast)'
+  - 'Long forms or multi step flows'
+  - 'Opening a dialog from another dialog'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves to the next focusable element inside the dialog. Wraps from last to first'
+  - keys: ['Shift', 'Tab']
+    action: 'Moves to the previous element. Wraps from first to last'
+  - keys: ['Esc']
+    action: 'Closes the dialog and returns focus to the trigger'
+  - keys: ['Enter']
+    action: 'Activates the focused button'
+---
+## Accessibility
+
+- A native `<dialog>` opened with `showModal()`, named by its title and described by its description.
+- On open, focus goes to the safest action, here “Keep project”. Destructive dialogs never focus the destructive button first.
+- The rest of the page gets `inert`, so screen readers and Tab can’t leave the dialog.
+- On close, focus returns to the trigger, or to a fallback if the trigger was removed.
+- `placement="bottom"` makes it a sheet for small screens, as the Preferences sheet does.

@@ -48,15 +48,41 @@ It reads source, not the built Storybook, so it only needs `packages/tokens/dist
 * A story used to test "Tab leaves the component" needs a focusable element after it. With nothing after, Firefox wraps focus back into the component
 * Use `tab(page)` from `helpers.ts` instead of pressing Tab directly. Safari only stops at text fields with a plain Tab, so in WebKit it presses Option+Tab
 
+## Docs checks (`pnpm test:docs`)
+
+`playwright.docs.config.ts` runs `tests/docs/` against the built docs site (`pnpm --filter docs start`, so `pnpm build` first; stop `pnpm dev` first, or the checks reuse the dev server on port 3000). Chromium only: these check the pages, while the components are covered in three browsers by `test:e2e`.
+
+For every route:
+
+* axe (from `axe-core`, injected into the page) in light, dark and comfort, colour contrast included
+* 400% zoom: 320 by 256 CSS pixels (1280 by 1024 at 400%), no sideways page scroll and no clipped text
+* Text spacing: the WCAG 1.4.12 values injected (line height 1.5, paragraph spacing 2em, letter spacing 0.12em, word spacing 0.16em), no sideways scroll and no clipped text
+* The comfort theme at 200% zoom (640 by 512): the passport's "Comfort theme" field
+
+"Clipped text" is an element with text that hides its overflow and whose content is larger than its box. One pixel boxes (screen reader only text) are left out. Code blocks and tables scroll inside themselves, so they never make the page scroll.
+
+`tests/docs/site.spec.ts` covers the site's own flows: skip link, current page in the nav, search (`/`, arrows, Enter, the announced count, Esc), the "Try it with" toggles, copying code, the Preferences side panel and sheet, and the phone menu.
+
 ## Counting for the passport
 
-A script `scripts/passport-stats.ts` runs after tests and writes per component:
+`pnpm passports` (`node scripts/passport-stats.ts`) runs after the tests and writes, per component, into `apps/docs/content/passports/<slug>.stats.json`:
 
 ```json
-{ "keyboardTests": 14, "axeViolations": 0, "lastRun": "2026-11-02" }
+{ "keyboardTests": 19, "axeViolations": 0, "axeRuns": 24, "comfortZoom": "passed", "lastRun": "2026-10-14" }
 ```
 
-into `apps/docs/content/passports/<slug>.stats.json`. The docs read these. Never hand edit them.
+and the totals, with the gzipped size of `packages/react/dist/index.js`, into `apps/docs/content/stats.json`. The docs read these. Never hand edit them.
+
+It reads the JSON reports the runs write to `reports/` (outside `test-results/`, which every Playwright run empties):
+
+| Number | Source | Counted as |
+| --- | --- | --- |
+| `keyboardTests` | `reports/e2e.json`, from `tests/e2e/<slug>.spec.ts` | Each test once (not once per browser), when it passed in every browser it ran in. The file name is the component |
+| `axeViolations`, `axeRuns` | `reports/a11y.json`, from the stories in `packages/react/src/<slug>/` | Every story run in every theme is one run; a failed run counts as a violation. With every run passing it is exactly 0 |
+| `comfortZoom` | `reports/docs.json` | The "comfort theme at 200% zoom" check of the component's docs page |
+| `lastRun` | `reports/e2e.json` | The date the e2e run started |
+
+CI runs `node scripts/passport-stats.ts --check` after the tests. It fails when the committed numbers (everything but the date and size) differ from that run, so the numbers on the site are the numbers CI saw. After a change that adds or removes tests: run `pnpm test:a11y`, `pnpm test:e2e` and `pnpm test:docs`, then `pnpm passports`, and commit the files.
 
 ## CI (`.github/workflows/ci.yml`)
 
@@ -68,9 +94,10 @@ On every pull request and push to `main`:
 4. `pnpm test` (includes contrast test)
 5. Install the Playwright browsers
 6. `pnpm test:a11y` (Storybook Vitest addon with axe, all themes) and `pnpm test:e2e` (Playwright, Chromium, Firefox, WebKit)
-7. `pnpm size`
-8. Upload Playwright report as an artifact on failure
-9. On `main` only: Changesets release action publishes to npm and deploys Storybook
+7. `pnpm test:docs` (every docs page: axe in all themes, zoom, text spacing) and `node scripts/passport-stats.ts --check`
+8. `pnpm size`
+9. Upload Playwright report as an artifact on failure
+10. On `main` only: Changesets release action publishes to npm and deploys Storybook
 
 ## Manual screen reader checklist (per component, before marking Stable)
 

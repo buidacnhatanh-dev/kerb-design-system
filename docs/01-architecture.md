@@ -32,10 +32,13 @@ kerb/
 │     ├─ tsup.config.ts
 │     └─ package.json
 ├─ apps/
-│  ├─ docs/                  # Next.js App Router
+│  ├─ docs/                  # Next.js App Router: app/, components/, content/ (MDX, passports), examples/, lib/
 │  └─ storybook/             # Storybook React Vite
+├─ scripts/
+│  └─ passport-stats.ts      # passport numbers from the test reports (docs/07)
 └─ tests/
-   └─ e2e/                   # Playwright specs, run against Storybook
+   ├─ e2e/                   # Playwright specs, run against Storybook
+   └─ docs/                  # Playwright checks on the built docs site
 ```
 
 ## Package outputs
@@ -111,6 +114,8 @@ Fonts are optional for consumers: `fonts.css` is its own tsup entry and is publi
   "test": "vitest run",
   "test:a11y": "pnpm --filter storybook test:a11y",
   "test:e2e": "playwright test",
+  "test:docs": "playwright test --config playwright.docs.config.ts",
+  "passports": "node scripts/passport-stats.ts",
   "lint": "eslint .",
   "typecheck": "tsc -b",
   "size": "size-limit",
@@ -121,6 +126,10 @@ Fonts are optional for consumers: `fonts.css` is its own tsup entry and is publi
 `test:a11y` runs `vitest run` in `apps/storybook` (the Storybook Vitest addon, see `07-testing-and-ci.md`). `test:e2e` runs against the built Storybook, so it needs `pnpm build` first.
 
 Run `pnpm build` once after a fresh clone or a token change before `pnpm storybook`, `pnpm dev`, `pnpm test` or `pnpm test:a11y`. Storybook imports the React styles from source, but those import `@kerb/tokens/kerb.css` from `packages/tokens/dist`, and the contrast test reads `dist/tokens.json`. `@kerb/tokens` has no watch mode.
+
+## Docs site dependencies
+
+`apps/docs` alone uses `@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`, `remark-frontmatter` and `remark-mdx-frontmatter` (content), and `react-docgen-typescript` (props tables, a dev dependency, never bundled: `serverExternalPackages`). The root has `axe-core` for the docs checks. `scripts/passport-stats.ts` runs on Node's own TypeScript support (Node 24), so it uses only erasable syntax.
 
 ## Linting
 

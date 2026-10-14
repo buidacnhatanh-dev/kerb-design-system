@@ -8,7 +8,13 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? [["html", { open: "never" }], ["github"]] : "list",
+  reporter: [
+    ...(process.env.CI
+      ? ([["html", { open: "never" }], ["github"]] as const)
+      : ([["list"]] as const)),
+    // Read by scripts/passport-stats.ts. Outside test-results, which each run empties
+    ["json", { outputFile: "reports/e2e.json" }],
+  ],
   use: {
     baseURL: `http://localhost:${port}`,
     trace: "on-first-retry",

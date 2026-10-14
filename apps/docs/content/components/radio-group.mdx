@@ -1,0 +1,29 @@
+---
+description: 'A fieldset of native radios: one Tab stop for the group, arrow keys to move and choose.'
+pattern: 'Native radio group'
+exampleCaption: 'Tab into the group, then use the arrow keys.'
+transcript:
+  - '“Delivery, group”'
+  - '“Standard, radio button, checked, 1 of 3, 3 to 5 working days”'
+use:
+  - 'Choosing one of two to five options'
+  - 'Options people should see side by side'
+  - 'Choices with a short explanation each'
+avoid:
+  - 'Long lists (use a select)'
+  - 'Several choices at once (use checkboxes)'
+  - 'Settings that apply at once in a toolbar'
+keyboard:
+  - keys: ['Tab']
+    action: 'Enters the group on the selected option, then leaves it'
+  - keys: ['↑', '↓']
+    action: 'Move to the previous or next option and choose it'
+  - keys: ['←', '→']
+    action: 'Same as up and down'
+---
+## Accessibility
+
+- A `<fieldset>` with a `<legend>`: the legend is the group’s name.
+- Native radios with one `name`, so the browser gives the arrow keys and the single Tab stop.
+- Each option’s hint is its description, outside the label.
+- The focus ring shows on the radio a keyboard user reaches, also after an arrow key in Safari.

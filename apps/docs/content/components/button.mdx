@@ -1,0 +1,31 @@
+---
+description: 'A native button for actions, with loading and disabled states that stay readable and reachable.'
+pattern: 'Native button'
+exampleCaption: 'Save shows the loading state for two seconds. Publish is disabled and says why on hover and focus.'
+transcript:
+  - '“Save changes, button”'
+  - '“Save changes, busy, button” then “Loading”'
+  - '“Publish, dimmed, button, Add a title before publishing”'
+use:
+  - 'The main action on a page or in a form'
+  - 'Actions that change something, like save or delete'
+  - 'Icon only actions, with an aria-label'
+avoid:
+  - 'Going to another page (use a link)'
+  - 'Toggling a setting on and off (use a switch)'
+  - 'Showing a choice of one from many (use radios)'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves focus to the button, disabled ones included'
+  - keys: ['Enter']
+    action: 'Activates the button'
+  - keys: ['Space']
+    action: 'Activates the button'
+---
+## Accessibility
+
+- A native `<button>`, `type="button"` unless you pass `type="submit"`.
+- Disabled uses `aria-disabled="true"`, not `disabled`, so the button stays in the Tab order and people can find out why. The click is blocked.
+- `disabledReason` shows in a tooltip on hover and focus and is linked with `aria-describedby`.
+- Loading keeps the label as the name, sets `aria-busy` and announces “Loading” through the Announcer.
+- At least 44 by 44 pixels to press, also at the small size and compact density.

@@ -11,6 +11,8 @@ const themes = ["light", "dark", "comfort"] as const;
  */
 export default defineConfig({
   test: {
+    // The JSON report is read by scripts/passport-stats.ts
+    reporters: ["default", ["json", { outputFile: "../../reports/a11y.json" }]],
     projects: themes.map((theme) => ({
       extends: true,
       plugins: [storybookTest({ configDir: ".storybook" })],

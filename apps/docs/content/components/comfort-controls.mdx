@@ -1,0 +1,32 @@
+---
+description: 'The reading part of Preferences, to put next to an article: text size, line spacing, letter spacing and background.'
+pattern: 'Native ranges and a radio group'
+exampleCaption: 'Drag a range or use the arrow keys: the preview and the rest of the site follow.'
+transcript:
+  - '“Text size, 16 pixels, slider”'
+  - '“Background (sets the theme), radio group”'
+  - '“Text size 18 pixels”'
+use:
+  - 'Next to long articles'
+  - 'Reading apps and course material'
+  - 'A light version of Preferences'
+avoid:
+  - 'Full settings pages (use Preferences)'
+  - 'Content that must keep a fixed layout'
+  - 'More than one on a page'
+keyboard:
+  - keys: ['←', '→']
+    action: 'Smaller or larger, on a range'
+  - keys: ['Home', 'End']
+    action: 'Smallest or largest, on a range'
+  - keys: ['Tab']
+    action: 'Next control'
+  - keys: ['←', '→']
+    action: 'Choose a background, in the background group'
+---
+## Accessibility
+
+- Native `<input type="range">` with a visible label; the value shows next to it and is the `aria-valuetext` (“18 pixels”).
+- Changes are announced politely after the range rests for half a second.
+- The controls keep their size; only the preview and the rest of the app follow the settings.
+- Background sets the theme: White is light, Warm is comfort, Dark is dark.

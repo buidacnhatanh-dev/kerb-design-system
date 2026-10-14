@@ -1,0 +1,10 @@
+{
+  "pattern": "Native checkbox, mixed state",
+  "wcag": [
+    "1.3.1",
+    "2.5.8",
+    "4.1.2"
+  ],
+  "screenReaders": null,
+  "testedBy": null
+}

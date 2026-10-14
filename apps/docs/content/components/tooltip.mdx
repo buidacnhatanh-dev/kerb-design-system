@@ -1,0 +1,26 @@
+---
+description: 'A short text hint for a control, shown on hover and keyboard focus. Only for extra hints, never essential information.'
+pattern: 'WAI-ARIA tooltip'
+exampleCaption: 'Focus the button with the keyboard, or rest the pointer on it. Esc hides the tooltip.'
+transcript:
+  - '“Copy link, button, Copy link to clipboard”'
+use:
+  - 'Naming an icon only button for sighted people'
+  - 'A short extra hint that is not essential'
+  - 'Explaining why a button is disabled'
+avoid:
+  - 'Anything interactive (use a dialog or popover)'
+  - 'Essential information (put it on the page)'
+  - 'Touch only interfaces, where hover does not exist'
+keyboard:
+  - keys: ['Tab']
+    action: 'Focuses the trigger and shows the tooltip'
+  - keys: ['Esc']
+    action: 'Hides the tooltip, focus stays on the trigger'
+---
+## Accessibility
+
+- `role="tooltip"`, linked to the trigger with `aria-describedby`, so it is read as the description.
+- Dismissable with Esc, hoverable and persistent (WCAG 1.4.13).
+- In the top layer with `popover="manual"`, so nothing can clip it.
+- Esc inside a dialog hides the tooltip only; the next Esc closes the dialog.

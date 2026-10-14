@@ -1,0 +1,44 @@
+---
+title: Theming
+description: Three themes from one set of components. Only the token values change.
+---
+
+## The three themes
+
+| Theme | For | What changes |
+| --- | --- | --- |
+| Light | Default | The base palette |
+| Dark | Low light, glare sensitivity | Lighter accents, so colour still carries meaning on a dark ground |
+| Comfort | Low vision, dyslexic readers, anyone tired | A cream background to cut glare, 18px body text, line height 1.75, a little letter spacing |
+
+The theme is set with `data-kerb-theme` on `<html>`. Until someone chooses, Kerb follows the system: dark when the device asks for it, light otherwise.
+
+## Try it
+
+This switcher writes the same preference as the Preferences panel, so the whole site changes and the choice is saved on this device.
+
+<ThemeSwitcher />
+
+## Set a theme for one part of the page
+
+Any element can carry `data-kerb-theme`. Everything inside it uses that theme's tokens, which is how the toasts and code blocks on this site stay dark in every theme.
+
+```tsx
+<div data-kerb-theme="dark">
+  <Button>Save changes</Button>
+</div>
+```
+
+## Make your own theme
+
+Components only read semantic tokens such as `--kerb-color-action-primary`, never raw colours. A theme is a set of those tokens. Override them on a selector of your own, and check every pair still meets its contrast ratio.
+
+```css
+[data-kerb-theme="brand"] {
+  --kerb-color-action-primary: #0f5f4a;
+  --kerb-color-action-primary-hover: #0a4536;
+  --kerb-color-link: #0f5f4a;
+}
+```
+
+The [tokens page](/tokens) lists every semantic token with its contrast in each theme.

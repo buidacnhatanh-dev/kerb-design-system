@@ -1,0 +1,24 @@
+---
+description: 'One shared place for screen reader announcements, so the app never has competing live regions.'
+pattern: 'Live regions'
+exampleCaption: 'Each button announces through the shared regions. Turn on a screen reader to hear them.'
+transcript:
+  - '“12 results for “dialog””'
+  - '“Draft saved”'
+  - '“Could not upload the image. It is over 5 MB.” (interrupts)'
+use:
+  - 'Search result counts'
+  - 'Status changes with no visible focus change'
+  - 'Errors that must interrupt'
+avoid:
+  - 'Messages people need to read again (show them on the page)'
+  - 'Every small change, which becomes noise'
+  - 'Focus changes, which screen readers already read'
+keyboard: []
+---
+## Accessibility
+
+- `KerbProvider` renders two hidden regions once: polite and assertive. They exist from the first render, so screen readers know them.
+- A repeated message is announced again; the same text within a second is dropped.
+- Regions are emptied after 7 seconds, so stale text is not found later.
+- Kerb’s own components announce through it: toasts, the date picker’s month, Preferences.

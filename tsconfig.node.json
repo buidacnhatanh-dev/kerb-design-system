@@ -13,6 +13,8 @@
     "packages/*/*.config.ts",
     "packages/*/test/**/*.ts",
     "apps/*/*.config.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "scripts/**/*.ts",
+    "apps/docs/lib/registry.ts"
   ]
 }

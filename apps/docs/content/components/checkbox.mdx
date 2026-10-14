@@ -1,0 +1,28 @@
+---
+description: 'A native checkbox with a styled box, a mixed state for “some selected”, and a whole row to press.'
+pattern: 'Native checkbox, mixed state'
+exampleCaption: '“All toppings” is mixed while only some toppings are ticked.'
+transcript:
+  - '“All toppings, mixed, checkbox”'
+  - '“Basil, checked, checkbox”'
+  - '“Olives, not checked, checkbox”'
+use:
+  - 'Turning one option on or off in a form'
+  - 'Picking several options from a list'
+  - 'A required agreement, like accepting terms'
+avoid:
+  - 'One choice from many (use radios)'
+  - 'A setting that applies at once (use a switch)'
+  - 'Actions (use a button)'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves to the checkbox'
+  - keys: ['Space']
+    action: 'Ticks or unticks it'
+---
+## Accessibility
+
+- A native `<input type="checkbox">` over a styled box; the whole row is the label, at least 44 pixels high.
+- The mixed state is set on the input, so it is read as “mixed”.
+- The hint is outside the label and linked as the description.
+- An error for a required checkbox has an icon and text, not colour alone.

@@ -14,3 +14,4 @@ blob-report/
 .env*
 !.env.example
 *.log
+reports/

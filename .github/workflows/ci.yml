@@ -61,6 +61,16 @@ jobs:
         id: e2e
         run: pnpm test:e2e
 
+      # Every docs page: axe in all three themes, 400% zoom, text spacing,
+      # the comfort theme at 200%, and the site's own keyboard flows
+      - name: Docs checks
+        run: pnpm test:docs
+
+      # The passports show numbers from these runs. Fails when the committed
+      # numbers no longer match (run the tests and `pnpm passports`, then commit)
+      - name: Passport numbers match this run
+        run: node scripts/passport-stats.ts --check
+
       # M8: budget is set from the first real build
       - name: Bundle size
         if: false

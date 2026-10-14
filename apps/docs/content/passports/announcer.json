@@ -1,0 +1,8 @@
+{
+  "pattern": "Live regions",
+  "wcag": [
+    "4.1.3"
+  ],
+  "screenReaders": null,
+  "testedBy": null
+}

@@ -1,0 +1,76 @@
+---
+description: 'One panel where people set how your product looks and behaves for them. It starts from their system settings, offers presets for common needs, and every choice becomes a CSS variable the whole app reads.'
+pattern: 'Radio groups and switches'
+exampleCaption: 'Pick a preset or change any setting: the whole site follows, this page included.'
+transcript:
+  - '“Start from a preset, radio group”'
+  - '“Dyslexia friendly, radio button, checked, Space and shorter lines”'
+  - '“Preset Dyslexia friendly applied”'
+use:
+  - 'A settings page or a panel in your header'
+  - 'Letting people fix reading and focus for themselves'
+  - 'Products used for long stretches'
+avoid:
+  - 'Replacing system settings (Kerb reads those first)'
+  - 'Theme only switches (use the Background control alone)'
+  - 'Asking people why they need a setting'
+keyboard:
+  - keys: ['Tab']
+    action: 'Moves between groups: one stop per preset group and option group'
+  - keys: ['←', '→']
+    action: 'Move and choose inside a group'
+  - keys: ['↑', '↓']
+    action: 'Same as left and right'
+  - keys: ['Space']
+    action: 'Toggles a switch'
+  - keys: ['←', '→']
+    action: 'On a range: smaller or larger'
+---
+## What each preset changes
+
+Presets are a starting point, not a label. Nobody has to say why they want bigger text. Every value can still be changed after.
+
+| Preset | Values |
+| --- | --- |
+| Low vision | Text 22px, line spacing 1.7, word spacing 0.04em, wide lines, thick focus ring, spacious layout, links underlined, focus shown on click |
+| Dyslexia friendly | Lexend, warm background, text 18px, line spacing 1.85, word spacing 0.16em, narrow lines, reduced motion, links underlined |
+| Tired eyes | Dark background, text 18px, line spacing 1.75, word spacing 0.02em, motion off |
+| Keyboard first | Magenta focus ring, thick, links underlined, focus shown on click |
+
+## System settings come first
+
+Most people never open a settings panel. Kerb reads what they already told their device, so the first visit is right before they change anything.
+
+| Device setting | What Kerb does |
+| --- | --- |
+| `prefers-color-scheme: dark` | Starts in the dark theme |
+| `prefers-reduced-motion` | Sets motion to Reduced. Nothing slides or zooms |
+| `prefers-contrast: more` | Solid borders on every control and the thick focus ring |
+| `forced-colors: active` | Hands colours to the system and keeps focus as a real outline |
+| Browser text size | All sizes are rem, so a bigger browser default makes everything bigger |
+
+## Use it in your app
+
+```tsx
+// 1. Wrap the app once
+<KerbProvider storageKey="my-app">
+  <App />
+</KerbProvider>
+
+// 2. Put the panel anywhere, for example in a dialog
+<Preferences presets={["lowVision", "dyslexia", "tiredEyes", "keyboard"]} />
+
+// 3. Read a choice in your own code if you need to
+const { prefs } = useKerbPreferences();
+if (prefs.motion === "off") skipIntroAnimation();
+```
+
+Every choice is written to the page root as a CSS variable, such as `--kerb-pref-text-size` or `--kerb-focus-color`. Kerb components already read them, and your own CSS can too.
+
+## Accessibility
+
+- Presets and options are radio groups: arrow keys move between options, Tab moves to the next group.
+- Toggles are switches with `role="switch"`, so screen readers say “on” or “off”.
+- Every change is announced politely through the Announcer, for example “Text size 22 pixels”.
+- The panel itself never changes layout under the pointer, so a setting can’t move away while someone is choosing it.
+- Nothing is lost on reset: the previous setup can be restored for 10 seconds from a toast.

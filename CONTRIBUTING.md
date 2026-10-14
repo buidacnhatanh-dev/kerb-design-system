@@ -45,6 +45,8 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 * Do not use CSS Modules `composes`. The build renames scoped class names one at a time. Share styles by importing a shared module and joining classes with `cx`
 * Stories show hover, focus and active states with `forced("hover")` from `internal/stories/helpers`, never with test only selectors in component CSS
 * Sizes in `rem` so browser text size settings work
+* Docs site: every page is in `apps/docs/lib/registry.ts`; content is MDX in `apps/docs/content/`; the code under a live example is the source of `apps/docs/examples/<slug>.tsx`, so edit the example, never a copy of its code. Docs code uses Kerb tokens and components like any Kerb app, and scrolling code blocks and tables are focusable named regions (`TableScroll`, `CodeBlock`)
+* Passport numbers come only from `scripts/passport-stats.ts`. Never edit `*.stats.json` or `content/stats.json` by hand. Keyboard tests are counted per file, so a component's Playwright tests live in `tests/e2e/<slug>.spec.ts`
 * The e2e tsconfig has no DOM types: in `tests/e2e`, read the page through locators (`toHaveAttribute`, `getAttribute`) or pass `page.evaluate` a string, never `document` in a function
 * No `outline: none` without the Kerb focus ring replacing it
 
@@ -65,7 +67,7 @@ Read `docs/00-overview.md`, `docs/01-architecture.md` and `docs/04-accessibility
 3. `axe` reports zero violations for every story in light, dark and comfort (`pnpm test:a11y`)
 4. Playwright keyboard test passes for the component's main flow
 5. Story exists for every state in the spec
-6. Docs page exists in `apps/docs` with passport data filled from real test results
+6. Docs page exists in `apps/docs` with passport data filled from real test results: add the component to `apps/docs/lib/registry.ts`, write `content/components/<slug>.mdx`, `content/passports/<slug>.json` and `examples/<slug>.tsx`, then run the tests and `pnpm passports`. CI fails when the committed passport numbers differ from its run
 7. `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm build` all pass
 
 ## Commands
@@ -79,6 +81,8 @@ pnpm storybook
 pnpm test           # vitest
 pnpm test:a11y      # every story in a real browser with axe, once per theme (Storybook Vitest addon)
 pnpm test:e2e       # playwright, against the built Storybook (run pnpm build first)
+pnpm test:docs      # playwright on the built docs site: axe in all themes, 400% zoom, text spacing, site flows
+pnpm passports      # passport numbers from the reports of test:a11y, test:e2e and test:docs
 pnpm lint
 pnpm typecheck
 pnpm build
